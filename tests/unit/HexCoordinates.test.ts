@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'bun:test'
 import { Axial, Cube, GeodesicHexGrid, HEALPixGrid, AXIAL_DIRECTIONS, CUBE_DIRECTIONS, generateFlatHexGrid, generateSphericalHexGrid } from '../../src/math/HexCoordinates'
+import { Vector3 } from '../../src/math/Vector3'
 
 describe('HexCoordinates', () => {
   describe('Axial Coordinates', () => {
@@ -748,6 +749,35 @@ describe('HexCoordinates', () => {
       // Most hexes should have neighbors (up to 6)
       const withNeighbors = result.neighbors.filter(n => n.length > 0)
       expect(withNeighbors.length).toBeGreaterThan(0)
+    })
+  })
+})
+
+describe('HEALPixGrid Additional Methods', () => {
+  it('converts pixel to Vector3', () => {
+    const grid = new HEALPixGrid(4)
+    const vec = grid.pixToVector(0)
+    expect(vec).toBeInstanceOf(Vector3)
+    expect(vec.magnitude()).toBeCloseTo(1, 2)
+  })
+
+  it('converts multiple pixels to vectors', () => {
+    const grid = new HEALPixGrid(2)
+    for (let i = 0; i < 5; i++) {
+      const vec = grid.pixToVector(i)
+      expect(vec).toBeInstanceOf(Vector3)
+      expect(vec.magnitude()).toBeCloseTo(1, 2)
+    }
+  })
+
+  it('gets all centers as Vector3 array', () => {
+    const grid = new HEALPixGrid(2)
+    const centers = grid.getAllCenters()
+    expect(Array.isArray(centers)).toBe(true)
+    expect(centers.length).toBe(grid.npix)
+    centers.forEach(center => {
+      expect(center).toBeInstanceOf(Vector3)
+      expect(center.magnitude()).toBeCloseTo(1, 2)
     })
   })
 })

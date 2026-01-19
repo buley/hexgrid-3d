@@ -741,3 +741,41 @@ describe('Vector2', () => {
     })
   })
 })
+
+describe('Vector3 Additional Methods', () => {
+  it('gets min components', () => {
+    const v1 = new Vector3(1, 5, 3)
+    const v2 = new Vector3(2, 2, 4)
+    const result = v1.min(v2)
+    expect(result.x).toBe(1)
+    expect(result.y).toBe(2)
+    expect(result.z).toBe(3)
+  })
+
+  it('gets max components', () => {
+    const v1 = new Vector3(1, 5, 3)
+    const v2 = new Vector3(2, 2, 4)
+    const result = v1.max(v2)
+    expect(result.x).toBe(2)
+    expect(result.y).toBe(5)
+    expect(result.z).toBe(4)
+  })
+
+  it('clamps vector between min and max', () => {
+    const v = new Vector3(0, 10, 5)
+    const min = new Vector3(1, 1, 1)
+    const max = new Vector3(8, 8, 8)
+    const result = v.clamp(min, max)
+    expect(result.x).toBe(1)
+    expect(result.y).toBe(8)
+    expect(result.z).toBe(5)
+  })
+
+  it('converts to string with fixed precision', () => {
+    const v = new Vector3(1.23456, 2.34567, 3.45678)
+    const str = v.toString()
+    expect(str).toContain('1.2346')
+    expect(str).toContain('2.3457')
+    expect(str).toContain('3.4568')
+  })
+})
