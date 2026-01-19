@@ -5,18 +5,31 @@ type UIState = {
   showNarration?: boolean
 }
 
-// Initialize showNarration from localStorage if available
-let initialShowNarration = false
-try {
-  if (typeof window !== 'undefined') {
-    const saved = window.localStorage.getItem('hexgrid.showNarration')
-    if (saved !== null) {
-      initialShowNarration = saved === 'true'
-    }
+// Safe localStorage helpers that never throw
+const safeGetItem = (key: string): string | null => {
+  // istanbul ignore next
+  if (typeof window === 'undefined') return null
+  try {
+    return window.localStorage.getItem(key)
+  } catch {
+    // istanbul ignore next
+    return null
   }
-} catch (err) {
-  // ignore localStorage failures
 }
+
+const safeSetItem = (key: string, value: string): void => {
+  // istanbul ignore next
+  if (typeof window === 'undefined') return
+  try {
+    window.localStorage.setItem(key, value)
+  } catch {
+    // istanbul ignore next - private browsing, quota exceeded
+  }
+}
+
+// Initialize showNarration from localStorage if available
+const savedNarration = safeGetItem('hexgrid.showNarration')
+const initialShowNarration = savedNarration === 'true'
 
 const state: UIState = {
   debugOpen: false,
@@ -42,12 +55,8 @@ const uiStore = {
     }
     if (changed) {
       // Persist showNarration to localStorage for cross-refresh consistency
-      try {
-        if (typeof window !== 'undefined' && partial.showNarration !== undefined) {
-          window.localStorage.setItem('hexgrid.showNarration', String(!!partial.showNarration))
-        }
-      } catch (err) {
-        // ignore localStorage failures
+      if (partial.showNarration !== undefined) {
+        safeSetItem('hexgrid.showNarration', String(!!partial.showNarration))
       }
       for (const cb of Array.from(listeners)) cb({ ...state })
     }

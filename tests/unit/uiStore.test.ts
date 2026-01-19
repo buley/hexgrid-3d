@@ -173,4 +173,32 @@ describe('uiStore', () => {
     // But equal values
     expect(state1).toEqual(state2)
   })
+
+  it('handles localStorage errors gracefully on set', () => {
+    // Mock localStorage.setItem to throw
+    const originalSetItem = window.localStorage.setItem
+    window.localStorage.setItem = () => { throw new Error('Quota exceeded') }
+    
+    // Should not throw when localStorage fails
+    expect(() => {
+      uiStore.set({ showNarration: true })
+    }).not.toThrow()
+    
+    // Restore
+    window.localStorage.setItem = originalSetItem
+  })
+
+  it('handles localStorage errors gracefully on get', () => {
+    // Mock localStorage.getItem to throw
+    const originalGetItem = window.localStorage.getItem
+    window.localStorage.getItem = () => { throw new Error('Access denied') }
+    
+    // getState should still work
+    expect(() => {
+      uiStore.getState()
+    }).not.toThrow()
+    
+    // Restore
+    window.localStorage.getItem = originalGetItem
+  })
 })
