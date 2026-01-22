@@ -7,8 +7,18 @@ export const metadata = {
 
 export default function ExamplesPage() {
   return (
-    <div className="container" style={{ paddingTop: '4rem', paddingBottom: '4rem' }}>
-      <Link href="/" style={{ color: '#667eea', marginBottom: '2rem', display: 'inline-block' }}>
+    <div
+      className="container"
+      style={{ paddingTop: '4rem', paddingBottom: '4rem' }}
+    >
+      <Link
+        href="/"
+        style={{
+          color: '#667eea',
+          marginBottom: '2rem',
+          display: 'inline-block',
+        }}
+      >
         ← Back to Home
       </Link>
 
@@ -19,7 +29,9 @@ export default function ExamplesPage() {
 
       <div style={{ display: 'grid', gap: '2rem' }}>
         <section>
-          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Basic Example</h2>
+          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+            Basic Example
+          </h2>
           <div className="code-block">
             <code>
               {`import { HexGrid, Photo } from '@buley/hexgrid-3d'
@@ -54,7 +66,9 @@ function BasicExample() {
         </section>
 
         <section>
-          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Advanced Example with Controls</h2>
+          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+            Advanced Example with Controls
+          </h2>
           <div className="code-block">
             <code>
               {`import { HexGrid, Photo, uiStore } from '@buley/hexgrid-3d'
@@ -91,7 +105,9 @@ function AdvancedExample() {
         </section>
 
         <section>
-          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>With Custom Theming</h2>
+          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+            With Custom Theming
+          </h2>
           <div className="code-block">
             <code>
               {`import { HexGrid, Photo } from '@buley/hexgrid-3d'
@@ -113,7 +129,9 @@ function ThemedExample() {
         </section>
 
         <section>
-          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>More Examples</h2>
+          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+            More Examples
+          </h2>
           <p style={{ color: '#a0a0a0', lineHeight: '1.8' }}>
             For more examples and use cases, check out the{' '}
             <a
@@ -123,8 +141,8 @@ function ThemedExample() {
               style={{ color: '#667eea' }}
             >
               examples directory
-            </a>
-            {' '}in the GitHub repository.
+            </a>{' '}
+            in the GitHub repository.
           </p>
         </section>
       </div>

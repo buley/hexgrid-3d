@@ -7,8 +7,18 @@ export const metadata = {
 
 export default function DocsPage() {
   return (
-    <div className="container" style={{ paddingTop: '4rem', paddingBottom: '4rem' }}>
-      <Link href="/" style={{ color: '#667eea', marginBottom: '2rem', display: 'inline-block' }}>
+    <div
+      className="container"
+      style={{ paddingTop: '4rem', paddingBottom: '4rem' }}
+    >
+      <Link
+        href="/"
+        style={{
+          color: '#667eea',
+          marginBottom: '2rem',
+          display: 'inline-block',
+        }}
+      >
         ← Back to Home
       </Link>
 
@@ -19,14 +29,18 @@ export default function DocsPage() {
 
       <div style={{ display: 'grid', gap: '2rem' }}>
         <section>
-          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Installation</h2>
+          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+            Installation
+          </h2>
           <div className="code-block">
             <code>npm install @buley/hexgrid-3d</code>
           </div>
         </section>
 
         <section>
-          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Basic Usage</h2>
+          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+            Basic Usage
+          </h2>
           <div className="code-block">
             <code>
               {`import { HexGrid, Photo } from '@buley/hexgrid-3d'
@@ -54,35 +68,90 @@ function MyComponent() {
 
         <section>
           <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Props</h2>
-          <div style={{ background: '#1a1a1a', padding: '1.5rem', borderRadius: '8px', border: '1px solid #2a2a2a' }}>
+          <div
+            style={{
+              background: '#1a1a1a',
+              padding: '1.5rem',
+              borderRadius: '8px',
+              border: '1px solid #2a2a2a',
+            }}
+          >
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid #2a2a2a' }}>
-                  <th style={{ padding: '0.75rem', textAlign: 'left', color: '#fff' }}>Prop</th>
-                  <th style={{ padding: '0.75rem', textAlign: 'left', color: '#fff' }}>Type</th>
-                  <th style={{ padding: '0.75rem', textAlign: 'left', color: '#fff' }}>Description</th>
+                  <th
+                    style={{
+                      padding: '0.75rem',
+                      textAlign: 'left',
+                      color: '#fff',
+                    }}
+                  >
+                    Prop
+                  </th>
+                  <th
+                    style={{
+                      padding: '0.75rem',
+                      textAlign: 'left',
+                      color: '#fff',
+                    }}
+                  >
+                    Type
+                  </th>
+                  <th
+                    style={{
+                      padding: '0.75rem',
+                      textAlign: 'left',
+                      color: '#fff',
+                    }}
+                  >
+                    Description
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr style={{ borderBottom: '1px solid #2a2a2a' }}>
-                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}><code>photos</code></td>
-                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}><code>Photo[]</code></td>
-                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}>Array of photos to display</td>
+                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}>
+                    <code>photos</code>
+                  </td>
+                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}>
+                    <code>Photo[]</code>
+                  </td>
+                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}>
+                    Array of photos to display
+                  </td>
                 </tr>
                 <tr style={{ borderBottom: '1px solid #2a2a2a' }}>
-                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}><code>onHexClick</code></td>
-                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}><code>(photo: Photo) =&gt; void</code></td>
-                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}>Callback when hex is clicked</td>
+                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}>
+                    <code>onHexClick</code>
+                  </td>
+                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}>
+                    <code>(photo: Photo) =&gt; void</code>
+                  </td>
+                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}>
+                    Callback when hex is clicked
+                  </td>
                 </tr>
                 <tr style={{ borderBottom: '1px solid #2a2a2a' }}>
-                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}><code>spacing</code></td>
-                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}><code>number</code></td>
-                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}>Grid spacing multiplier</td>
+                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}>
+                    <code>spacing</code>
+                  </td>
+                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}>
+                    <code>number</code>
+                  </td>
+                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}>
+                    Grid spacing multiplier
+                  </td>
                 </tr>
                 <tr>
-                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}><code>canvasRef</code></td>
-                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}><code>RefObject</code></td>
-                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}>Optional canvas reference</td>
+                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}>
+                    <code>canvasRef</code>
+                  </td>
+                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}>
+                    <code>RefObject</code>
+                  </td>
+                  <td style={{ padding: '0.75rem', color: '#a0a0a0' }}>
+                    Optional canvas reference
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -90,24 +159,61 @@ function MyComponent() {
         </section>
 
         <section>
-          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Camera Controls</h2>
-          <div style={{ background: '#1a1a1a', padding: '1.5rem', borderRadius: '8px', border: '1px solid #2a2a2a' }}>
-            <h3 style={{ marginBottom: '1rem', color: '#fff' }}>Mouse/Trackpad</h3>
-            <ul style={{ color: '#a0a0a0', lineHeight: '1.8', marginLeft: '1.5rem' }}>
+          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+            Camera Controls
+          </h2>
+          <div
+            style={{
+              background: '#1a1a1a',
+              padding: '1.5rem',
+              borderRadius: '8px',
+              border: '1px solid #2a2a2a',
+            }}
+          >
+            <h3 style={{ marginBottom: '1rem', color: '#fff' }}>
+              Mouse/Trackpad
+            </h3>
+            <ul
+              style={{
+                color: '#a0a0a0',
+                lineHeight: '1.8',
+                marginLeft: '1.5rem',
+              }}
+            >
               <li>Left Click + Drag - Rotate camera (yaw and pitch)</li>
               <li>Scroll - Zoom in/out</li>
               <li>Click on Hex - Select photo</li>
             </ul>
 
-            <h3 style={{ marginTop: '2rem', marginBottom: '1rem', color: '#fff' }}>Touch</h3>
-            <ul style={{ color: '#a0a0a0', lineHeight: '1.8', marginLeft: '1.5rem' }}>
+            <h3
+              style={{ marginTop: '2rem', marginBottom: '1rem', color: '#fff' }}
+            >
+              Touch
+            </h3>
+            <ul
+              style={{
+                color: '#a0a0a0',
+                lineHeight: '1.8',
+                marginLeft: '1.5rem',
+              }}
+            >
               <li>Single Touch Drag - Rotate camera</li>
               <li>Pinch - Zoom in/out</li>
               <li>Tap on Hex - Select photo</li>
             </ul>
 
-            <h3 style={{ marginTop: '2rem', marginBottom: '1rem', color: '#fff' }}>Keyboard</h3>
-            <ul style={{ color: '#a0a0a0', lineHeight: '1.8', marginLeft: '1.5rem' }}>
+            <h3
+              style={{ marginTop: '2rem', marginBottom: '1rem', color: '#fff' }}
+            >
+              Keyboard
+            </h3>
+            <ul
+              style={{
+                color: '#a0a0a0',
+                lineHeight: '1.8',
+                marginLeft: '1.5rem',
+              }}
+            >
               <li>D - Toggle debug panel</li>
               <li>Escape - Close debug panel</li>
             </ul>
@@ -115,11 +221,26 @@ function MyComponent() {
         </section>
 
         <section>
-          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Performance</h2>
-          <p style={{ color: '#a0a0a0', lineHeight: '1.8', marginBottom: '1rem' }}>
-            HexGrid 3D uses Web Workers for heavy calculations to maintain 60fps rendering:
+          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+            Performance
+          </h2>
+          <p
+            style={{
+              color: '#a0a0a0',
+              lineHeight: '1.8',
+              marginBottom: '1rem',
+            }}
+          >
+            HexGrid 3D uses Web Workers for heavy calculations to maintain 60fps
+            rendering:
           </p>
-          <ul style={{ color: '#a0a0a0', lineHeight: '1.8', marginLeft: '1.5rem' }}>
+          <ul
+            style={{
+              color: '#a0a0a0',
+              lineHeight: '1.8',
+              marginLeft: '1.5rem',
+            }}
+          >
             <li>Streaming Rendering - Progressively renders tiles</li>
             <li>Texture Caching - Reuses loaded images</li>
             <li>Adaptive Quality - Adjusts detail based on performance</li>
@@ -128,9 +249,12 @@ function MyComponent() {
         </section>
 
         <section>
-          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>More Information</h2>
+          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+            More Information
+          </h2>
           <p style={{ color: '#a0a0a0', lineHeight: '1.8' }}>
-            For complete API documentation, examples, and advanced usage, see the{' '}
+            For complete API documentation, examples, and advanced usage, see
+            the{' '}
             <a
               href="https://github.com/buley/hexgrid-3d"
               target="_blank"

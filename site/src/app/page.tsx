@@ -8,10 +8,17 @@ export default function HomePage() {
         <h1>HexGrid 3D</h1>
         <p>
           A powerful React component for displaying content in an immersive 3D
-          spherical hexagonal grid layout. Perfect for portfolios, galleries, and
-          interactive visualizations.
+          spherical hexagonal grid layout. Perfect for portfolios, galleries,
+          and interactive visualizations.
         </p>
-        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: '1rem',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+          }}
+        >
           <Link href="/docs" className="button">
             Get Started
           </Link>
@@ -31,24 +38,53 @@ export default function HomePage() {
 
       {/* Features Section */}
       <section className="section container">
-        <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem', textAlign: 'center' }}>
+        <h2
+          style={{
+            fontSize: '2.5rem',
+            marginBottom: '1rem',
+            textAlign: 'center',
+          }}
+        >
           Powerful Features
         </h2>
-        <p style={{ textAlign: 'center', color: '#a0a0a0', marginBottom: '3rem', fontSize: '1.2rem' }}>
+        <p
+          style={{
+            textAlign: 'center',
+            color: '#a0a0a0',
+            marginBottom: '3rem',
+            fontSize: '1.2rem',
+          }}
+        >
           Everything you need to create stunning 3D visualizations
         </p>
         <div className="features-grid">
           <div className="feature-card">
-            <div style={{ marginBottom: '1rem', color: '#667eea', fontSize: '2rem' }}>📐</div>
+            <div
+              style={{
+                marginBottom: '1rem',
+                color: '#667eea',
+                fontSize: '2rem',
+              }}
+            >
+              📐
+            </div>
             <h3>3D Hexagonal Grid</h3>
             <p>
-              Spherical projection with customizable curvature. Display your content
-              in an immersive 3D space that adapts to any viewport.
+              Spherical projection with customizable curvature. Display your
+              content in an immersive 3D space that adapts to any viewport.
             </p>
           </div>
 
           <div className="feature-card">
-            <div style={{ marginBottom: '1rem', color: '#667eea', fontSize: '2rem' }}>📷</div>
+            <div
+              style={{
+                marginBottom: '1rem',
+                color: '#667eea',
+                fontSize: '2rem',
+              }}
+            >
+              📷
+            </div>
             <h3>Interactive Camera</h3>
             <p>
               Pan, zoom, and rotate with smooth transitions. Support for mouse,
@@ -57,34 +93,66 @@ export default function HomePage() {
           </div>
 
           <div className="feature-card">
-            <div style={{ marginBottom: '1rem', color: '#667eea', fontSize: '2rem' }}>⚡</div>
+            <div
+              style={{
+                marginBottom: '1rem',
+                color: '#667eea',
+                fontSize: '2rem',
+              }}
+            >
+              ⚡
+            </div>
             <h3>High Performance</h3>
             <p>
-              Web Worker rendering for 60fps performance. Automatic texture caching
-              and adaptive quality based on device capabilities.
+              Web Worker rendering for 60fps performance. Automatic texture
+              caching and adaptive quality based on device capabilities.
             </p>
           </div>
 
           <div className="feature-card">
-            <div style={{ marginBottom: '1rem', color: '#667eea', fontSize: '2rem' }}>🎨</div>
+            <div
+              style={{
+                marginBottom: '1rem',
+                color: '#667eea',
+                fontSize: '2rem',
+              }}
+            >
+              🎨
+            </div>
             <h3>Dynamic Theming</h3>
             <p>
-              Automatic accent color extraction from images. Seamless integration
-              with your app&apos;s theme system.
+              Automatic accent color extraction from images. Seamless
+              integration with your app&apos;s theme system.
             </p>
           </div>
 
           <div className="feature-card">
-            <div style={{ marginBottom: '1rem', color: '#667eea', fontSize: '2rem' }}>📱</div>
+            <div
+              style={{
+                marginBottom: '1rem',
+                color: '#667eea',
+                fontSize: '2rem',
+              }}
+            >
+              📱
+            </div>
             <h3>Responsive Design</h3>
             <p>
-              Fully responsive for mobile and desktop. Touch gestures, pinch-to-zoom,
-              and adaptive layouts for all screen sizes.
+              Fully responsive for mobile and desktop. Touch gestures,
+              pinch-to-zoom, and adaptive layouts for all screen sizes.
             </p>
           </div>
 
           <div className="feature-card">
-            <div style={{ marginBottom: '1rem', color: '#667eea', fontSize: '2rem' }}>💻</div>
+            <div
+              style={{
+                marginBottom: '1rem',
+                color: '#667eea',
+                fontSize: '2rem',
+              }}
+            >
+              💻
+            </div>
             <h3>TypeScript Ready</h3>
             <p>
               Fully typed with comprehensive TypeScript definitions. Includes
@@ -96,13 +164,17 @@ export default function HomePage() {
 
       {/* Quick Start Section */}
       <section className="section container">
-        <h2 style={{ fontSize: '2.5rem', marginBottom: '2rem', textAlign: 'center' }}>
+        <h2
+          style={{
+            fontSize: '2.5rem',
+            marginBottom: '2rem',
+            textAlign: 'center',
+          }}
+        >
           Quick Start
         </h2>
         <div className="code-block">
-          <code>
-            {`npm install @buley/hexgrid-3d`}
-          </code>
+          <code>{`npm install @buley/hexgrid-3d`}</code>
         </div>
         <div className="code-block">
           <code>
