@@ -5,6 +5,19 @@ All notable changes to the HexGrid Visualization package will be documented in t
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-01-19
+
+### Added
+- FlowField3D algorithm for 3D flow field visualization
+- FluidSimulation3D algorithm for 3D fluid dynamics simulation
+- ParticleSystem3D algorithm for 3D particle system effects
+- Comprehensive tests for new 3D algorithms
+
+### Changed
+- Updated algorithms and components from stub implementations
+- Enhanced test coverage across all modules
+- Improved type definitions and exports
+
 ## [1.0.0] - 2026-01-19
 
 ### Added
