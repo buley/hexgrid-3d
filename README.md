@@ -14,6 +14,7 @@ A reusable 3D hexagonal grid visualization component for displaying content in a
 - **Responsive Design** - Adapts to mobile and desktop viewports
 - **Dynamic Theming** - Accent color extraction from images
 - **Autoplay Mode** - Queue-based content cycling
+- **Hardware Acceleration** - Supports WebNN (NPU) and WebGPU for massive fluid/particle simulation
 
 ## Installation
 
@@ -26,47 +27,43 @@ npm install @buley/hexgrid-3d
 ### Basic Example
 
 ```tsx
-import { HexGrid, Photo } from '@buley/hexgrid-3d'
+import { HexGrid, Photo } from "@buley/hexgrid-3d";
 
 function MyComponent() {
   const photos: Photo[] = [
     {
-      id: '1',
-      url: 'https://example.com/photo.jpg',
-      source: 'example',
-      createdAt: new Date().toISOString()
-    }
-  ]
+      id: "1",
+      url: "https://example.com/photo.jpg",
+      source: "example",
+      createdAt: new Date().toISOString(),
+    },
+  ];
 
   return (
     <HexGrid
       photos={photos}
-      onHexClick={(photo) => console.log('Clicked:', photo)}
+      onHexClick={(photo) => console.log("Clicked:", photo)}
     />
-  )
+  );
 }
 ```
 
 ### Advanced Example with Controls
 
 ```tsx
-import { HexGrid, Photo, uiStore } from '@buley/hexgrid-3d'
-import { useRef, useState } from 'react'
+import { HexGrid, Photo, uiStore } from "@buley/hexgrid-3d";
+import { useRef, useState } from "react";
 
 function AdvancedExample() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [modalOpen, setModalOpen] = useState(false)
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <div>
       {/* Control buttons */}
-      <button onClick={() => uiStore.toggleDebug()}>
-        Toggle Debug
-      </button>
-      <button onClick={() => uiStore.toggleCamera()}>
-        Camera Controls
-      </button>
-      
+      <button onClick={() => uiStore.toggleDebug()}>Toggle Debug</button>
+      <button onClick={() => uiStore.toggleCamera()}>Camera Controls</button>
+
       {/* Visualization */}
       <HexGrid
         photos={photos}
@@ -77,7 +74,7 @@ function AdvancedExample() {
         autoplayQueueLimit={100}
       />
     </div>
-  )
+  );
 }
 ```
 
@@ -89,18 +86,18 @@ Main visualization component that renders a 3D hexagonal grid on a spherical sur
 
 **Props:**
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `photos` | `Photo[]` | `[]` | Array of photos to display in the grid |
-| `onHexClick` | `(photo: Photo) => void` | - | Callback when a hex tile is clicked |
-| `spacing` | `number` | `1.0` | Grid spacing multiplier (affects tile density) |
-| `canvasRef` | `React.RefObject<HTMLCanvasElement>` | - | Optional external canvas reference |
-| `onLeaderboardUpdate` | `(leaderboard: any) => void` | - | Callback for leaderboard statistics updates |
-| `autoplayQueueLimit` | `number` | - | Maximum items in autoplay queue |
-| `onAutoplayQueueLimitChange` | `(limit: number) => void` | - | Callback when autoplay limit changes |
-| `modalOpen` | `boolean` | `false` | Whether a modal is currently open |
-| `userId` | `string` | - | Current user ID for personalization |
-| `username` | `string` | - | Current username for display |
+| Prop                         | Type                                 | Default | Description                                    |
+| ---------------------------- | ------------------------------------ | ------- | ---------------------------------------------- |
+| `photos`                     | `Photo[]`                            | `[]`    | Array of photos to display in the grid         |
+| `onHexClick`                 | `(photo: Photo) => void`             | -       | Callback when a hex tile is clicked            |
+| `spacing`                    | `number`                             | `1.0`   | Grid spacing multiplier (affects tile density) |
+| `canvasRef`                  | `React.RefObject<HTMLCanvasElement>` | -       | Optional external canvas reference             |
+| `onLeaderboardUpdate`        | `(leaderboard: any) => void`         | -       | Callback for leaderboard statistics updates    |
+| `autoplayQueueLimit`         | `number`                             | -       | Maximum items in autoplay queue                |
+| `onAutoplayQueueLimitChange` | `(limit: number) => void`            | -       | Callback when autoplay limit changes           |
+| `modalOpen`                  | `boolean`                            | `false` | Whether a modal is currently open              |
+| `userId`                     | `string`                             | -       | Current user ID for personalization            |
+| `username`                   | `string`                             | -       | Current username for display                   |
 
 ### NarrationOverlay
 
@@ -108,12 +105,12 @@ Displays narration messages and real-time statistics in a dashboard-style overla
 
 **Props:**
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `messages` | `NarrationMessage[]` | Array of narration messages to display |
-| `statsTracker` | `StatsTracker` | Statistics tracker instance |
-| `isVisible` | `boolean` | Whether overlay is visible |
-| `onClose` | `() => void` | Callback when overlay is closed |
+| Prop           | Type                 | Description                            |
+| -------------- | -------------------- | -------------------------------------- |
+| `messages`     | `NarrationMessage[]` | Array of narration messages to display |
+| `statsTracker` | `StatsTracker`       | Statistics tracker instance            |
+| `isVisible`    | `boolean`            | Whether overlay is visible             |
+| `onClose`      | `() => void`         | Callback when overlay is closed        |
 
 ## Types
 
@@ -121,23 +118,23 @@ Displays narration messages and real-time statistics in a dashboard-style overla
 
 ```typescript
 interface Photo {
-  id: string
-  url: string
-  thumbnailUrl?: string
-  title?: string
-  description?: string
-  source: string
-  createdAt: string
-  userId?: string
-  username?: string
-  videoUrl?: string
-  platform?: string
-  author?: string
-  authorUrl?: string
-  likes?: number
-  views?: number
-  comments?: number
-  dominantColor?: string
+  id: string;
+  url: string;
+  thumbnailUrl?: string;
+  title?: string;
+  description?: string;
+  source: string;
+  createdAt: string;
+  userId?: string;
+  username?: string;
+  videoUrl?: string;
+  platform?: string;
+  author?: string;
+  authorUrl?: string;
+  likes?: number;
+  views?: number;
+  comments?: number;
+  dominantColor?: string;
 }
 ```
 
@@ -160,26 +157,29 @@ Global UI state management for visualization components.
 
 ```typescript
 interface UIState {
-  debugOpen: boolean
-  showStats: boolean
-  cameraOpen: boolean
-  showNarration: boolean
+  debugOpen: boolean;
+  showStats: boolean;
+  cameraOpen: boolean;
+  showNarration: boolean;
 }
 ```
 
 ## Camera Controls
 
 ### Mouse/Trackpad
+
 - **Left Click + Drag** - Rotate camera (yaw and pitch)
 - **Scroll** - Zoom in/out
 - **Click on Hex** - Select photo
 
 ### Touch
+
 - **Single Touch Drag** - Rotate camera
 - **Pinch** - Zoom in/out
 - **Tap on Hex** - Select photo
 
 ### Keyboard
+
 - **D** - Toggle debug panel
 - **Escape** - Close debug panel
 
@@ -197,21 +197,23 @@ The component uses a Web Worker for heavy calculations to maintain 60fps renderi
 The component integrates with your app's theme system and can extract accent colors from images:
 
 ```tsx
-import { getAccentRgba, setCustomAccentColor } from '@/lib/theme-colors'
+import { getAccentRgba, setCustomAccentColor } from "@/lib/theme-colors";
 
 // Custom accent color from image
-setCustomAccentColor('#ff00ff')
+setCustomAccentColor("#ff00ff");
 ```
 
 ## Dependencies
 
 ### Peer Dependencies
+
 - `react` ^18.0.0
 - `react-dom` ^18.0.0
 - `next` ^14.0.0
 - `three` (Three.js for 3D calculations)
 
 ### Internal Dependencies
+
 - `@/lib/stats-tracker` - Statistics tracking
 - `@/lib/narration` - Narration engine
 - `@/lib/logger` - Logging utilities

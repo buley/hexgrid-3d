@@ -1,22 +1,6 @@
 import { Vector3 } from './Vector3';
 
-export const AXIAL_DIRECTIONS: Axial[] = [
-  new Axial(1, 0),
-  new Axial(1, -1),
-  new Axial(0, -1),
-  new Axial(-1, 0),
-  new Axial(-1, 1),
-  new Axial(0, 1),
-];
 
-export const CUBE_DIRECTIONS: Cube[] = [
-  new Cube(1, -1, 0),
-  new Cube(1, 0, -1),
-  new Cube(0, 1, -1),
-  new Cube(-1, 1, 0),
-  new Cube(-1, 0, 1),
-  new Cube(0, -1, 1),
-];
 
 export class Axial {
   q: number;
@@ -357,6 +341,25 @@ export class Cube {
       return `${this.x},${this.y},${this.z}`;
   }
 }
+
+
+export const AXIAL_DIRECTIONS: Axial[] = [
+  new Axial(1, 0),
+  new Axial(1, -1),
+  new Axial(0, -1),
+  new Axial(-1, 0),
+  new Axial(-1, 1),
+  new Axial(0, 1),
+];
+
+export const CUBE_DIRECTIONS: Cube[] = [
+  new Cube(1, -1, 0),
+  new Cube(1, 0, -1),
+  new Cube(0, 1, -1),
+  new Cube(-1, 1, 0),
+  new Cube(-1, 0, 1),
+  new Cube(0, -1, 1),
+];
 
 export class GeodesicHexGrid {
   subdivisions: number;
