@@ -1,2 +1,3 @@
-export { HexGrid } from './HexGrid';
-export type { HexGridProps, Photo } from '../types';
+export { HexGrid, default } from './HexGrid';
+export type { Photo } from './HexGrid';
+export type { HexGridProps } from '../types';

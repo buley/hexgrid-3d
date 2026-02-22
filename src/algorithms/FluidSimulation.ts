@@ -1,8 +1,22 @@
 export interface FluidConfig {
   width: number;
   height: number;
-  viscosity: number;
-  diffusion: number;
+  viscosity?: number;
+  diffusion?: number;
+  pressureIterations?: number;
+  dt?: number;
+  vorticityConfinement?: number;
+  dissipation?: number;
+}
+
+export interface FluidSource {
+  x: number;
+  y: number;
+  radius: number;
+  density: number;
+  velocityX: number;
+  velocityY: number;
+  color?: [number, number, number];
 }
 
 export class StableFluids {
@@ -11,6 +25,9 @@ export class StableFluids {
   private density: Float32Array;
   private velocityX: Float32Array;
   private velocityY: Float32Array;
+  private colorR: Float32Array;
+  private colorG: Float32Array;
+  private colorB: Float32Array;
 
   constructor(config: FluidConfig) {
     this.width = Math.max(1, Math.round(config.width));
@@ -19,6 +36,37 @@ export class StableFluids {
     this.density = new Float32Array(size);
     this.velocityX = new Float32Array(size);
     this.velocityY = new Float32Array(size);
+    this.colorR = new Float32Array(size);
+    this.colorG = new Float32Array(size);
+    this.colorB = new Float32Array(size);
+  }
+
+  addSource(source: FluidSource): void {
+    const { x, y, radius, density, velocityX, velocityY, color } = source;
+    const minX = Math.max(0, Math.floor(x - radius));
+    const maxX = Math.min(this.width - 1, Math.ceil(x + radius));
+    const minY = Math.max(0, Math.floor(y - radius));
+    const maxY = Math.min(this.height - 1, Math.ceil(y + radius));
+
+    for (let iy = minY; iy <= maxY; iy++) {
+      for (let ix = minX; ix <= maxX; ix++) {
+        const dx = ix - x;
+        const dy = iy - y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist <= radius) {
+          const falloff = 1 - dist / radius;
+          const index = iy * this.width + ix;
+          this.density[index] += density * falloff;
+          this.velocityX[index] += velocityX * falloff;
+          this.velocityY[index] += velocityY * falloff;
+          if (color) {
+            this.colorR[index] = color[0];
+            this.colorG[index] = color[1];
+            this.colorB[index] = color[2];
+          }
+        }
+      }
+    }
   }
 
   addDensity(x: number, y: number, amount: number, radius: number): void {
@@ -38,7 +86,7 @@ export class StableFluids {
     this.velocityY[index] += vy;
   }
 
-  step(_deltaTime: number): void {
+  step(_deltaTime?: number): void {
     // Simple damping
     for (let i = 0; i < this.velocityX.length; i++) {
       this.velocityX[i] *= 0.98;
@@ -55,6 +103,15 @@ export class StableFluids {
     return { x: this.velocityX[index] || 0, y: this.velocityY[index] || 0 };
   }
 
+  getColor(x: number, y: number): [number, number, number] {
+    const index = this.indexFor(x, y);
+    return [
+      this.colorR[index] || 0,
+      this.colorG[index] || 0,
+      this.colorB[index] || 0,
+    ];
+  }
+
   getDensityField(): Float32Array {
     return this.density;
   }
@@ -67,6 +124,9 @@ export class StableFluids {
     this.density.fill(0);
     this.velocityX.fill(0);
     this.velocityY.fill(0);
+    this.colorR.fill(0);
+    this.colorG.fill(0);
+    this.colorB.fill(0);
   }
 
   private indexFor(x: number, y: number): number {

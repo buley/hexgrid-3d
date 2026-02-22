@@ -1,6 +1,9 @@
 export interface OutlierStats {
   mean: number;
   stdDev: number;
+  median?: number;
+  iqr?: number;
+  mad?: number;
 }
 
 export interface OutlierResult {
@@ -8,6 +11,7 @@ export interface OutlierResult {
   scores: number[];
   stats: OutlierStats;
   threshold: number;
+  method: string;
 }
 
 export interface TimeSeriesAnomaly {
@@ -54,11 +58,15 @@ export function detectOutliersZScore(
     .filter(({ score }) => Math.abs(score) >= threshold)
     .map(({ index }) => index);
 
+  const sorted = [...values].sort((a, b) => a - b);
+  const median = sorted.length > 0 ? sorted[Math.floor(sorted.length / 2)] ?? 0 : 0;
+
   return {
     outlierIndices,
     scores,
-    stats: { mean: avg, stdDev: deviation },
+    stats: { mean: avg, stdDev: deviation, median },
     threshold,
+    method: 'zscore',
   };
 }
 
@@ -72,6 +80,7 @@ export function detectOutliersModifiedZScore(
       scores: [],
       stats: { mean: 0, stdDev: 0 },
       threshold,
+      method: 'modified_zscore',
     };
   }
 
@@ -90,11 +99,15 @@ export function detectOutliersModifiedZScore(
     .filter(({ score }) => Math.abs(score) >= threshold)
     .map(({ index }) => index);
 
+  const avg = mean(values);
+  const deviation = stdDev(values, avg);
+
   return {
     outlierIndices,
     scores,
-    stats: { mean: median, stdDev: mad },
+    stats: { mean: avg, stdDev: deviation, median, mad },
     threshold,
+    method: 'modified_zscore',
   };
 }
 
@@ -108,6 +121,7 @@ export function detectOutliersIQR(
       scores: [],
       stats: { mean: 0, stdDev: 0 },
       threshold,
+      method: 'iqr',
     };
   }
 
@@ -133,8 +147,9 @@ export function detectOutliersIQR(
   return {
     outlierIndices,
     scores,
-    stats: { mean: avg, stdDev: deviation },
+    stats: { mean: avg, stdDev: deviation, iqr },
     threshold,
+    method: 'iqr',
   };
 }
 
@@ -271,6 +286,7 @@ export function localOutlierFactor(
       scores: values.map(() => 0),
       stats: { mean: 0, stdDev: 0 },
       threshold: 1.5,
+      method: 'lof',
     };
   }
 
@@ -305,6 +321,7 @@ export function localOutlierFactor(
     scores: lofScores,
     stats: { mean: avg, stdDev },
     threshold,
+    method: 'lof',
   };
 }
 
@@ -352,6 +369,7 @@ export function isolationForest(
     scores,
     stats: { mean: avg, stdDev },
     threshold,
+    method: 'isolation_forest',
   };
 }
 

@@ -22,4 +22,19 @@ export class StatsTracker {
   getLeaderboard(limit: number): any[] {
     return [];
   }
+
+  importState(json: any): void {
+    // Restore state from serialized JSON
+    if (json && typeof json === 'object') {
+      Object.assign(this, json);
+    }
+  }
+
+  exportState(): any {
+    return {
+      generation: this.getCurrentStats().generation,
+      stats: this.getCurrentStats(),
+      records: this.getAllTimeRecords(),
+    };
+  }
 }

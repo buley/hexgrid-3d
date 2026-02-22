@@ -18,29 +18,91 @@ export interface VoronoiDiagram {
   edges: Array<[[number, number], [number, number]]>;
 }
 
-export function kMeansClustering(points: number[][], k: number): Cluster[] {
+export function kMeansClustering(
+  points: number[][],
+  k: number,
+  maxIterations: number = 100,
+  tolerance: number = 0.001
+): Cluster[] {
   if (points.length === 0 || k <= 0) return [];
-  const clusters: Cluster[] = Array.from({ length: k }, () => ({
-    centroid: new Array(points[0]?.length || 0).fill(0),
-    members: [],
-    cohesion: 0,
-    separation: 0,
-  }));
+  const dims = points[0]?.length || 0;
+  const effectiveK = Math.min(k, points.length);
 
-  points.forEach((_point, index) => {
-    clusters[index % k].members.push(index);
-  });
+  // Initialize centroids from the first effectiveK points
+  let centroids: number[][] = [];
+  for (let i = 0; i < effectiveK; i++) {
+    centroids.push([...(points[i] ?? new Array(dims).fill(0))]);
+  }
 
+  let clusters: Cluster[] = [];
+
+  for (let iter = 0; iter < maxIterations; iter++) {
+    // Assign points to nearest centroid
+    clusters = Array.from({ length: effectiveK }, (_, i) => ({
+      centroid: centroids[i] ?? new Array(dims).fill(0),
+      members: [] as number[],
+      cohesion: 0,
+      separation: 0,
+    }));
+
+    for (let pi = 0; pi < points.length; pi++) {
+      const point = points[pi]!;
+      let bestCluster = 0;
+      let bestDist = Infinity;
+      for (let ci = 0; ci < effectiveK; ci++) {
+        const c = centroids[ci]!;
+        let dist = 0;
+        for (let d = 0; d < dims; d++) {
+          const diff = (point[d] ?? 0) - (c[d] ?? 0);
+          dist += diff * diff;
+        }
+        if (dist < bestDist) {
+          bestDist = dist;
+          bestCluster = ci;
+        }
+      }
+      clusters[bestCluster].members.push(pi);
+    }
+
+    // Recompute centroids
+    const newCentroids: number[][] = [];
+    let converged = true;
+    for (let ci = 0; ci < effectiveK; ci++) {
+      const members = clusters[ci].members;
+      if (members.length === 0) {
+        newCentroids.push(centroids[ci] ?? new Array(dims).fill(0));
+        continue;
+      }
+      const newCentroid = new Array(dims).fill(0);
+      for (const mi of members) {
+        const point = points[mi]!;
+        for (let d = 0; d < dims; d++) {
+          newCentroid[d] += point[d] ?? 0;
+        }
+      }
+      for (let d = 0; d < dims; d++) {
+        newCentroid[d] /= members.length;
+      }
+      // Check convergence
+      let shift = 0;
+      const oldC = centroids[ci]!;
+      for (let d = 0; d < dims; d++) {
+        const diff = newCentroid[d] - (oldC[d] ?? 0);
+        shift += diff * diff;
+      }
+      if (Math.sqrt(shift) > tolerance) {
+        converged = false;
+      }
+      newCentroids.push(newCentroid);
+    }
+    centroids = newCentroids;
+    if (converged) break;
+  }
+
+  // Finalize clusters with cohesion
   for (const cluster of clusters) {
     if (cluster.members.length === 0) continue;
-    const centroid = cluster.centroid.map((_, dim) => {
-      const sum = cluster.members.reduce(
-        (acc, memberIdx) => acc + (points[memberIdx]?.[dim] ?? 0),
-        0
-      );
-      return sum / cluster.members.length;
-    });
-    cluster.centroid = centroid;
+    const centroid = cluster.centroid;
     cluster.cohesion =
       cluster.members.reduce((sum, idx) => {
         const point = points[idx];
@@ -52,6 +114,21 @@ export function kMeansClustering(points: number[][], k: number): Cluster[] {
         );
         return sum + distance;
       }, 0) / cluster.members.length;
+  }
+
+  // Calculate separation between clusters
+  for (let i = 0; i < clusters.length; i++) {
+    let minDist = Infinity;
+    for (let j = 0; j < clusters.length; j++) {
+      if (i === j) continue;
+      let dist = 0;
+      for (let d = 0; d < dims; d++) {
+        const diff = (clusters[i].centroid[d] ?? 0) - (clusters[j].centroid[d] ?? 0);
+        dist += diff * diff;
+      }
+      minDist = Math.min(minDist, Math.sqrt(dist));
+    }
+    clusters[i].separation = minDist === Infinity ? 0 : minDist;
   }
 
   return clusters;

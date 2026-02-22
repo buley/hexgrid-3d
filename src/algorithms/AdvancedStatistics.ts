@@ -29,7 +29,7 @@ export function theilIndex(values: number[]): number {
   );
 }
 
-export function atkinsonIndex(values: number[], epsilon: number): number {
+export function atkinsonIndex(values: number[], epsilon: number = 1): number {
   if (values.length === 0) return 0;
   const avg = values.reduce((sum, val) => sum + val, 0) / values.length;
   if (avg === 0) return 0;
@@ -49,7 +49,7 @@ export function atkinsonIndex(values: number[], epsilon: number): number {
 
 export function paretoRatio(
   values: number[],
-  topFraction: number
+  topFraction: number = 0.2
 ): {
   ratioHeld: number;
   paretoIndex: number;

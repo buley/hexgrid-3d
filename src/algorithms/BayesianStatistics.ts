@@ -346,3 +346,58 @@ export function normalizedMutualInformation(x: number[], y: number[]): number {
   const denom = Math.sqrt(hx * hy);
   return denom === 0 ? 0 : mi / denom;
 }
+
+// Math Utilities
+
+const LANCZOS_COEFFICIENTS = [
+  76.18009172947146, -86.50532032941677, 24.01409824083091,
+  -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5,
+];
+
+export function logGamma(x: number): number {
+  if (x <= 0) return Infinity;
+  if (x < 0.5) {
+    return Math.log(Math.PI / Math.sin(Math.PI * x)) - logGamma(1 - x);
+  }
+  x -= 1;
+  let a = 0.99999999999980993;
+  for (let i = 0; i < LANCZOS_COEFFICIENTS.length; i++) {
+    a += LANCZOS_COEFFICIENTS[i] / (x + 1 + i);
+  }
+  const t = x + LANCZOS_COEFFICIENTS.length - 0.5;
+  return 0.5 * Math.log(2 * Math.PI) + (x + 0.5) * Math.log(t) - t + Math.log(a);
+}
+
+export function gamma(x: number): number {
+  return Math.exp(logGamma(x));
+}
+
+export function logBeta(a: number, b: number): number {
+  return logGamma(a) + logGamma(b) - logGamma(a + b);
+}
+
+export function betaFunction(a: number, b: number): number {
+  return Math.exp(logBeta(a, b));
+}
+
+export function factorial(n: number): number {
+  if (n < 0) return NaN;
+  if (n === 0 || n === 1) return 1;
+  if (n >= 171) return Infinity;
+  let result = 1;
+  for (let i = 2; i <= n; i++) {
+    result *= i;
+  }
+  return result;
+}
+
+export function binomial(n: number, k: number): number {
+  if (k < 0 || k > n) return 0;
+  if (k === 0 || k === n) return 1;
+  if (k > n - k) k = n - k;
+  let result = 1;
+  for (let i = 0; i < k; i++) {
+    result = (result * (n - i)) / (i + 1);
+  }
+  return Math.round(result);
+}

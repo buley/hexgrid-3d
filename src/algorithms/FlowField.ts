@@ -4,6 +4,8 @@ export interface FlowFieldConfig {
   width: number;
   height: number;
   resolution: number;
+  decayRate?: number;
+  diffusionRate?: number;
 }
 
 export interface Streamline {
@@ -22,12 +24,35 @@ export class FlowField2D {
   private config: FlowFieldConfig;
   private sources: Source[] = [];
 
+  readonly width: number;
+  readonly height: number;
+  readonly resolution: number;
+  readonly cols: number;
+  readonly rows: number;
+  readonly decayRate: number;
+  readonly diffusionRate: number;
+
   constructor(config: FlowFieldConfig) {
     this.config = config;
+    this.width = config.width;
+    this.height = config.height;
+    this.resolution = config.resolution;
+    this.cols = Math.ceil(config.width / config.resolution);
+    this.rows = Math.ceil(config.height / config.resolution);
+    this.decayRate = config.decayRate ?? 0.99;
+    this.diffusionRate = config.diffusionRate ?? 0.1;
   }
 
   clear(): void {
     this.sources = [];
+  }
+
+  addVelocity(x: number, y: number, vx: number, vy: number): void {
+    this.sources.push({ x, y, vx, vy, strength: 1 });
+  }
+
+  addVortex(x: number, y: number, strength: number, radius: number): void {
+    this.sources.push({ x, y, vx: -strength, vy: strength, strength: radius });
   }
 
   addSource(
