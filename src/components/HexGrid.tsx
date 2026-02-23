@@ -4716,6 +4716,16 @@ function drawHexagon(
       ctx.drawImage(tmp, -radius, -radius, radius * 2, radius * 2)
       ctx.restore()
 
+      // Subtle emotion color tint overlay on textured tiles
+      if (infection.photo.dominantColor) {
+        ctx.globalCompositeOperation = 'source-atop'
+        ctx.fillStyle = infection.photo.dominantColor
+        ctx.globalAlpha = 0.15
+        ctx.fill()
+        ctx.globalAlpha = 1.0
+        ctx.globalCompositeOperation = 'source-over'
+      }
+
       // Restore alpha for overlays
       ctx.globalAlpha = 1.0
 
@@ -4768,9 +4778,79 @@ function drawHexagon(
       ctx.stroke()
       ctx.globalAlpha = prevAlpha
     } else {
-      // Fallback: muted glass tile
-      ctx.fillStyle = 'rgba(100,110,120,0.12)'
-      ctx.fill()
+      // Fallback: use dominantColor if available, otherwise muted glass tile
+      const dc = infection.photo.dominantColor
+      if (dc) {
+        ctx.clip()
+        // Apply neighbor-based translucency
+        const prevAlpha = ctx.globalAlpha
+        ctx.globalAlpha = neighborAlpha
+
+        // Fill with emotion color at moderate opacity
+        ctx.fillStyle = dc
+        ctx.globalAlpha = 0.7
+        ctx.fill()
+        ctx.globalAlpha = 1.0
+
+        // Add radial gradient for depth (lighter center, darker edges)
+        const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, radius)
+        grad.addColorStop(0, 'rgba(255,255,255,0.15)')
+        grad.addColorStop(1, 'rgba(0,0,0,0.2)')
+        ctx.fillStyle = grad
+        ctx.fill()
+
+        // Glass overlay: sheen effect (same as textured tiles)
+        if (sheenEnabled) {
+          const sheenWidth = radius * 1.6
+          const sheenX = ((sheenProgress * 0.6 + index * 0.13) % 1.0) * (radius * 2 + sheenWidth) - sheenWidth / 2 - radius
+          const sheenGrad = ctx.createLinearGradient(sheenX, -radius, sheenX + sheenWidth, radius)
+          sheenGrad.addColorStop(0, `rgba(255,255,255,0.00)`)
+          sheenGrad.addColorStop(0.45, `rgba(255,255,255,${Math.max(0, sheenIntensity * 0.5)})`)
+          sheenGrad.addColorStop(0.5, `rgba(255,255,255,${sheenIntensity})`)
+          sheenGrad.addColorStop(0.55, `rgba(255,255,255,${Math.max(0, sheenIntensity * 0.5)})`)
+          sheenGrad.addColorStop(1, `rgba(255,255,255,0.00)`)
+
+          ctx.fillStyle = sheenGrad
+          ctx.globalCompositeOperation = 'source-atop'
+          ctx.fill()
+        }
+
+        // Slight inner darkening at edges to simulate depth
+        ctx.globalCompositeOperation = 'source-over'
+        ctx.fillStyle = 'rgba(0,0,0,0.06)'
+        ctx.beginPath()
+        for (let i = 0; i < 6; i++) {
+          const angle = (i / 6) * Math.PI * 2 + Math.PI / 6
+          const hx = Math.cos(angle) * (radius * 0.98)
+          const hy = Math.sin(angle) * (radius * 0.98)
+          if (i === 0) ctx.moveTo(hx, hy)
+          else ctx.lineTo(hx, hy)
+        }
+        ctx.closePath()
+        ctx.fill()
+
+        // Scratch overlay for micro details (optional)
+        if (scratchEnabled && scratchCanvas) {
+          ctx.globalAlpha = 0.08
+          ctx.globalCompositeOperation = 'source-atop'
+          const scale = (radius * 2) / scratchCanvas.width
+          ctx.save()
+          ctx.scale(scale, scale)
+          ctx.drawImage(scratchCanvas, -radius / scale, -radius / scale)
+          ctx.restore()
+          ctx.globalCompositeOperation = 'source-over'
+        }
+
+        // Subtle outer stroke
+        ctx.globalAlpha = 1.0
+        ctx.strokeStyle = 'rgba(255,255,255,0.04)'
+        ctx.lineWidth = 0.6
+        ctx.stroke()
+        ctx.globalAlpha = prevAlpha
+      } else {
+        ctx.fillStyle = 'rgba(100,110,120,0.12)'
+        ctx.fill()
+      }
     }
   } else {
     // Draw uninfected hexagon as a translucent glass tile with no border
@@ -4813,7 +4893,15 @@ function drawHexagon(
       else ctx.lineTo(hx, hy)
     }
     ctx.closePath()
-    ctx.fillStyle = `rgba(180, 220, 255, ${glowAlpha})`
+    const pulseColor = infection?.photo.dominantColor
+    if (pulseColor && pulseColor.length >= 7 && pulseColor[0] === '#') {
+      const r = parseInt(pulseColor.slice(1, 3), 16)
+      const g = parseInt(pulseColor.slice(3, 5), 16)
+      const b = parseInt(pulseColor.slice(5, 7), 16)
+      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${glowAlpha})`
+    } else {
+      ctx.fillStyle = `rgba(180, 220, 255, ${glowAlpha})`
+    }
     ctx.fill()
     ctx.restore()
   }
