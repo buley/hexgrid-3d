@@ -7,6 +7,8 @@
  * @module wasm/HexGridWasmWrapper
  */
 
+import { logger } from '../lib/logger';
+
 // Types matching the Rust structs
 export interface WasmCellState {
   owner: number;
@@ -112,10 +114,10 @@ export class HexGridWasmWrapper {
         const wasmModule = await import('../rust/pkg/hexgrid_wasm');
         await wasmModule.default();
         this.module = wasmModule as unknown as HexGridWasmModule;
-        console.log('[HexGrid] WASM module loaded successfully');
+        logger.log('[HexGrid] WASM module loaded successfully');
         return this.module;
       } catch (error) {
-        console.warn(
+        logger.warn(
           '[HexGrid] WASM module not available, using fallback:',
           error
         );

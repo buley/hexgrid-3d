@@ -3,6 +3,8 @@
  * Handles the creation and management of the WebGPU Device and Adapter.
  */
 
+import { logger } from '../lib/logger';
+
 export class WebGPUContext {
   private static instance: WebGPUContext;
   private adapter: GPUAdapter | null = null;
@@ -23,7 +25,7 @@ export class WebGPUContext {
    */
   async initialize(): Promise<boolean> {
     if (typeof navigator === 'undefined' || !navigator.gpu) {
-      console.warn('WebGPU is not supported in this environment.');
+      logger.warn('WebGPU is not supported in this environment.');
       this.isSupported = false;
       return false;
     }
@@ -34,7 +36,7 @@ export class WebGPUContext {
       });
 
       if (!this.adapter) {
-        console.warn('No WebGPU adapter found.');
+        logger.warn('No WebGPU adapter found.');
         this.isSupported = false;
         return false;
       }
@@ -42,16 +44,16 @@ export class WebGPUContext {
       this.device = await this.adapter.requestDevice();
       
       this.device.lost.then((info) => {
-        console.error(`WebGPU device lost: ${info.message}`);
+        logger.error(`WebGPU device lost: ${info.message}`);
         this.device = null;
         this.isSupported = false;
       });
 
       this.isSupported = true;
-      console.log('WebGPU initialized successfully.');
+      logger.log('WebGPU initialized successfully.');
       return true;
     } catch (e) {
-      console.error('Failed to initialize WebGPU:', e);
+      logger.error('Failed to initialize WebGPU:', e);
       this.isSupported = false;
       return false;
     }

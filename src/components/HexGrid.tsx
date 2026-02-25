@@ -453,10 +453,9 @@ export const HexGrid = <T = unknown>({
     // gridScale >1 reduces effective hex radius (more hexes), <1 increases radius (fewer hexes)
     gridScale: 1,
       // tileSize: base hex radius in pixels (editable)
-      // Increased from 6 to 12 for better performance (larger hexes = fewer total hexes = better performance)
-      tileSize: 12,
+      tileSize: 8,
       // hexSpacing: multiplier for hex size (1.0 = perfect touching, <1.0 = gaps, >1.0 = overlap)
-      hexSpacing: 1.0,
+      hexSpacing: 0.95,
       // sphericalDensity: multiplier for spherical grid density (1.0 = default, >1.0 = more hexes)
       sphericalDensity: 1.4,
       // curvature controls (degrees) - start with a visually pleasing curvature
@@ -474,8 +473,8 @@ export const HexGrid = <T = unknown>({
       polePower: 0.9,
       // Render both sides option: when true, draw an antipodal copy so images show on inside/outside
       renderBothSides: false,
-      // Worker debug logs (ENABLED for debugging evolution issues)
-      debugLogs: true
+      // Worker debug logs (disabled by default for performance)
+      debugLogs: false
     ,
       // Cluster tiling defaults: preserve aspect, center anchor, no global alignment,
       // zero uv inset for perfect alignment (seam blending handled separately), no jitter by default

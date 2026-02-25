@@ -46,7 +46,11 @@ export interface InfectionSystemState {
 }
 
 const WORKER_ID = Math.random().toString(36).substring(7);
-console.log('[hexgrid-worker] loaded id=', WORKER_ID);
+
+/** Guarded log – only emits when workerDebug.debugLogs is true. */
+function debugLog(...args: unknown[]) {
+  if (workerDebug.debugLogs) console.log(...args);
+}
 
 const workerDebug: any = {
   cohesionBoost: 6.0, // BOOSTED: strongly favor growth near cluster centroids to build larger regions
@@ -225,7 +229,7 @@ function findConnectedComponents(
 ): number[][] {
   // Immediate synchronous check - if this doesn't log, the function isn't being called or is blocked
   const startMarker = performance.now();
-  console.log(
+  debugLog(
     '[findConnectedComponents] FUNCTION ENTERED - indices.length=',
     indices.length,
     'positions.length=',
@@ -250,18 +254,18 @@ function findConnectedComponents(
     return [];
   }
 
-  console.log('[findConnectedComponents] About to enter try block');
+  debugLog('[findConnectedComponents] About to enter try block');
 
   // Add immediate log after try block entry to confirm execution reaches here
   let tryBlockEntered = false;
   try {
     tryBlockEntered = true;
-    console.log(
+    debugLog(
       '[findConnectedComponents] ✅ TRY BLOCK ENTERED - marker=',
       performance.now() - startMarker,
       'ms'
     );
-    console.log(
+    debugLog(
       '[findConnectedComponents] Inside try block - Starting with',
       indices.length,
       'indices'
@@ -273,7 +277,7 @@ function findConnectedComponents(
     for (const start of indices) {
       if (visited.has(start)) continue;
       componentCount++;
-      console.log(
+      debugLog(
         '[findConnectedComponents] Starting component',
         componentCount,
         'from index',
@@ -298,7 +302,7 @@ function findConnectedComponents(
           break;
         }
         if (iterations % 100 === 0) {
-          console.log(
+          debugLog(
             '[findConnectedComponents] Component',
             componentCount,
             'iteration',
@@ -348,7 +352,7 @@ function findConnectedComponents(
           continue;
         }
       }
-      console.log(
+      debugLog(
         '[findConnectedComponents] Component',
         componentCount,
         'complete:',
@@ -359,13 +363,13 @@ function findConnectedComponents(
       );
       comps.push(comp);
     }
-    console.log(
+    debugLog(
       '[findConnectedComponents] Complete:',
       comps.length,
       'components found'
     );
     const elapsed = performance.now() - startMarker;
-    console.log(
+    debugLog(
       '[findConnectedComponents] ✅ RETURNING - elapsed=',
       elapsed,
       'ms, components=',
@@ -409,7 +413,7 @@ function calculatePhotoCentroids(
   hexRadius: number
 ) {
   try {
-    console.log(
+    debugLog(
       '[calculatePhotoCentroids] Starting with',
       infections.size,
       'infections'
@@ -421,7 +425,7 @@ function calculatePhotoCentroids(
       arr.push(idx);
       byPhoto.set(inf.photo.id, arr);
     }
-    console.log(
+    debugLog(
       '[calculatePhotoCentroids] Grouped into',
       byPhoto.size,
       'photos'
@@ -430,7 +434,7 @@ function calculatePhotoCentroids(
     let photoNum = 0;
     for (const [photoId, inds] of byPhoto) {
       photoNum++;
-      console.log(
+      debugLog(
         '[calculatePhotoCentroids] Processing photo',
         photoNum,
         '/',
@@ -441,7 +445,7 @@ function calculatePhotoCentroids(
         inds.length
       );
       try {
-        console.log(
+        debugLog(
           '[calculatePhotoCentroids] About to call findConnectedComponents with',
           inds.length,
           'indices'
@@ -463,7 +467,7 @@ function calculatePhotoCentroids(
           } else {
             comps = findConnectedComponents(inds, positions, hexRadius);
             const callElapsed = performance.now() - callStartTime;
-            console.log(
+            debugLog(
               '[calculatePhotoCentroids] findConnectedComponents RETURNED with',
               comps.length,
               'components after',
@@ -482,12 +486,12 @@ function calculatePhotoCentroids(
           // Return empty components on error to allow evolution to continue
           comps = [];
         }
-        console.log(
+        debugLog(
           '[calculatePhotoCentroids] findConnectedComponents returned',
           comps.length,
           'components'
         );
-        console.log(
+        debugLog(
           '[calculatePhotoCentroids]   Found',
           comps.length,
           'components for photo',
@@ -517,7 +521,7 @@ function calculatePhotoCentroids(
         centroids.set(photoId, []);
       }
     }
-    console.log(
+    debugLog(
       '[calculatePhotoCentroids] Completed, returning',
       centroids.size,
       'photo centroids'
@@ -557,7 +561,7 @@ function assignClusterGridPositions(
   }> = [];
 
   try {
-    console.log(
+    debugLog(
       '[assignClusterGridPositions] Starting with',
       infections.size,
       'infections'
@@ -572,7 +576,7 @@ function assignClusterGridPositions(
       byPhoto.set(inf.photo.id, arr);
     }
 
-    console.log(
+    debugLog(
       '[assignClusterGridPositions] Processing',
       byPhoto.size,
       'unique photos'
@@ -592,7 +596,7 @@ function assignClusterGridPositions(
         if (comp && comp.length > 0) clusterSizes.push(comp.length);
       }
 
-      console.log(
+      debugLog(
         '[assignClusterGridPositions] Photo',
         photoId.substring(0, 8),
         'has',
@@ -685,7 +689,7 @@ function assignClusterGridPositions(
               }
             }
 
-            console.log(
+            debugLog(
               '[assignClusterGridPositions][hex-lattice] cluster',
               photoId.substring(0, 8),
               'size',
@@ -887,7 +891,7 @@ function assignClusterGridPositions(
         const clusterWidth = Math.max(0, maxX - minX);
         const clusterHeight = Math.max(0, maxY - minY);
 
-        console.log('[assignClusterGridPositions] Cluster bounds:', {
+        debugLog('[assignClusterGridPositions] Cluster bounds:', {
           photoId: photoId.substring(0, 8),
           clusterIndex,
           hexCount: cluster.length,
@@ -905,7 +909,7 @@ function assignClusterGridPositions(
           clusterHeight > 0 ? clusterWidth / clusterHeight : 1.0;
         const targetTileCount = 16; // Target ~16 tiles total for good image distribution
 
-        console.log(
+        debugLog(
           '[assignClusterGridPositions] Cluster aspect:',
           clusterAspect.toFixed(3),
           '(width/height)'
@@ -974,7 +978,7 @@ function assignClusterGridPositions(
             newTilesY = Math.max(1, Math.min(16, newTilesY));
             tilesX = newTilesX;
             tilesY = newTilesY;
-            console.log(
+            debugLog(
               '[assignClusterGridPositions] Expanded tile grid to',
               tilesX,
               'x',
@@ -988,7 +992,7 @@ function assignClusterGridPositions(
           // if anything goes wrong, keep original tilesX/tilesY
         }
 
-        console.log(
+        debugLog(
           '[assignClusterGridPositions] Final tile dimensions:',
           tilesX,
           'x',
@@ -1203,7 +1207,7 @@ function assignClusterGridPositions(
             return [x, y];
           };
 
-          console.log(
+          debugLog(
             '[assignClusterGridPositions] Normalized bounds for tiling:',
             {
               normMinX: normMinX.toFixed(2),
@@ -1287,12 +1291,12 @@ function assignClusterGridPositions(
             }
           }
 
-          console.log(
+          debugLog(
             '[assignClusterGridPositions] Spatially assigned',
             cluster.length,
             'hexes to nearest tile centers'
           );
-          console.log(
+          debugLog(
             '[assignClusterGridPositions] Sample assignments:',
             assignmentSamples
               .map(
@@ -1403,7 +1407,7 @@ function assignClusterGridPositions(
               }
 
               if (adjustments === 0) break; // Converged
-              console.log(
+              debugLog(
                 '[assignClusterGridPositions] Neighbor-aware refinement iteration',
                 iter + 1,
                 ':',
@@ -1452,7 +1456,7 @@ function assignClusterGridPositions(
               tilesY,
             });
           }
-          console.log(
+          debugLog(
             '[assignClusterGridPositions] Assigned grid positions to',
             cluster.length,
             'hexes in cluster (BFS)'
@@ -1476,7 +1480,7 @@ function assignClusterGridPositions(
       const medianSize = clusterSizes[Math.floor(clusterSizes.length / 2)];
       const maxSize = clusterSizes[0];
       const smallClusters = clusterSizes.filter((s) => s <= 3).length;
-      console.log(
+      debugLog(
         '[assignClusterGridPositions] CLUSTER STATS: total=',
         totalClusters,
         'avg=',
@@ -1495,7 +1499,7 @@ function assignClusterGridPositions(
       );
     }
 
-    console.log('[assignClusterGridPositions] Complete');
+    debugLog('[assignClusterGridPositions] Complete');
   } catch (e) {
     console.error('[assignClusterGridPositions] Error:', e);
   }
@@ -1511,7 +1515,7 @@ function postOptimizationMerge(
 ) {
   try {
     if (!workerDebug || !workerDebug.enableMerges) {
-      if (debug && workerDebug.mergeLogs) console.log('[merge] disabled');
+      if (debug && workerDebug.mergeLogs) debugLog('[merge] disabled');
       return;
     }
     const threshold =
@@ -1591,7 +1595,7 @@ function postOptimizationMerge(
           }
           merges++;
           if (debug && workerDebug.mergeLogs)
-            console.log(`[merge] moved ${s.length} -> ${recipientId}`);
+            debugLog(`[merge] moved ${s.length} -> ${recipientId}`);
         }
       }
     }
@@ -1655,12 +1659,12 @@ function evolveInfectionSystem(
   debug = false
 ): InfectionSystemState | null {
   try {
-    console.log('[evolve] Step 1: Validating positions...');
+    debugLog('[evolve] Step 1: Validating positions...');
     if (!positions || positions.length === 0) {
       safePostError(new Error('positions required for evolve'));
       return null;
     }
-    console.log('[evolve] Step 2: Normalizing state...');
+    debugLog('[evolve] Step 2: Normalizing state...');
     const normalized = normalizePrevState(prevState);
     const infectionsMap: Map<number, Infection> = normalized.infections;
     const availableSet = new Set<number>(
@@ -1668,7 +1672,7 @@ function evolveInfectionSystem(
         ? normalized.availableIndices
         : []
     );
-    console.log('[evolve] Step 3: Cleaning infections...');
+    debugLog('[evolve] Step 3: Cleaning infections...');
     for (const [idx, inf] of infectionsMap) {
       if (!inf || !inf.photo) {
         infectionsMap.delete(idx);
@@ -1676,13 +1680,13 @@ function evolveInfectionSystem(
       }
     }
 
-    console.log('[evolve] Step 4: Calculating centroids...');
+    debugLog('[evolve] Step 4: Calculating centroids...');
     const centroids = calculatePhotoCentroids(
       infectionsMap,
       positions,
       hexRadius
     );
-    console.log('[evolve] Step 5: Creating new state copies...');
+    debugLog('[evolve] Step 5: Creating new state copies...');
     const newInfections = new Map(infectionsMap);
     const newAvailable = new Set(availableSet);
     const generation =
@@ -1690,14 +1694,14 @@ function evolveInfectionSystem(
         ? prevState.generation + 1
         : 0;
 
-    console.log(
+    debugLog(
       '[evolve] Step 6: Growth step - processing',
       infectionsMap.size,
       'infections...'
     );
     // Skip growth step if we have no infections or no photos
     if (infectionsMap.size === 0 || photos.length === 0) {
-      console.log('[evolve]   Skipping growth - no infections or no photos');
+      debugLog('[evolve]   Skipping growth - no infections or no photos');
     } else {
       // Cell death step: allow fully surrounded cells to die and respawn for optimization
       if (
@@ -1874,7 +1878,7 @@ function evolveInfectionSystem(
           }
         }
         if (deathCount > 0 || mutationCount > 0 || invaderExpulsions > 0) {
-          console.log(
+          debugLog(
             '[evolve]   Cell death: removed',
             deathCount,
             'cells (',
@@ -1891,7 +1895,7 @@ function evolveInfectionSystem(
       for (const [idx, inf] of infectionsMap) {
         growthIterations++;
         if (growthIterations % 10 === 0)
-          console.log(
+          debugLog(
             '[evolve]   Growth iteration',
             growthIterations,
             '/',
@@ -1994,7 +1998,7 @@ function evolveInfectionSystem(
       }
     }
 
-    console.log(
+    debugLog(
       '[evolve] Step 6.5: Entropy decay - applying decay to dominant successful photos...'
     );
     // Entropy decay: successful/dominant photos decay over time to allow new dominance to emerge
@@ -2115,7 +2119,7 @@ function evolveInfectionSystem(
         }
 
         if (entropyDecayCount > 0) {
-          console.log(
+          debugLog(
             '[evolve]   Entropy decay: removed',
             entropyDecayCount,
             'cells from dominant successful photos'
@@ -2124,14 +2128,14 @@ function evolveInfectionSystem(
       }
     }
 
-    console.log(
+    debugLog(
       '[evolve] Step 7: Deterministic fill - processing',
       newAvailable.size,
       'available positions...'
     );
     // Skip deterministic fill if we have no photos or no existing infections to base decisions on
     if (photos.length === 0 || newInfections.size === 0) {
-      console.log(
+      debugLog(
         '[evolve]   Skipping deterministic fill - no photos or no infections'
       );
     } else {
@@ -2140,7 +2144,7 @@ function evolveInfectionSystem(
       for (const a of Array.from(newAvailable)) {
         fillIterations++;
         if (fillIterations % 50 === 0)
-          console.log(
+          debugLog(
             '[evolve]   Fill iteration',
             fillIterations,
             '/',
@@ -2190,7 +2194,7 @@ function evolveInfectionSystem(
       }
     }
 
-    console.log('[evolve] Step 8: Optimization merge pass...');
+    debugLog('[evolve] Step 8: Optimization merge pass...');
     // Conservative merge pass (opt-in)
     postOptimizationMerge(
       newInfections,
@@ -2199,7 +2203,7 @@ function evolveInfectionSystem(
       !!workerDebug.mergeLogs
     );
 
-    console.log('[evolve] Step 9: Assigning cluster-aware grid positions...');
+    debugLog('[evolve] Step 9: Assigning cluster-aware grid positions...');
     // Make clusters self-aware by assigning grid positions based on spatial layout
     const tileCenters = assignClusterGridPositions(
       newInfections,
@@ -2207,7 +2211,7 @@ function evolveInfectionSystem(
       hexRadius
     );
 
-    console.log(
+    debugLog(
       '[evolve] Step 10: Returning result - generation',
       generation,
       'infections',
@@ -2268,7 +2272,7 @@ self.onmessage = function (ev: MessageEvent) {
         if (!positions || !Array.isArray(positions)) return;
         const hexRadius =
           typeof payload.hexRadius === 'number' ? payload.hexRadius : 24;
-        console.log(
+        debugLog(
           '[hexgrid-worker] Pre-building neighbor cache for',
           positions.length,
           'positions...'
@@ -2306,7 +2310,7 @@ self.onmessage = function (ev: MessageEvent) {
 
             // Log progress every 100 positions
             if ((i + 1) % 100 === 0) {
-              console.log(
+              debugLog(
                 '[hexgrid-worker]   Processed',
                 i + 1,
                 '/',
@@ -2317,7 +2321,7 @@ self.onmessage = function (ev: MessageEvent) {
           }
 
           const elapsed = Date.now() - startTime;
-          console.log(
+          debugLog(
             '[hexgrid-worker] ✅ Neighbor cache built in',
             elapsed,
             'ms - ready for evolution!'
@@ -2344,7 +2348,7 @@ self.onmessage = function (ev: MessageEvent) {
     if (type === 'evolve') {
       // Check if neighbor cache is ready before processing evolve
       if (!cache.cacheReady) {
-        console.log(
+        debugLog(
           '[hexgrid-worker] ⏸️ Evolve message received but cache not ready yet - deferring...'
         );
         // Defer this evolve message by re-posting it after a short delay
@@ -2366,7 +2370,7 @@ self.onmessage = function (ev: MessageEvent) {
       // Diagnostic: log that an evolve was received and the available payload keys (only when debugLogs enabled)
       try {
         if (workerDebug && workerDebug.debugLogs) {
-          console.log(
+          debugLog(
             '[hexgrid-worker] evolve received, payload keys=',
             Object.keys(payload || {}),
             'workerDebug.evolutionIntervalMs=',
@@ -2383,7 +2387,7 @@ self.onmessage = function (ev: MessageEvent) {
           : typeof workerDebug.evolveIntervalMs === 'number'
           ? workerDebug.evolveIntervalMs
           : 60000;
-      console.log(
+      debugLog(
         '[hexgrid-worker] Throttle check: interval=',
         interval,
         'lastEvolutionAt=',
@@ -2399,7 +2403,7 @@ self.onmessage = function (ev: MessageEvent) {
       const reason = payload.reason || (raw && raw.reason);
       const bypassThrottle = reason === 'photos-init' || reason === 'reset';
       // Clear, high-signal log for build verification: reports whether the current evolve will bypass the worker throttle
-      console.log('[hexgrid-worker] THROTTLE DECISION', {
+      debugLog('[hexgrid-worker] THROTTLE DECISION', {
         interval,
         lastEvolutionAt,
         now,
@@ -2410,7 +2414,7 @@ self.onmessage = function (ev: MessageEvent) {
       });
       // Throttle: if we're within the interval and not bypassed, notify (debug) and skip processing
       if (!bypassThrottle && now - lastEvolutionAt < interval) {
-        console.log(
+        debugLog(
           '[hexgrid-worker] ⛔ THROTTLED - skipping evolution processing'
         );
         if (workerDebug && workerDebug.debugLogs) {
@@ -2430,7 +2434,7 @@ self.onmessage = function (ev: MessageEvent) {
       }
       // Mark processed time and send ack for an evolve we will process
       lastEvolutionAt = now;
-      console.log(
+      debugLog(
         '[hexgrid-worker] ✅ PROCESSING evolution - lastEvolutionAt updated to',
         now
       );
@@ -2477,15 +2481,15 @@ self.onmessage = function (ev: MessageEvent) {
         invalidateCaches(Boolean(payload.isSpherical));
       }
 
-      console.log('[hexgrid-worker] 🔧 About to call evolveInfectionSystem');
-      console.log('[hexgrid-worker]   - state generation:', state?.generation);
-      console.log(
+      debugLog('[hexgrid-worker] 🔧 About to call evolveInfectionSystem');
+      debugLog('[hexgrid-worker]   - state generation:', state?.generation);
+      debugLog(
         '[hexgrid-worker]   - state infections:',
         state?.infections?.length || state?.infections?.size || 0
       );
-      console.log('[hexgrid-worker]   - positions:', positions?.length || 0);
-      console.log('[hexgrid-worker]   - photos:', photos?.length || 0);
-      console.log('[hexgrid-worker]   - hexRadius:', hexRadius);
+      debugLog('[hexgrid-worker]   - positions:', positions?.length || 0);
+      debugLog('[hexgrid-worker]   - photos:', photos?.length || 0);
+      debugLog('[hexgrid-worker]   - hexRadius:', hexRadius);
 
       let res;
       let timeoutId;
@@ -2506,7 +2510,7 @@ self.onmessage = function (ev: MessageEvent) {
       }, 10000);
 
       try {
-        console.log('[hexgrid-worker] 🚀 Calling evolveInfectionSystem NOW...');
+        debugLog('[hexgrid-worker] 🚀 Calling evolveInfectionSystem NOW...');
         const startTime = Date.now();
         res = evolveInfectionSystem(
           state,
@@ -2518,7 +2522,7 @@ self.onmessage = function (ev: MessageEvent) {
         );
         const elapsed = Date.now() - startTime;
         clearTimeout(timeoutId);
-        console.log(
+        debugLog(
           '[hexgrid-worker] ✅ evolveInfectionSystem RETURNED successfully in',
           elapsed,
           'ms'
@@ -2544,10 +2548,10 @@ self.onmessage = function (ev: MessageEvent) {
       }
 
       if (!res) {
-        console.log('[hexgrid-worker] ❌ evolveInfectionSystem returned null!');
+        debugLog('[hexgrid-worker] ❌ evolveInfectionSystem returned null!');
         return;
       }
-      console.log(
+      debugLog(
         '[hexgrid-worker] ✅ Evolution complete! New generation=',
         res.generation,
         'infections=',
@@ -2562,7 +2566,7 @@ self.onmessage = function (ev: MessageEvent) {
         };
         if (res.tileCenters && res.tileCenters.length > 0) {
           payload.tileCenters = res.tileCenters;
-          console.log(
+          debugLog(
             '[hexgrid-worker] Including',
             res.tileCenters.length,
             'tile center sets in evolved message'
@@ -2577,7 +2581,7 @@ self.onmessage = function (ev: MessageEvent) {
       } catch (e) {
         console.error('[hexgrid-worker] ❌ Failed to post evolved message:', e);
       }
-      console.log(
+      debugLog(
         '[hexgrid-worker] 📤 Posted evolved message back to main thread'
       );
 
@@ -2778,4 +2782,4 @@ function invalidateCaches(isSpherical?: boolean) {
   if (typeof isSpherical === 'boolean') cache.isSpherical = isSpherical;
 }
 
-console.log('[hexgrid-worker] ready');
+debugLog('[hexgrid-worker] ready');

@@ -1,6 +1,7 @@
 import { StableFluids3D, FluidConfig3D } from './FluidSimulation3D';
 import { FluidSimulationWebNN } from './FluidSimulationWebNN';
 import { FluidSimulation3DGPU } from './FluidSimulation3DGPU';
+import { logger } from '../lib/logger';
 
 export type FluidEngine = StableFluids3D | FluidSimulationWebNN | FluidSimulation3DGPU;
 
@@ -18,11 +19,11 @@ export class FluidEngineFactory {
       const webnn = new FluidSimulationWebNN(config);
       const webnnSupported = await webnn.initialize();
       if (webnnSupported) {
-        console.log("Fluid Engine: Using WebNN (NPU)");
+        logger.log("Fluid Engine: Using WebNN (NPU)");
         return webnn;
       }
     } catch (e) {
-      console.warn("Fluid Engine: WebNN init failed", e);
+      logger.warn("Fluid Engine: WebNN init failed", e);
     }
 
     // 2. Try WebGPU
@@ -30,15 +31,15 @@ export class FluidEngineFactory {
       const webgpu = new FluidSimulation3DGPU(config);
       const webgpuSupported = await webgpu.initialize();
       if (webgpuSupported) {
-        console.log("Fluid Engine: Using WebGPU");
+        logger.log("Fluid Engine: Using WebGPU");
         return webgpu;
       }
     } catch (e) {
-      console.warn("Fluid Engine: WebGPU init failed", e);
+      logger.warn("Fluid Engine: WebGPU init failed", e);
     }
 
     // 3. Fallback to CPU
-    console.log("Fluid Engine: using CPU Fallback");
+    logger.log("Fluid Engine: using CPU Fallback");
     return new StableFluids3D(config);
   }
 }

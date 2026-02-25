@@ -6,8 +6,8 @@ const isDev = typeof process !== 'undefined' && process?.env?.NODE_ENV !== 'prod
 
 export const logger = {
   debug: isDev ? console.debug.bind(console) : noop,
-  log: console.log.bind(console),
-  info: console.info.bind(console),
+  log: isDev ? console.log.bind(console) : noop,
+  info: isDev ? console.info.bind(console) : noop,
   warn: console.warn.bind(console),
   error: console.error.bind(console),
 }

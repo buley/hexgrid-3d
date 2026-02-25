@@ -5,6 +5,8 @@
  * or Float32Arrays. It then syncs this data directly to the HexGridWasm instance.
  */
 
+import { logger } from '../lib/logger';
+
 // Placeholder types until we link the actual Dash package
 interface DashQueryHandle {
   ptr: number;
@@ -26,12 +28,12 @@ export class DashAdapter {
    * @param gridInstance The WASM instance of the HexGrid
    */
   bindSemanticSearch(query: string, particleSystem: any) {
-    console.log('[DashAdapter] Binding semantic search:', query);
+    logger.log('[DashAdapter] Binding semantic search:', query);
     
     // Hypothetical Zero-Copy API from Dash 2.0
     if (this.dash.liveQueryPtr) {
        this.dash.liveQueryPtr(`SELECT embedding FROM dash_vec_idx WHERE embedding MATCH '${query}'`).subscribe((handle: DashQueryHandle) => {
-          console.log(`[DashAdapter] Received ${handle.size} bytes from Dash.`);
+          logger.log(`[DashAdapter] Received ${handle.size} bytes from Dash.`);
           
           // Assume the handle.buffer contains [pos, color, scale] interleaved or tightly packed
           // For this MVP, we treat it as just positions
@@ -51,7 +53,7 @@ export class DashAdapter {
           // });
        });
     } else {
-       console.warn('[DashAdapter] Dash instance does not support Zero-Copy liveQueryPtr yet.');
+       logger.warn('[DashAdapter] Dash instance does not support Zero-Copy liveQueryPtr yet.');
     }
   }
 }
