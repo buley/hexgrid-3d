@@ -90,4 +90,28 @@ describe('territory narration', () => {
     expect(messages[1]?.priority).toBe(9);
     expect(messages[1]?.text).toContain('latitude band unlocked');
   });
+
+  it('formats alliance narration events with elevated priority', () => {
+    const messages = createHexwarNarrationAdapter([
+      {
+        id: 'evt-ally-1',
+        eventType: 'nexus_created',
+        occurredAtMs: 10_000,
+        actorName: 'Alice',
+        cellId: 'main:r10:c10',
+      },
+      {
+        id: 'evt-ally-2',
+        eventType: 'allied_border_held',
+        occurredAtMs: 50_000,
+        cellId: 'main:r10:c11',
+      },
+    ]);
+
+    expect(messages).toHaveLength(2);
+    expect(messages[0]?.priority).toBe(8);
+    expect(messages[0]?.text).toContain('founded a nexus');
+    expect(messages[1]?.priority).toBe(6);
+    expect(messages[1]?.text).toContain('Allied borders held firm');
+  });
 });

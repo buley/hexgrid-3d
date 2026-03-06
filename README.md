@@ -2,6 +2,10 @@
 
 A reusable 3D hexagonal grid visualization component for displaying content in an immersive spherical layout.
 
+## Documentation
+
+- [Territory README](./src/territory/README.md)
+
 ## Features
 
 - **3D Hexagonal Grid Layout** - Spherical projection with customizable curvature
@@ -173,6 +177,9 @@ The package now exports territory-specific helpers:
 - `CanonicalHexGlobeConfig`
 - `HexTerritoryBoard`
 - `HexTerritoryCell`
+- `HexTerritoryAffiliation`
+- `HexTerritoryAllianceBinding`
+- `HexTerritoryRallyMarker`
 - `HexNodePath`
 - `HexwarEmbedRef`
 - `HexTerritoryTickState`

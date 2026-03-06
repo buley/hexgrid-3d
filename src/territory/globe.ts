@@ -38,6 +38,21 @@ export interface HexTerritoryTickState {
   lastResolvedAt: number;
 }
 
+export type HexTerritoryAffiliation = 'self' | 'ally' | 'neutral' | 'hostile';
+
+export interface HexTerritoryAllianceBinding {
+  phyleId: string;
+  rootCellIds: string[];
+  displayName?: string;
+}
+
+export interface HexTerritoryRallyMarker {
+  cellId: string;
+  directive: 'fortify' | 'surge' | 'watch' | 'support';
+  phyleId?: string;
+  intensity?: number;
+}
+
 export interface HexTerritoryCellPoint {
   x: number;
   y: number;

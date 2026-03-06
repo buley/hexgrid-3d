@@ -5,6 +5,12 @@ export type HexwarNarrationEventType =
   | 'embed_set'
   | 'delegation_issued'
   | 'delegation_revoked'
+  | 'nexus_created'
+  | 'nexus_connected'
+  | 'alliance_root_bound'
+  | 'rally_called'
+  | 'allied_border_held'
+  | 'alliance_surged'
   | 'unlock'
   | 'tick_surged'
   | 'tick_entrenched'
@@ -24,11 +30,20 @@ function priorityForEvent(eventType: HexwarNarrationEventType): number {
     case 'leaderboard_flip':
     case 'unlock':
       return 9;
+    case 'nexus_created':
+    case 'nexus_connected':
+    case 'alliance_surged':
+      return 8;
     case 'tick_surged':
     case 'tick_entrenched':
       return 8;
+    case 'rally_called':
+    case 'alliance_root_bound':
+      return 7;
     case 'claim':
       return 7;
+    case 'allied_border_held':
+      return 6;
     case 'delegation_issued':
     case 'delegation_revoked':
       return 6;
@@ -52,6 +67,18 @@ function formatSingleEvent(event: HexwarNarrationEvent): string {
       return `${actor}delegated subhex control${cell}.`.trim();
     case 'delegation_revoked':
       return `${actor}revoked delegated control${cell}.`.trim();
+    case 'nexus_created':
+      return `${actor}founded a nexus${cell}.`.trim();
+    case 'nexus_connected':
+      return `${actor}connected a sovereign root into an alliance${cell}.`.trim();
+    case 'alliance_root_bound':
+      return `A sovereign root joined an allied phyle${cell}.`.trim();
+    case 'rally_called':
+      return `A new rally directive lit up${cell}.`.trim();
+    case 'allied_border_held':
+      return `Allied borders held firm${cell}.`.trim();
+    case 'alliance_surged':
+      return `Allied pressure pushed${cell} into surge state.`.trim();
     case 'unlock':
       return `A new latitude band unlocked${cell}.`.trim();
     case 'tick_surged':
@@ -119,4 +146,3 @@ export function createHexwarNarrationAdapter(
 
   return messages;
 }
-

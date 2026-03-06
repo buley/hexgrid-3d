@@ -1,7 +1,13 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import type { ThreeEvent } from '@react-three/fiber';
 import { Color, CircleGeometry, InstancedMesh, Matrix4, Object3D } from 'three';
-import { calculateAutoTileRadiusByRow, type HexTerritoryCell } from './globe';
+import {
+  calculateAutoTileRadiusByRow,
+  type HexTerritoryAffiliation,
+  type HexTerritoryAllianceBinding,
+  type HexTerritoryCell,
+  type HexTerritoryRallyMarker,
+} from './globe';
 
 export interface HexTerritoryGlobeProps {
   cells: HexTerritoryCell[];
@@ -10,6 +16,9 @@ export interface HexTerritoryGlobeProps {
   claimedCellIds?: Iterable<string>;
   lockedCellIds?: Iterable<string>;
   colorsByCellId?: Record<string, string>;
+  affiliationByCellId?: Record<string, HexTerritoryAffiliation>;
+  allianceBindings?: HexTerritoryAllianceBinding[];
+  rallyMarkers?: HexTerritoryRallyMarker[];
   tileRadius?: number;
   onSelectCell?: (cell: HexTerritoryCell) => void;
   onHoverCell?: (cell: HexTerritoryCell | null) => void;
@@ -26,6 +35,9 @@ export function HexTerritoryGlobe({
   claimedCellIds,
   lockedCellIds,
   colorsByCellId,
+  affiliationByCellId,
+  allianceBindings,
+  rallyMarkers,
   tileRadius,
   onSelectCell,
   onHoverCell,
@@ -35,6 +47,10 @@ export function HexTerritoryGlobe({
   const workingObject = useMemo(() => new Object3D(), []);
   const claimed = useMemo(() => asSet(claimedCellIds), [claimedCellIds]);
   const locked = useMemo(() => asSet(lockedCellIds), [lockedCellIds]);
+  const cellById = useMemo(
+    () => new Map(cells.map((cell) => [cell.cellId, cell])),
+    [cells]
+  );
   const autoTileRadiusByRow = useMemo(
     () =>
       tileRadius === undefined ? calculateAutoTileRadiusByRow(cells) : undefined,
@@ -60,6 +76,7 @@ export function HexTerritoryGlobe({
       matrix.copy(workingObject.matrix);
       mesh.setMatrixAt(index, matrix);
 
+      const affiliation = affiliationByCellId?.[cell.cellId] ?? 'neutral';
       const baseColor = locked.has(cell.cellId)
         ? '#23345c'
         : colorsByCellId?.[cell.cellId] ??
@@ -67,6 +84,12 @@ export function HexTerritoryGlobe({
             ? '#7ee7ff'
             : hoverCellId === cell.cellId
               ? '#59d0ff'
+              : affiliation === 'self'
+                ? '#7ee7ff'
+                : affiliation === 'ally'
+                  ? '#63f2c6'
+                  : affiliation === 'hostile'
+                    ? '#ff9675'
               : claimed.has(cell.cellId)
                 ? '#63f2c6'
                 : '#1f2a4a');
@@ -81,6 +104,7 @@ export function HexTerritoryGlobe({
     cells,
     claimed,
     colorsByCellId,
+    affiliationByCellId,
     hoverCellId,
     locked,
     selectedCellId,
@@ -90,36 +114,84 @@ export function HexTerritoryGlobe({
   ]);
 
   return (
-    <instancedMesh
-      ref={meshRef}
-      args={[geometry, undefined, cells.length]}
-      onClick={(event: ThreeEvent<MouseEvent>) => {
-        if (typeof event.instanceId !== 'number') {
-          return;
-        }
-        const cell = cells[event.instanceId];
-        if (cell) {
-          onSelectCell?.(cell);
-        }
-      }}
-      onPointerMove={(event: ThreeEvent<PointerEvent>) => {
-        if (typeof event.instanceId !== 'number') {
+    <>
+      <instancedMesh
+        ref={meshRef}
+        args={[geometry, undefined, cells.length]}
+        onClick={(event: ThreeEvent<MouseEvent>) => {
+          if (typeof event.instanceId !== 'number') {
+            return;
+          }
+          const cell = cells[event.instanceId];
+          if (cell) {
+            onSelectCell?.(cell);
+          }
+        }}
+        onPointerMove={(event: ThreeEvent<PointerEvent>) => {
+          if (typeof event.instanceId !== 'number') {
+            onHoverCell?.(null);
+            return;
+          }
+          const cell = cells[event.instanceId];
+          onHoverCell?.(cell ?? null);
+        }}
+        onPointerOut={() => {
           onHoverCell?.(null);
-          return;
+        }}
+      >
+        <meshStandardMaterial
+          transparent
+          opacity={0.92}
+          metalness={0.14}
+          roughness={0.42}
+        />
+      </instancedMesh>
+      {(rallyMarkers ?? []).map((marker) => {
+        const cell = cellById.get(marker.cellId);
+        if (!cell) {
+          return null;
         }
-        const cell = cells[event.instanceId];
-        onHoverCell?.(cell ?? null);
-      }}
-      onPointerOut={() => {
-        onHoverCell?.(null);
-      }}
-    >
-      <meshStandardMaterial
-        transparent
-        opacity={0.92}
-        metalness={0.14}
-        roughness={0.42}
-      />
-    </instancedMesh>
+        const intensity = Math.max(0.35, Math.min(marker.intensity ?? 1, 2));
+        const scale = 0.028 * intensity;
+        const point = cell.surfacePoint;
+        return (
+          <mesh
+            key={`${marker.cellId}:${marker.directive}`}
+            position={[point.x * 1.015, point.y * 1.015, point.z * 1.015]}
+          >
+            <sphereGeometry args={[scale, 10, 10]} />
+            <meshBasicMaterial
+              color={
+                marker.directive === 'surge'
+                  ? '#ffc857'
+                  : marker.directive === 'fortify'
+                    ? '#7ee7ff'
+                    : marker.directive === 'support'
+                      ? '#63f2c6'
+                      : '#c9d4ff'
+              }
+            />
+          </mesh>
+        );
+      })}
+      {(allianceBindings ?? []).flatMap((binding) =>
+        binding.rootCellIds.map((cellId) => {
+          const cell = cellById.get(cellId);
+          if (!cell) {
+            return null;
+          }
+          const point = cell.surfacePoint;
+          return (
+            <mesh
+              key={`${binding.phyleId}:${cellId}:halo`}
+              position={[point.x * 1.005, point.y * 1.005, point.z * 1.005]}
+            >
+              <sphereGeometry args={[0.018, 8, 8]} />
+              <meshBasicMaterial color="#7ee7ff" transparent opacity={0.75} />
+            </mesh>
+          );
+        })
+      )}
+    </>
   );
 }
