@@ -158,7 +158,7 @@ export class HexGridWasmWrapper {
       for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
           const neighbors = new Int32Array(6).fill(-1);
-          const offset = y % 2 === 1 ? 1 : 0;
+          const _offset = y % 2 === 1 ? 1 : 0;
 
           // Odd-r offset coordinates
           const dirs =

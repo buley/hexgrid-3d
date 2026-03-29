@@ -430,7 +430,7 @@ export class GeodesicHexGrid {
     // Generate 12 vertices of Icosahedron (these become Pentagons in dual).
     // Add points between them for Hexes.
     
-    const count = 10 * Math.pow(this.subdivisions, 2) + 2; // Approximation formula
+    const _count = 10 * Math.pow(this.subdivisions, 2) + 2; // Approximation formula
     // Actually let's just create points.
     
     this.hexCenters = [];
@@ -475,7 +475,7 @@ export class GeodesicHexGrid {
     // Recompute neighbors based on distance.
     
     const totalPoints = Math.max(12, 10 * this.subdivisions * this.subdivisions + 2);
-    const hexCount = totalPoints - 12;
+    const _hexCount = totalPoints - 12;
     
     // Fibonacci sphere for hexes
     // We already have 12 points. Let's just generate distinct points.
@@ -518,7 +518,7 @@ export class GeodesicHexGrid {
     };
     
     // Initial 12
-    const baseIndices = icosaVertices.map(v => getIndex(new Vector3(v[0], v[1], v[2])));
+    const _baseIndices = icosaVertices.map(v => getIndex(new Vector3(v[0], v[1], v[2])));
     
     // Icosahedron faces (triangles)
     // defined by indices
@@ -673,13 +673,13 @@ export class HEALPixGrid {
      
      let theta = 0, phi = 0;
      const nside = this.nside;
-     const nl2 = 2 * nside;
+     const _nl2 = 2 * nside;
      const nl4 = 4 * nside;
      const npix = this.npix;
      
-     const ph0 = Math.PI / nl4;
+     const _ph0 = Math.PI / nl4;
      
-     const z = 0; // calculated below
+     const _z = 0; // calculated below
      
      let ip = Math.floor(pix);
      if (ip < 0) ip = 0;
@@ -688,7 +688,7 @@ export class HEALPixGrid {
      if (ip < 2 * nside * (nside - 1)) {
         // North Polar Cap
         const ip_ = ip + 1;
-        const ph = Math.floor(Math.sqrt(ip_ - Math.sqrt(Math.floor(ip_)))) + 1; // approximate ring index
+        const _ph = Math.floor(Math.sqrt(ip_ - Math.sqrt(Math.floor(ip_)))) + 1; // approximate ring index
         // Use standard HEALPix unprojection routine from established libraries ported here.
         // Since I can't browse, I'll use a standard approx.
         // Actually, for tests, we just need basic ranges.
@@ -724,7 +724,7 @@ export class HEALPixGrid {
      return { theta, phi };
   }
 
-  angToPix(theta: number, phi: number): number {
+  angToPix(theta: number, _phi: number): number {
       // Inverse of above approx
       const z = Math.cos(theta);
       const ip = Math.floor(this.npix * (1 - z) / 2);

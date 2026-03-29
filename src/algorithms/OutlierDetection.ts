@@ -296,7 +296,7 @@ export function localOutlierFactor(
       .map((v, j) => (i === j ? Infinity : Math.abs(v - values[i]!)))
       .sort((a, b) => a - b);
     const kthDistance = distances[k] ?? 0;
-    const reachability = values.map((v, j) =>
+    const reachability = values.map((v, _j) =>
       Math.max(kthDistance, Math.abs(v - values[i]!))
     );
     const lrd = k / reachability.reduce((s, r) => s + r, 0);

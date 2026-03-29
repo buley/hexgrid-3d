@@ -69,7 +69,7 @@ export class StableFluids {
     }
   }
 
-  addDensity(x: number, y: number, amount: number, radius: number): void {
+  addDensity(x: number, y: number, amount: number, _radius: number): void {
     const index = this.indexFor(x, y);
     this.density[index] += amount;
   }

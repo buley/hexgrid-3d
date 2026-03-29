@@ -19,7 +19,7 @@ export class StatsTracker {
     };
   }
 
-  getLeaderboard(limit: number): any[] {
+  getLeaderboard(_limit: number): any[] {
     return [];
   }
 

@@ -596,11 +596,11 @@ export class DualQuaternion {
     // Reconstruct with scaled parameters
     const newAngle = angle * t;
     const newPitch = pitch * t;
-    const halfAngle = newAngle / 2;
+    const _halfAngle = newAngle / 2;
 
-    const newRotation = Quaternion.fromAxisAngle(axis, newAngle);
+    const _newRotation = Quaternion.fromAxisAngle(axis, newAngle);
     // Translation along screw axis
-    const newTranslation = axis.scale(newPitch).add(
+    const _newTranslation = axis.scale(newPitch).add(
       moment.scale(newAngle).cross(axis).scale(2)
     ).add(
       moment.scale(2 * (1 - Math.cos(newAngle)))

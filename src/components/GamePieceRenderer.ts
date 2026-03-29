@@ -9,7 +9,6 @@ import * as THREE from '@a0n/aeon-3d/three';
 import type {
   GamePiece,
   PieceShape,
-  PieceAnimation,
   PieceAnimationConfig,
   CellGameState,
 } from '../types';
@@ -47,7 +46,7 @@ function getCachedGeometry(shape: PieceShape): THREE.BufferGeometry {
       break;
     case 'flag': {
       // Flag = thin vertical pole + rectangular flag
-      const group = new THREE.BufferGeometry();
+      const _group = new THREE.BufferGeometry();
       const pole = new THREE.CylinderGeometry(0.02, 0.02, 1.0, 6);
       const flag = new THREE.PlaneGeometry(0.5, 0.3);
       pole.translate(0, 0.5, 0);

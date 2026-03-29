@@ -305,7 +305,7 @@ export function estimateBettiNumbers(complex: {
   edges: number;
   faces: number;
 }): { b0: number; b1: number } {
-  const euler = eulerCharacteristic(
+  const _euler = eulerCharacteristic(
     complex.vertices,
     complex.edges,
     complex.faces

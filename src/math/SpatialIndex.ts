@@ -1,6 +1,6 @@
 import { Vector2, Vector3 } from './Vector3';
 
-type Point = number[];
+type _Point = number[];
 
 export interface KDTreeResult<T> {
   data: T;

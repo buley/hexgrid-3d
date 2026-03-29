@@ -11,8 +11,6 @@ import * as THREE from '@a0n/aeon-3d/three';
 import type {
   GameSphereProps,
   GameSphereConfig,
-  CellGameState,
-  GamePiece,
   CellHighlight,
 } from '../types';
 import { GeodesicHexGrid } from '../math/HexCoordinates';

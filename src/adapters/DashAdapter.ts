@@ -27,7 +27,7 @@ export class DashAdapter {
    * @param query The vector search query
    * @param gridInstance The WASM instance of the HexGrid
    */
-  bindSemanticSearch(query: string, particleSystem: any) {
+  bindSemanticSearch(query: string, _particleSystem: any) {
     logger.log('[DashAdapter] Binding semantic search:', query);
     
     // Hypothetical Zero-Copy API from Dash 2.0
@@ -37,14 +37,14 @@ export class DashAdapter {
           
           // Assume the handle.buffer contains [pos, color, scale] interleaved or tightly packed
           // For this MVP, we treat it as just positions
-          const floatView = new Float32Array(handle.buffer);
+          const _floatView = new Float32Array(handle.buffer);
           
           // Zero-Copy Injection logic would go here
           // We can't strictly "inject" one buffer into 3 separate Float32Arrays unless they are contiguous in the SAB
           // or we create views into offsets.
           
           // Hypothetical offset logic:
-          const count = handle.size / 4 / 7; // pos + color + scale = 3+3+1 = 7 floats
+          const _count = handle.size / 4 / 7; // pos + color + scale = 3+3+1 = 7 floats
           
           // particleSystem.setSharedBuffers({
           //     positions: floatView.subarray(0, count * 3),
