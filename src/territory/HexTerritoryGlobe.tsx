@@ -124,7 +124,7 @@ export function HexTerritoryGlobe({
     <>
       <instancedMesh
         ref={meshRef}
-        args={[geometry, undefined, cells.length]}
+        args={[geometry, undefined, cells.length] as const}
         onClick={(event: ThreeEvent<MouseEvent>) => {
           if (typeof event.instanceId !== 'number') {
             return;
@@ -166,7 +166,7 @@ export function HexTerritoryGlobe({
             key={`${marker.cellId}:${marker.directive}`}
             position={[point.x * 1.015, point.y * 1.015, point.z * 1.015]}
           >
-            <sphereGeometry args={[scale, 10, 10]} />
+            <sphereGeometry args={[scale, 10, 10] as const} />
             <meshBasicMaterial
               color={
                 marker.directive === 'surge'
@@ -193,7 +193,7 @@ export function HexTerritoryGlobe({
               key={`${binding.phyleId}:${cellId}:halo`}
               position={[point.x * 1.005, point.y * 1.005, point.z * 1.005]}
             >
-              <sphereGeometry args={[0.018, 8, 8]} />
+              <sphereGeometry args={[0.018, 8, 8] as const} />
               <meshBasicMaterial color="#7ee7ff" transparent opacity={0.75} />
             </mesh>
           );

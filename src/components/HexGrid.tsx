@@ -186,7 +186,7 @@ const AccentColorPicker: React.FC = () => {
         <input
           type="text"
           value={currentColor}
-          onChange={(e) => {
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             const val = e.target.value
             setCurrentColor(val)
             if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
@@ -546,7 +546,7 @@ export const HexGrid = <T = unknown>({
         // User has saved preferences - load them
         const parsed = JSON.parse(raw)
         if (parsed && typeof parsed === 'object') {
-          setWorkerDebug((prev) => {
+          setWorkerDebug((prev: WorkerDebug) => {
             const merged: WorkerDebug = { ...prev, ...parsed as Partial<WorkerDebug> }
             try { workerDebugRef.current = merged } catch (_err) {}
             return merged
@@ -557,7 +557,7 @@ export const HexGrid = <T = unknown>({
         // (This handles SSR case where useState initializer returned desktop defaults)
         const isMobile = window.innerWidth < 768
         if (isMobile) {
-          setWorkerDebug((prev) => {
+          setWorkerDebug((prev: WorkerDebug) => {
             // Only apply mobile defaults if curvature hasn't been set (still at desktop defaults)
             const needsMobileDefaults = prev.curveUDeg === 180 && prev.curveVDeg === 45
             if (needsMobileDefaults) {
@@ -699,7 +699,7 @@ export const HexGrid = <T = unknown>({
       const t = Math.min(1, (now - start) / duration)
       const ease = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
       setYawMult(from + (to - from) * ease)
-      try { setCamOffsetTick((c) => c + 1) } catch (_err) {}
+      try { setCamOffsetTick((c: number) => c + 1) } catch (_err) {}
       if (t < 1) yawRestoreRafRef.current = requestAnimationFrame(step)
       else yawRestoreRafRef.current = null
     }
@@ -729,7 +729,7 @@ export const HexGrid = <T = unknown>({
     // Keep latest-camera ref in sync for persistence flushes
     try { cameraLatestRef.current = { yaw: cameraLatestRef.current.yaw ?? camYawDeg, pitch: cameraLatestRef.current.pitch ?? camPitchDeg, distance: value } } catch (_err) {}
     // Notify projection helpers to recompute immediately
-    try { setCamOffsetTick((c) => c + 1); cameraDirtyRef.current = true } catch (_err) {}
+    try { setCamOffsetTick((c: number) => c + 1); cameraDirtyRef.current = true } catch (_err) {}
     // mark interaction so idle rotation won't start immediately
     try { lastInteractionRef.current = typeof performance !== 'undefined' ? performance.now() : Date.now() } catch (_err) {}
   }, [camYawDeg, camPitchDeg])
@@ -752,7 +752,7 @@ export const HexGrid = <T = unknown>({
       cancelAnimationFrame(yawRestoreRafRef.current)
       yawRestoreRafRef.current = null
     }
-    try { setCamOffsetTick((c) => c + 1); cameraDirtyRef.current = true } catch (_err) {}
+    try { setCamOffsetTick((c: number) => c + 1); cameraDirtyRef.current = true } catch (_err) {}
     // mark interaction for idle detection
     try { lastInteractionRef.current = typeof performance !== 'undefined' ? performance.now() : Date.now() } catch (_err) {}
   }, [invertYaw])
@@ -794,9 +794,9 @@ export const HexGrid = <T = unknown>({
           const degPerMs = idleDegPerSec / 1000
           const deltaDeg = degPerMs * dtMs
           // apply a tiny smoothing so abrupt changes are avoided
-          setCamYawDeg((prev) => prev + deltaDeg)
+          setCamYawDeg((prev: number) => prev + deltaDeg)
           // bump tick to update projections
-          try { setCamOffsetTick((c) => c + 1); cameraDirtyRef.current = true } catch (_err) {}
+          try { setCamOffsetTick((c: number) => c + 1); cameraDirtyRef.current = true } catch (_err) {}
         }
       } catch (_err) {
         // swallow
@@ -1139,7 +1139,7 @@ export const HexGrid = <T = unknown>({
           if (savedSettings) {
             // Convert saved settings back to WorkerDebug format (excluding updatedAt)
             const { updatedAt: _updatedAt, ...settingsToApply } = savedSettings
-            setWorkerDebug((prev) => ({ ...prev, ...settingsToApply }))
+            setWorkerDebug((prev: WorkerDebug) => ({ ...prev, ...settingsToApply }))
           }
         }
       } catch (error) {
@@ -1244,7 +1244,7 @@ export const HexGrid = <T = unknown>({
       const lastSentConfigRef = (sendEvolve as any)._lastSentConfigRef || { current: null }
       ;(sendEvolve as any)._lastSentConfigRef = lastSentConfigRef
       // Use memoized serializablePhotos to avoid allocations and deep clones
-      const serializablePhotos = (serializablePhotosMemoRef.current && serializablePhotosMemoRef.current.length === photos.length) ? serializablePhotosMemoRef.current : photos.map(p => ({
+      const serializablePhotos = (serializablePhotosMemoRef.current && serializablePhotosMemoRef.current.length === photos.length) ? serializablePhotosMemoRef.current : photos.map((p: Photo) => ({
         id: p.id,
         title: p.title,
         alt: p.alt,
@@ -1327,7 +1327,7 @@ export const HexGrid = <T = unknown>({
       }
       if (same) return
     }
-    serializablePhotosMemoRef.current = photos.map(p => ({
+    serializablePhotosMemoRef.current = photos.map((p: Photo) => ({
       id: p.id,
       title: p.title,
       alt: p.alt,
@@ -1759,7 +1759,7 @@ export const HexGrid = <T = unknown>({
   useEffect(() => {
     // Recompute projected positions when hexPositions or camera/projection function changes.
     try {
-      const arr = hexPositions.map((p, i) => {
+      const arr = hexPositions.map((p: any, i: number) => {
         const r = mapAndProject(p, false, i)
         // Sanitize projection results to avoid NaN/Inf/invalid values which can break drawing
         const rx = Number((r as any).x)
@@ -1886,7 +1886,7 @@ export const HexGrid = <T = unknown>({
     function onKey(e: KeyboardEvent) {
       const key = e.key
       if (key === 'd' || key === 'D') {
-        setDebugOpen((v) => !v)
+        setDebugOpen((v: boolean) => !v)
         return
       }
 
@@ -1897,8 +1897,8 @@ export const HexGrid = <T = unknown>({
 
     window.addEventListener('keydown', onKey)
     // Listen for programmatic toggles from the global nav buttons
-    const onToggleDebug = () => setDebugOpen((v) => !v)
-    const onToggleStats = () => setShowStats((v) => !v)
+    const onToggleDebug = () => setDebugOpen((v: boolean) => !v)
+    const onToggleStats = () => setShowStats((v: boolean) => !v)
     window.addEventListener('toggle-debug-panel', onToggleDebug as EventListener)
     window.addEventListener('toggle-stats-panel', onToggleStats as EventListener)
     return () => {
@@ -1922,7 +1922,7 @@ export const HexGrid = <T = unknown>({
       const now = performance.now()
       const t = Math.min(1, (now - (animateRef.current.startTime || now)) / animateRef.current.duration)
       const val = t * 360
-      setWorkerDebug((prev) => ({ ...prev, curveUDeg: val, curveVDeg: val }))
+      setWorkerDebug((prev: WorkerDebug) => ({ ...prev, curveUDeg: val, curveVDeg: val }))
       // post debug to worker for live updates
       try {
         if (workerRef.current) {
@@ -1959,8 +1959,8 @@ export const HexGrid = <T = unknown>({
   useEffect(() => {
     const unsub = uiStore.subscribe((s) => {
       // sync only when different to avoid redundant updates
-      setDebugOpen((prev) => (prev === s.debugOpen ? prev : s.debugOpen))
-      setShowStats((prev) => (prev === s.showStats ? prev : s.showStats))
+      setDebugOpen((prev: boolean) => (prev === s.debugOpen ? prev : s.debugOpen))
+      setShowStats((prev: boolean) => (prev === s.showStats ? prev : s.showStats))
     })
     return () => { void unsub() }
   }, [])
@@ -2045,11 +2045,11 @@ export const HexGrid = <T = unknown>({
 
       if (now - lastSample >= sampleInterval) {
         const samples = frameTimesRef.current.slice(-60)
-        const avg = samples.reduce((a, b) => a + b, 0) / Math.max(1, samples.length)
+        const avg = samples.reduce((a: number, b: number) => a + b, 0) / Math.max(1, samples.length)
         const fps = avg > 0 ? Math.round(1000 / avg) : 0
         // compute draw averages from drawTimesRef
         const drawSamples = drawTimesRef.current.slice(-120)
-        const drawAvg = drawSamples.length ? drawSamples.reduce((a, b) => a + b, 0) / drawSamples.length : 0
+        const drawAvg = drawSamples.length ? drawSamples.reduce((a: number, b: number) => a + b, 0) / drawSamples.length : 0
         const drawLast = drawSamples.length ? drawSamples[drawSamples.length - 1] : 0
         const newTelemetry = { fps, avgMs: Math.round(avg * 10) / 10, lastMs: Math.round(frameMs * 10) / 10, drawAvgMs: Math.round(drawAvg * 10) / 10, drawLastMs: Math.round(drawLast * 10) / 10 }
         telemetryRef.current = newTelemetry
@@ -2277,7 +2277,7 @@ export const HexGrid = <T = unknown>({
     const photoIdToImageUrl = new Map<string, string>()
     
     // Build mapping of photo.id -> imageUrl and collect unique URLs
-    photos.forEach((photo) => {
+    photos.forEach((photo: Photo) => {
       photoIdToImageUrl.set(photo.id, photo.imageUrl)
       uniqueImageUrls.add(photo.imageUrl)
     })
@@ -2387,7 +2387,7 @@ export const HexGrid = <T = unknown>({
     if (!photos || photos.length === 0) return
 
     // Create a stable key from photos to detect actual content changes
-    const photosKey = photos.map(p => `${p.id}:${p.imageUrl}`).sort().join('|')
+    const photosKey = photos.map((p: Photo) => `${p.id}:${p.imageUrl}`).sort().join('|')
     
     // Only reinitialize if photos actually changed (not just grid dimensions)
     // Grid dimension changes are handled separately in the grid-dim-change effect above
@@ -2397,12 +2397,12 @@ export const HexGrid = <T = unknown>({
     
     // Check if this is a filtering change (subset of previous photos) vs complete reload
   const prevPhotosKey = prevPhotosRef.current
-  const prevPhotoIds: Set<string> = prevPhotosKey ? new Set<string>(prevPhotosKey.split('|').map(p => p.split(':')[0])) : new Set<string>()
-    const currentPhotoIds = new Set(photos.map(p => p.id))
+  const prevPhotoIds: Set<string> = prevPhotosKey ? new Set<string>(prevPhotosKey.split('|').map((p: string) => p.split(':')[0])) : new Set<string>()
+    const currentPhotoIds = new Set<string>(photos.map((p: Photo) => p.id))
     
     // If current photos are a subset of previous photos, this is filtering - filter existing infections
     const isFilteringChange = prevPhotoIds.size > 0 && 
-      Array.from(currentPhotoIds).every(id => prevPhotoIds.has(id)) && 
+      Array.from(currentPhotoIds).every((id: string) => prevPhotoIds.has(id)) &&
       currentPhotoIds.size < prevPhotoIds.size
     
     prevPhotosRef.current = photosKey
@@ -2490,7 +2490,7 @@ export const HexGrid = <T = unknown>({
       // Send initial data and config to worker
       if (workerRef.current && photos.length > 0) {
         // Ensure photos are serializable - include all fields needed for meritocratic system
-        const serializablePhotos = photos.map(p => ({
+        const serializablePhotos = photos.map((p: Photo) => ({
           id: p.id,
           title: p.title,
           alt: p.alt,
@@ -2537,7 +2537,7 @@ export const HexGrid = <T = unknown>({
     // Note: sendEvolve is defined at component scope (useCallback) so effects can call it.
 
     // Add error handler for worker errors
-    workerRef.current.onerror = (error) => {
+    workerRef.current.onerror = (error: ErrorEvent) => {
       logger.error('Worker error:', error)
       dlog('Worker error:', error.message)
     }
@@ -2546,7 +2546,7 @@ export const HexGrid = <T = unknown>({
     // Note: these refs are declared above in component scope (streamTokenRef, streamActiveRef)
 
     // useRef-like mutable holder but scoped to effect so we can cancel between effect runs
-    workerRef.current.onmessage = (e) => {
+    workerRef.current.onmessage = (e: MessageEvent) => {
       const { type, data, error } = e.data
   dlog('Received worker message:', type)
       // Debug ack: worker confirming it received an evolve (low volume)
@@ -2554,7 +2554,7 @@ export const HexGrid = <T = unknown>({
         try {
           if (workerDebugRef.current?.debugLogs) logger.info('[HexGrid] worker ack-evolve', data)
         } catch (_e) {}
-        try { setAckEvolveCount((c) => c + 1) } catch (_e) {}
+        try { setAckEvolveCount((c: number) => c + 1) } catch (_e) {}
         return
       }
       if (type === 'evolved') {
@@ -2637,7 +2637,7 @@ export const HexGrid = <T = unknown>({
             )
 
             if (messages.length > 0) {
-              setNarrationMessages(prev => [...prev, ...messages].slice(-50))
+              setNarrationMessages((prev: NarrationMessage[]) => [...prev, ...messages].slice(-50))
             }
 
             // Persist stats to localStorage (debounced)
@@ -2684,7 +2684,7 @@ export const HexGrid = <T = unknown>({
         })
 
         // removals
-        prevMap.forEach((inf, idx) => {
+        prevMap.forEach((inf: Infection, idx: number) => {
           if (!newInfectionsMap.has(idx)) {
             changes.push({ type: 'remove', index: idx })
           }
@@ -2765,7 +2765,7 @@ export const HexGrid = <T = unknown>({
 
               infectionStateRef.current = newState
               setInfectionState(newState)
-              try { setTilesRemaining((v) => Math.max(0, v - count)) } catch (_err) {}
+              try { setTilesRemaining((v: number) => Math.max(0, v - count)) } catch (_err) {}
 
               if (idx < changes.length) {
                 if (streamMs > 0) setTimeout(() => requestAnimationFrame(applyFrame), streamMs)
@@ -2812,7 +2812,7 @@ export const HexGrid = <T = unknown>({
 
                 infectionStateRef.current = newState
                 setInfectionState(newState)
-                try { setTilesRemaining((v) => Math.max(0, v - 1)) } catch (_err) {}
+                try { setTilesRemaining((v: number) => Math.max(0, v - 1)) } catch (_err) {}
                 await new Promise((resolve) => setTimeout(resolve, streamMs))
               }
             } catch (err) {
@@ -2873,10 +2873,10 @@ export const HexGrid = <T = unknown>({
       ) {
         return cache.counts
       }
-      const infectedIndices = Array.from(infections.keys())
+      const infectedIndices: number[] = Array.from(infections.keys()) as number[]
       const infectedSet = new Set<number>(infectedIndices)
       const computed = new Map<number, number>()
-      for (const idx of infectedIndices) {
+      for (const idx of infectedIndices as number[]) {
         if (idx < 0 || idx >= hexPositions.length) continue
         const neighbors = getNeighbors(idx, hexPositions, drawnHexRadius, isSpherical)
         let count = 0
@@ -3004,7 +3004,7 @@ export const HexGrid = <T = unknown>({
     try {
       if (workerDebugRef.current?.debugLogs) {
         // Sample a few random infected hexes to check
-        const infectedIndices = Array.from(infections.keys())
+        const infectedIndices = Array.from(infections.keys()) as number[]
         const sampleSize = Math.min(5, infectedIndices.length)
         for (let s = 0; s < sampleSize; s++) {
           const idx = infectedIndices[Math.floor(Math.random() * infectedIndices.length)]
@@ -3226,7 +3226,7 @@ export const HexGrid = <T = unknown>({
           }
 
           // Use memoized serializable photos to avoid deep-cloning and allocations every frame
-          const serializablePhotos = serializablePhotosMemoRef.current ?? photos.map(p => ({
+          const serializablePhotos = serializablePhotosMemoRef.current ?? photos.map((p: Photo) => ({
             id: p.id,
             title: p.title,
             alt: p.alt,
@@ -3282,7 +3282,7 @@ export const HexGrid = <T = unknown>({
     
     blankNeighborCountGenerationRef.current = -1
     blankNeighborCountRef.current = new Map()
-    setInfectionState(prevState => {
+    setInfectionState((prevState: InfectionSystemState) => {
       const newInfections = new Map(prevState.infections)
       const newAvailableIndices = [...prevState.availableIndices]
       
@@ -3478,7 +3478,7 @@ export const HexGrid = <T = unknown>({
         width={screenWidth}
         height={screenHeight}
         onClick={handleCanvasClick}
-        onMouseMove={(e) => {
+        onMouseMove={(e: React.MouseEvent<HTMLCanvasElement>) => {
           const rect = (e.target as HTMLCanvasElement).getBoundingClientRect()
           // Map client coords into canvas pixel coordinates for hit-testing/hover
           const canvasEl = e.target as HTMLCanvasElement
@@ -3517,7 +3517,7 @@ export const HexGrid = <T = unknown>({
             setCamYawDeg(newYaw)
             setCamPitchDeg(Math.max(-90, Math.min(90, newPitch)))
             // bump tick so projections recalc
-            try { setCamOffsetTick((t) => t + 1) } catch (_err) {}
+            try { setCamOffsetTick((t: number) => t + 1) } catch (_err) {}
             // prevent hover checks while dragging
             return
           }
@@ -3529,7 +3529,7 @@ export const HexGrid = <T = unknown>({
             camOffsetRef.current.yaw = nx * 6 * (insideYawSens || 0.25) // small yaw offset in degrees
             camOffsetRef.current.pitch = -ny * 6 * (insidePitchSens || 1.0) // small pitch offset
             // bump tick so mapAndProject and other deps will update
-            try { setCamOffsetTick((t) => t + 1) } catch (_err) {}
+            try { setCamOffsetTick((t: number) => t + 1) } catch (_err) {}
           }
           // Find hovered hex using spatial candidate search to avoid O(N) scans
           let foundHover = false
@@ -3611,7 +3611,7 @@ export const HexGrid = <T = unknown>({
           // mark interaction to suppress idle rotation
           try { lastInteractionRef.current = performance.now() } catch (_err) {}
         }}
-        onMouseDown={(e) => {
+        onMouseDown={(e: React.MouseEvent<HTMLCanvasElement>) => {
           // start drag on left button
           if (e.button !== 0) return
           dragRef.current.active = true
@@ -3630,7 +3630,7 @@ export const HexGrid = <T = unknown>({
           // mark interaction to suppress idle rotation
           try { lastInteractionRef.current = performance.now() } catch (_err) {}
         }}
-        onMouseUp={(e) => {
+        onMouseUp={(e: React.MouseEvent<HTMLCanvasElement>) => {
           if (e.button !== 0) return
           // apply inertia based on last vx/vy
           const vx = dragRef.current.vx || 0
@@ -3652,8 +3652,8 @@ export const HexGrid = <T = unknown>({
           const stepInertia = () => {
             // stop when both velocities are negligible
             if (Math.abs(velYaw) < 0.01 && Math.abs(velPitch) < 0.01) return
-            setCamYawDeg((prev) => prev + velYaw)
-            setCamPitchDeg((prev) => Math.max(-90, Math.min(90, prev + velPitch)))
+            setCamYawDeg((prev: number) => prev + velYaw)
+            setCamPitchDeg((prev: number) => Math.max(-90, Math.min(90, prev + velPitch)))
             velYaw *= friction
             velPitch *= friction
             requestAnimationFrame(stepInertia)
@@ -3667,7 +3667,7 @@ export const HexGrid = <T = unknown>({
           try { lastInteractionRef.current = performance.now() } catch (_err) {}
         }}
         onWheel={() => { try { lastInteractionRef.current = performance.now() } catch (_err) {} }}
-        onTouchStart={(e) => {
+        onTouchStart={(e: React.TouchEvent<HTMLCanvasElement>) => {
           try { lastInteractionRef.current = performance.now() } catch (_err) {}
           
           const canvas = canvasRef.current
@@ -3748,7 +3748,7 @@ export const HexGrid = <T = unknown>({
             e.preventDefault()
           }
         }}
-        onTouchMove={(e) => {
+        onTouchMove={(e: React.TouchEvent<HTMLCanvasElement>) => {
           try { lastInteractionRef.current = performance.now() } catch (_err) {}
           
           const canvas = canvasRef.current
@@ -3806,12 +3806,12 @@ export const HexGrid = <T = unknown>({
             setCamYawDeg(newYaw)
             setCamPitchDeg(Math.max(-90, Math.min(90, newPitch)))
             // Bump tick so projections recalc
-            try { setCamOffsetTick((t) => t + 1) } catch (_err) {}
+            try { setCamOffsetTick((t: number) => t + 1) } catch (_err) {}
             
             e.preventDefault()
           }
         }}
-        onTouchEnd={(e) => {
+        onTouchEnd={(e: React.TouchEvent<HTMLCanvasElement>) => {
           try { lastInteractionRef.current = performance.now() } catch (_err) {}
           
           const touches = e.touches
@@ -3839,8 +3839,8 @@ export const HexGrid = <T = unknown>({
             
             const stepInertia = () => {
               if (Math.abs(velYaw) < 0.01 && Math.abs(velPitch) < 0.01) return
-              setCamYawDeg((prev) => prev + velYaw)
-              setCamPitchDeg((prev) => Math.max(-90, Math.min(90, prev + velPitch)))
+              setCamYawDeg((prev: number) => prev + velYaw)
+              setCamPitchDeg((prev: number) => Math.max(-90, Math.min(90, prev + velPitch)))
               velYaw *= friction
               velPitch *= friction
               requestAnimationFrame(stepInertia)
@@ -3848,7 +3848,7 @@ export const HexGrid = <T = unknown>({
             requestAnimationFrame(stepInertia)
           }
         }}
-        onTouchCancel={(_e) => {
+        onTouchCancel={(_e: React.TouchEvent<HTMLCanvasElement>) => {
           try { lastInteractionRef.current = performance.now() } catch (_err) {}
           // Cancel all active gestures
           touchDragRef.current.active = false
@@ -3907,23 +3907,23 @@ export const HexGrid = <T = unknown>({
           <div style={{ fontWeight: 'bold', marginBottom: 6 }}>Camera</div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
             <div>Yaw</div>
-            <input type="range" min={-180} max={180} value={(invertYaw ? -camYawDeg : camYawDeg) * yawMult} onChange={(e) => handleYawInputChange(Number(e.target.value) / Math.max(0.01, yawMult))} />
+            <input type="range" min={-180} max={180} value={(invertYaw ? -camYawDeg : camYawDeg) * yawMult} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleYawInputChange(Number(e.target.value) / Math.max(0.01, yawMult))} />
           </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
           <div>Pitch</div>
-          <input type="range" min={-90} max={90} value={camPitchDeg} onChange={(e) => setCamPitchDeg(Number(e.target.value))} />
+          <input type="range" min={-90} max={90} value={camPitchDeg} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCamPitchDeg(Number(e.target.value))} />
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
           <div style={{ width: 80 }}>Distance</div>
-          <input type="range" min={0.02} max={2.5} step={0.01} value={camDistanceMultiplier} onChange={(e) => handleCamDistanceChange(Number(e.target.value))} style={{ flex: 1, marginLeft: 8 }} />
+          <input type="range" min={0.02} max={2.5} step={0.01} value={camDistanceMultiplier} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCamDistanceChange(Number(e.target.value))} style={{ flex: 1, marginLeft: 8 }} />
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}><input type="checkbox" checked={mouseCameraControl} onChange={(e) => setMouseCameraControl(e.target.checked)} /> Mouse Camera</label>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}><input type="checkbox" checked={mouseCameraControl} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMouseCameraControl(e.target.checked)} /> Mouse Camera</label>
           <button onClick={() => { setCamYawDeg(-90); setCamPitchDeg(-12); handleCamDistanceChange(1); setYawMult(1); camOffsetRef.current = { yaw: 0, pitch: 0 } }} style={{ background: 'transparent', color: '#fff', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 6, padding: '6px 8px' }}>Reset</button>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 8 }}>
           <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <input type="checkbox" checked={lowResActive} onChange={(e) => {
+            <input type="checkbox" checked={lowResActive} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const enable = e.target.checked
               try {
                 // Cancel any ongoing streams before changing settings
@@ -3973,23 +3973,23 @@ export const HexGrid = <T = unknown>({
               setLastSavedPitch(camPitchDeg)
               try { logger.debug('HexGrid: Save now wrote hexgrid.camera', obj) } catch (_err) {}
               try { setRawCameraJson(JSON.stringify(obj, null, 2)) } catch (_err) {}
-            } catch (_err) { logger.warn('Failed to save camera', err) }
+            } catch (_err) { logger.warn('Failed to save camera', _err) }
           }} style={{ padding: '6px 8px', borderRadius: 6, background: 'rgba(255,255,255,0.04)', color: '#fff', border: '1px solid rgba(255,255,255,0.06)' }}>Save now</button>
           <div style={{ fontSize: 12, color: '#9fb0d6', alignSelf: 'center' }}>Click to force-save camera to storage</div>
         </div>
         <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}><input type="checkbox" checked={showRawCamera} onChange={(e) => setShowRawCamera(e.target.checked)} /> Show saved camera JSON</label>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}><input type="checkbox" checked={showRawCamera} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setShowRawCamera(e.target.checked)} /> Show saved camera JSON</label>
         </div>
         {showRawCamera && (
           <pre style={{ maxHeight: 160, overflow: 'auto', background: 'rgba(0,0,0,0.6)', padding: 8, borderRadius: 6, color: '#dfefff', fontSize: 12 }}>{rawCameraJson ?? 'No saved camera'}</pre>
         )}
         <div style={{ height: 8 }} />
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, alignItems: 'center' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}><input type="checkbox" checked={insideView} onChange={(e) => setInsideView(e.target.checked)} /> Inside view</label>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}><input type="checkbox" checked={insideView} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInsideView(e.target.checked)} /> Inside view</label>
           <div style={{ fontSize: 11, color: '#ccc' }}>Render from sphere center</div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, alignItems: 'center' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}><input type="checkbox" checked={invertYaw} onChange={(e) => setInvertYaw(e.target.checked)} /> Invert yaw</label>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}><input type="checkbox" checked={invertYaw} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInvertYaw(e.target.checked)} /> Invert yaw</label>
           <div style={{ fontSize: 11, color: '#ccc' }}>Flip sign of yaw for rendering</div>
         </div>
         <div style={{ fontSize: 11, color: '#ddd', marginBottom: 6 }}>Inside view tuning</div>
@@ -4003,39 +4003,39 @@ export const HexGrid = <T = unknown>({
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
           <div style={{ width: 80 }}>Focal</div>
-          <input type="range" min={0.5} max={2.5} step={0.01} value={insideFocal} onChange={(e) => setInsideFocal(Number(e.target.value))} style={{ flex: 1, marginLeft: 8 }} />
+          <input type="range" min={0.5} max={2.5} step={0.01} value={insideFocal} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInsideFocal(Number(e.target.value))} style={{ flex: 1, marginLeft: 8 }} />
         </div>
         {/* Idle rotation controls */}
         <div style={{ marginTop: 8, marginBottom: 6, borderTop: '1px solid rgba(255,255,255,0.04)', paddingTop: 8 }}>
           <div style={{ fontWeight: '600', marginBottom: 6 }}>Idle rotation</div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}><input type="checkbox" checked={(workerDebug as any).idleRotationEnabled ?? true} onChange={(e) => { const v = e.target.checked; setWorkerDebug((prev) => { const next = { ...prev, idleRotationEnabled: v }; try { workerDebugRef.current = next } catch (_err) {} ; return next }) }} /> Enable</label>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}><input type="checkbox" checked={(workerDebug as any).idleRotationEnabled ?? true} onChange={(e: React.ChangeEvent<HTMLInputElement>) => { const v = e.target.checked; setWorkerDebug((prev: WorkerDebug) => { const next = { ...prev, idleRotationEnabled: v }; try { workerDebugRef.current = next } catch (_err) {} ; return next }) }} /> Enable</label>
             <div style={{ fontSize: 12, color: '#ccc' }}>Auto-rotate when idle (3D only)</div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
             <div style={{ width: 80 }}>Delay</div>
-            <input type="range" min={500} max={15000} step={100} value={(workerDebug as any).idleRotationDelayMs ?? 3500} onChange={(e) => {
+            <input type="range" min={500} max={15000} step={100} value={(workerDebug as any).idleRotationDelayMs ?? 3500} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const v = Number(e.target.value)
-              setWorkerDebug((prev) => { const next = { ...prev, idleRotationDelayMs: v }; try { workerDebugRef.current = next } catch (_err) {} ; return next })
+              setWorkerDebug((prev: WorkerDebug) => { const next = { ...prev, idleRotationDelayMs: v }; try { workerDebugRef.current = next } catch (_err) {} ; return next })
             }} style={{ flex: 1 }} />
             <div style={{ width: 70, textAlign: 'right' }}>{(workerDebug as any).idleRotationDelayMs ?? 3500}ms</div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ width: 80 }}>Speed</div>
-            <input type="range" min={0} max={60} step={0.5} value={(workerDebug as any).idleRotationDegPerSec ?? 6} onChange={(e) => {
+            <input type="range" min={0} max={60} step={0.5} value={(workerDebug as any).idleRotationDegPerSec ?? 6} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               const v = Number(e.target.value)
-              setWorkerDebug((prev) => { const next = { ...prev, idleRotationDegPerSec: v }; try { workerDebugRef.current = next } catch (_err) {} ; return next })
+              setWorkerDebug((prev: WorkerDebug) => { const next = { ...prev, idleRotationDegPerSec: v }; try { workerDebugRef.current = next } catch (_err) {} ; return next })
             }} style={{ flex: 1 }} />
             <div style={{ width: 70, textAlign: 'right' }}>{(workerDebug as any).idleRotationDegPerSec ?? 6}°/s</div>
           </div>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
           <div style={{ width: 80 }}>Yaw sens</div>
-          <input type="range" min={0.05} max={1.0} step={0.01} value={insideYawSens} onChange={(e) => setInsideYawSens(Number(e.target.value))} style={{ flex: 1, marginLeft: 8 }} />
+          <input type="range" min={0.05} max={1.0} step={0.01} value={insideYawSens} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInsideYawSens(Number(e.target.value))} style={{ flex: 1, marginLeft: 8 }} />
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
           <div style={{ width: 80 }}>Pitch sens</div>
-          <input type="range" min={0.2} max={2.0} step={0.01} value={insidePitchSens} onChange={(e) => setInsidePitchSens(Number(e.target.value))} style={{ flex: 1, marginLeft: 8 }} />
+          <input type="range" min={0.2} max={2.0} step={0.01} value={insidePitchSens} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInsidePitchSens(Number(e.target.value))} style={{ flex: 1, marginLeft: 8 }} />
         </div>
         </div>
       )}
@@ -4062,7 +4062,7 @@ export const HexGrid = <T = unknown>({
               <input 
                 type="checkbox" 
                 checked={workerDebug.evolutionEnabled !== false} 
-                onChange={(e) => setWorkerDebug({...workerDebug, evolutionEnabled: e.target.checked})} 
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, evolutionEnabled: e.target.checked})} 
                 style={{ width: 16, height: 16, cursor: 'pointer' }}
               />
               <span style={{ color: workerDebug.evolutionEnabled !== false ? '#4ade80' : '#f87171' }}>
@@ -4085,7 +4085,7 @@ export const HexGrid = <T = unknown>({
                 min="100" 
                 max="300000" 
                 value={workerDebug.evolveIntervalMs ?? 60000} 
-                onChange={(e) => setWorkerDebug({...workerDebug, evolveIntervalMs: Math.max(100, Number(e.target.value))})} 
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, evolveIntervalMs: Math.max(100, Number(e.target.value))})} 
                 style={{ width: 80, marginLeft: 8 }} 
               />
             </div>
@@ -4096,171 +4096,171 @@ export const HexGrid = <T = unknown>({
           
           <div style={{ marginBottom: 6, maxHeight: '64vh', overflowY: 'auto', paddingRight: 6 }}>
             <label>miniLogGenerations: </label>
-            <input type="number" value={workerDebug.miniLogGenerations} onChange={(e) => setWorkerDebug({...workerDebug, miniLogGenerations: Number(e.target.value)})} style={{ width: 60 }} />
+            <input type="number" value={workerDebug.miniLogGenerations} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, miniLogGenerations: Number(e.target.value)})} style={{ width: 60 }} />
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>spawnEnabled: </label>
-            <input type="checkbox" checked={workerDebug.spawnEnabled} onChange={(e) => setWorkerDebug({...workerDebug, spawnEnabled: e.target.checked})} />
+            <input type="checkbox" checked={workerDebug.spawnEnabled} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, spawnEnabled: e.target.checked})} />
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>spawnRateMultiplier: </label>
-            <input type="number" step="0.1" value={workerDebug.spawnRateMultiplier} onChange={(e) => setWorkerDebug({...workerDebug, spawnRateMultiplier: Number(e.target.value)})} style={{ width: 60 }} />
+            <input type="number" step="0.1" value={workerDebug.spawnRateMultiplier} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, spawnRateMultiplier: Number(e.target.value)})} style={{ width: 60 }} />
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>spawnClusterMax: </label>
-            <input type="number" step="1" min={1} value={workerDebug.spawnClusterMax} onChange={(e) => setWorkerDebug({...workerDebug, spawnClusterMax: Math.max(1, Number(e.target.value))})} style={{ width: 60 }} />
+            <input type="number" step="1" min={1} value={workerDebug.spawnClusterMax} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, spawnClusterMax: Math.max(1, Number(e.target.value))})} style={{ width: 60 }} />
           </div>
           
           <div style={{ marginTop: 8, marginBottom: 6, fontWeight: 'bold', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 8 }}>Cell Death & Mutation</div>
           <div style={{ marginBottom: 6 }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <input type="checkbox" checked={(workerDebug as any).enableCellDeath !== false} onChange={(e) => setWorkerDebug({...workerDebug, enableCellDeath: e.target.checked} as any)} />
+              <input type="checkbox" checked={(workerDebug as any).enableCellDeath !== false} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, enableCellDeath: e.target.checked} as any)} />
               Enable Cell Death
             </label>
             <div style={{ fontSize: 11, color: '#ccc' }}>Allow fully surrounded cells to die and respawn for optimization</div>
           </div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <div style={{ width: 120 }}>Death probability</div>
-            <input type="range" min={0} max={1.0} step={0.01} value={(workerDebug as any).cellDeathProbability ?? 0.05} onChange={(e) => setWorkerDebug({...workerDebug, cellDeathProbability: Number(e.target.value)} as any)} style={{ flex: 1 }} />
-            <input type="number" step="0.01" min={0} max={1.0} value={(workerDebug as any).cellDeathProbability ?? 0.05} onChange={(e) => setWorkerDebug({...workerDebug, cellDeathProbability: Math.max(0, Math.min(1, Number(e.target.value)))} as any)} style={{ width: 64 }} />
+            <input type="range" min={0} max={1.0} step={0.01} value={(workerDebug as any).cellDeathProbability ?? 0.05} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, cellDeathProbability: Number(e.target.value)} as any)} style={{ flex: 1 }} />
+            <input type="number" step="0.01" min={0} max={1.0} value={(workerDebug as any).cellDeathProbability ?? 0.05} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, cellDeathProbability: Math.max(0, Math.min(1, Number(e.target.value)))} as any)} style={{ width: 64 }} />
           </div>
           <div style={{ fontSize: 11, color: '#ccc', marginBottom: 6 }}>Chance per evolution for fully surrounded cells to reset (0.05 = 5%)</div>
           
           <div style={{ marginBottom: 6 }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <input type="checkbox" checked={(workerDebug as any).enableMutation !== false} onChange={(e) => setWorkerDebug({...workerDebug, enableMutation: e.target.checked} as any)} />
+              <input type="checkbox" checked={(workerDebug as any).enableMutation !== false} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, enableMutation: e.target.checked} as any)} />
               Enable Mutation
             </label>
             <div style={{ fontSize: 11, color: '#ccc' }}>Allow dying cells to mutate into different photos</div>
           </div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <div style={{ width: 120 }}>Mutation probability</div>
-            <input type="range" min={0} max={1.0} step={0.05} value={(workerDebug as any).mutationProbability ?? 0.3} onChange={(e) => setWorkerDebug({...workerDebug, mutationProbability: Number(e.target.value)} as any)} style={{ flex: 1 }} />
-            <input type="number" step="0.05" min={0} max={1.0} value={(workerDebug as any).mutationProbability ?? 0.3} onChange={(e) => setWorkerDebug({...workerDebug, mutationProbability: Math.max(0, Math.min(1, Number(e.target.value)))} as any)} style={{ width: 64 }} />
+            <input type="range" min={0} max={1.0} step={0.05} value={(workerDebug as any).mutationProbability ?? 0.3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, mutationProbability: Number(e.target.value)} as any)} style={{ flex: 1 }} />
+            <input type="number" step="0.05" min={0} max={1.0} value={(workerDebug as any).mutationProbability ?? 0.3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, mutationProbability: Math.max(0, Math.min(1, Number(e.target.value)))} as any)} style={{ width: 64 }} />
           </div>
           <div style={{ fontSize: 11, color: '#ccc', marginBottom: 6 }}>Chance for dying cells to mutate into a new photo (0.3 = 30%)</div>
           
           <div style={{ marginTop: 8, marginBottom: 6, fontWeight: 'bold', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 8 }}>Virility-Based Growth</div>
           <div style={{ marginBottom: 6 }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <input type="checkbox" checked={(workerDebug as any).enableVirilityBoost !== false} onChange={(e) => setWorkerDebug({...workerDebug, enableVirilityBoost: e.target.checked} as any)} />
+              <input type="checkbox" checked={(workerDebug as any).enableVirilityBoost !== false} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, enableVirilityBoost: e.target.checked} as any)} />
               Enable Virility Boost
             </label>
             <div style={{ fontSize: 11, color: '#ccc' }}>Photos with higher velocity (upvotes/engagement) infect neighbors faster</div>
           </div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <div style={{ width: 120 }}>Virility multiplier</div>
-            <input type="range" min={0} max={3.0} step={0.1} value={(workerDebug as any).virilityMultiplier ?? 1.0} onChange={(e) => setWorkerDebug({...workerDebug, virilityMultiplier: Number(e.target.value)} as any)} style={{ flex: 1 }} />
-            <input type="number" step="0.1" min={0} max={10.0} value={(workerDebug as any).virilityMultiplier ?? 1.0} onChange={(e) => setWorkerDebug({...workerDebug, virilityMultiplier: Math.max(0, Number(e.target.value))} as any)} style={{ width: 64 }} />
+            <input type="range" min={0} max={3.0} step={0.1} value={(workerDebug as any).virilityMultiplier ?? 1.0} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, virilityMultiplier: Number(e.target.value)} as any)} style={{ flex: 1 }} />
+            <input type="number" step="0.1" min={0} max={10.0} value={(workerDebug as any).virilityMultiplier ?? 1.0} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, virilityMultiplier: Math.max(0, Number(e.target.value))} as any)} style={{ width: 64 }} />
           </div>
           <div style={{ fontSize: 11, color: '#ccc', marginBottom: 6 }}>Multiplier for virility effect (1.0 = 100% velocity boost, 2.0 = 200% boost)</div>
           
           <div style={{ marginTop: 8, marginBottom: 6, fontWeight: 'bold', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 8 }}>Annealing</div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <div style={{ width: 120 }}>Annealing rate</div>
-            <input type="range" min={0.1} max={5.0} step={0.1} value={(workerDebug as any).annealingRate ?? 2.0} onChange={(e) => setWorkerDebug({...workerDebug, annealingRate: Number(e.target.value)} as any)} style={{ flex: 1 }} />
-            <input type="number" step="0.1" min={0.1} max={10.0} value={(workerDebug as any).annealingRate ?? 2.0} onChange={(e) => setWorkerDebug({...workerDebug, annealingRate: Math.max(0.1, Number(e.target.value))} as any)} style={{ width: 64 }} />
+            <input type="range" min={0.1} max={5.0} step={0.1} value={(workerDebug as any).annealingRate ?? 2.0} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, annealingRate: Number(e.target.value)} as any)} style={{ flex: 1 }} />
+            <input type="number" step="0.1" min={0.1} max={10.0} value={(workerDebug as any).annealingRate ?? 2.0} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, annealingRate: Math.max(0.1, Number(e.target.value))} as any)} style={{ width: 64 }} />
           </div>
           <div style={{ fontSize: 11, color: '#ccc', marginBottom: 6 }}>Multiplier for cell death/churn to help escape local optima (1.0 = normal, 2.0 = 2x reorganization, 5.0 = rapid annealing)</div>
           
           <div style={{ marginTop: 8, marginBottom: 6, fontWeight: 'bold' }}>Glass</div>
           <div style={{ marginBottom: 6 }}>
             <label>sheenEnabled: </label>
-            <input type="checkbox" checked={workerDebug.sheenEnabled} onChange={(e) => setWorkerDebug({...workerDebug, sheenEnabled: e.target.checked})} />
+            <input type="checkbox" checked={workerDebug.sheenEnabled} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, sheenEnabled: e.target.checked})} />
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>sheenSpeed (s): </label>
-            <input type="number" step="1" value={workerDebug.sheenSpeed} onChange={(e) => setWorkerDebug({...workerDebug, sheenSpeed: Number(e.target.value)})} style={{ width: 60 }} />
+            <input type="number" step="1" value={workerDebug.sheenSpeed} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, sheenSpeed: Number(e.target.value)})} style={{ width: 60 }} />
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>sheenIntensity: </label>
-            <input type="number" step="0.01" value={workerDebug.sheenIntensity} onChange={(e) => setWorkerDebug({...workerDebug, sheenIntensity: Number(e.target.value)})} style={{ width: 60 }} />
+            <input type="number" step="0.01" value={workerDebug.sheenIntensity} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, sheenIntensity: Number(e.target.value)})} style={{ width: 60 }} />
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>scratchEnabled: </label>
-            <input type="checkbox" checked={workerDebug.scratchEnabled} onChange={(e) => setWorkerDebug({...workerDebug, scratchEnabled: e.target.checked})} />
+            <input type="checkbox" checked={workerDebug.scratchEnabled} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, scratchEnabled: e.target.checked})} />
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>translucencySmoothing: </label>
-            <input type="number" step="0.01" value={workerDebug.translucencySmoothing} onChange={(e) => setWorkerDebug({...workerDebug, translucencySmoothing: Number(e.target.value)})} style={{ width: 60 }} />
+            <input type="number" step="0.01" value={workerDebug.translucencySmoothing} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, translucencySmoothing: Number(e.target.value)})} style={{ width: 60 }} />
           </div>
           <div style={{ marginTop: 8, marginBottom: 6, fontWeight: 'bold' }}>Reproduction</div>
           <div style={{ marginTop: 8, marginBottom: 6, fontWeight: 'bold' }}>Layout</div>
           <div style={{ marginBottom: 6 }}>
             <label>gridScale: </label>
-            <input type="number" step="0.1" value={(workerDebug.gridScale ?? 1)} onChange={(e) => setWorkerDebug({...workerDebug, gridScale: Math.max(0.25, Number(e.target.value))})} style={{ width: 80 }} />
+            <input type="number" step="0.1" value={(workerDebug.gridScale ?? 1)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, gridScale: Math.max(0.25, Number(e.target.value))})} style={{ width: 80 }} />
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>tileSize (px): </label>
-            <input type="number" step="1" min={4} value={(workerDebug.tileSize ?? 12)} onChange={(e) => setWorkerDebug({...workerDebug, tileSize: Math.max(4, Number(e.target.value))})} style={{ width: 80 }} />
+            <input type="number" step="1" min={4} value={(workerDebug.tileSize ?? 12)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, tileSize: Math.max(4, Number(e.target.value))})} style={{ width: 80 }} />
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>hexSpacing: </label>
-            <input type="number" step="0.01" min={0.5} max={1.5} value={(workerDebug.hexSpacing ?? 1.0)} onChange={(e) => setWorkerDebug({...workerDebug, hexSpacing: Number(e.target.value)})} style={{ width: 80 }} />
+            <input type="number" step="0.01" min={0.5} max={1.5} value={(workerDebug.hexSpacing ?? 1.0)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, hexSpacing: Number(e.target.value)})} style={{ width: 80 }} />
             <div style={{ fontSize: 11, color: '#ccc' }}>Hex size multiplier (1.0 = perfect touching, {'<'}1.0 = gaps, {'>'}1.0 = overlap)</div>
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>sphericalDensity: </label>
-            <input type="number" step="0.1" min={0.5} max={3.0} value={(workerDebug.sphericalDensity ?? 1.4)} onChange={(e) => setWorkerDebug({...workerDebug, sphericalDensity: Number(e.target.value)})} style={{ width: 80 }} />
+            <input type="number" step="0.1" min={0.5} max={3.0} value={(workerDebug.sphericalDensity ?? 1.4)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, sphericalDensity: Number(e.target.value)})} style={{ width: 80 }} />
             <div style={{ fontSize: 11, color: '#ccc' }}>Spherical grid density multiplier (1.0 = base, higher = more hexes)</div>
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>curve U (deg): </label>
-            <input type="number" step="1" min={0} max={360} value={(workerDebug.curveUDeg ?? 0)} onChange={(e) => setWorkerDebug({...workerDebug, curveUDeg: Math.max(0, Math.min(360, Number(e.target.value)))})} style={{ width: 80 }} />
+            <input type="number" step="1" min={0} max={360} value={(workerDebug.curveUDeg ?? 0)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, curveUDeg: Math.max(0, Math.min(360, Number(e.target.value)))})} style={{ width: 80 }} />
             <div style={{ fontSize: 11, color: '#ccc' }}>Horizontal wrap (0 = flat, 360 = full wrap)</div>
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>curve V (deg): </label>
-            <input type="number" step="1" min={0} max={360} value={(workerDebug.curveVDeg ?? 0)} onChange={(e) => setWorkerDebug({...workerDebug, curveVDeg: Math.max(0, Math.min(360, Number(e.target.value)))})} style={{ width: 80 }} />
+            <input type="number" step="1" min={0} max={360} value={(workerDebug.curveVDeg ?? 0)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, curveVDeg: Math.max(0, Math.min(360, Number(e.target.value)))})} style={{ width: 80 }} />
             <div style={{ fontSize: 11, color: '#ccc' }}>Vertical coverage (0 = flat, 360 = poles included)</div>
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>Mapping debug overlay: </label>
-            <input type="checkbox" checked={showMappingDebug} onChange={(e) => setShowMappingDebug(e.target.checked)} />
+            <input type="checkbox" checked={showMappingDebug} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setShowMappingDebug(e.target.checked)} />
             <div style={{ fontSize: 11, color: '#ccc' }}>When enabled, hover shows u/v, lon/lat, R and world coords for each hex.</div>
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>Pole scaling: </label>
-            <input type="checkbox" checked={!!workerDebug.poleScaleEnabled} onChange={(e) => setWorkerDebug({...workerDebug, poleScaleEnabled: e.target.checked})} />
+            <input type="checkbox" checked={!!workerDebug.poleScaleEnabled} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, poleScaleEnabled: e.target.checked})} />
             <div style={{ fontSize: 11, color: '#ccc' }}>Shrink hexes near poles to reduce overlap when curveV is large.</div>
           </div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <div style={{ width: 120 }}>Pole min scale</div>
-            <input type="range" min={0.05} max={1.0} step={0.01} value={(workerDebug.poleMinScale ?? 0.25)} onChange={(e) => setWorkerDebug({...workerDebug, poleMinScale: Number(e.target.value)})} style={{ flex: 1 }} />
-            <input type="number" step="0.01" min={0.05} max={1.0} value={(workerDebug.poleMinScale ?? 0.25)} onChange={(e) => setWorkerDebug({...workerDebug, poleMinScale: Math.max(0.01, Number(e.target.value))})} style={{ width: 64 }} />
+            <input type="range" min={0.05} max={1.0} step={0.01} value={(workerDebug.poleMinScale ?? 0.25)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, poleMinScale: Number(e.target.value)})} style={{ flex: 1 }} />
+            <input type="number" step="0.01" min={0.05} max={1.0} value={(workerDebug.poleMinScale ?? 0.25)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, poleMinScale: Math.max(0.01, Number(e.target.value))})} style={{ width: 64 }} />
           </div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <div style={{ width: 120 }}>Pole power</div>
-            <input type="range" min={0.1} max={2.0} step={0.01} value={(workerDebug.polePower ?? 0.9)} onChange={(e) => setWorkerDebug({...workerDebug, polePower: Number(e.target.value)})} style={{ flex: 1 }} />
-            <input type="number" step="0.01" min={0.1} max={2.0} value={(workerDebug.polePower ?? 0.9)} onChange={(e) => setWorkerDebug({...workerDebug, polePower: Math.max(0.01, Number(e.target.value))})} style={{ width: 64 }} />
+            <input type="range" min={0.1} max={2.0} step={0.01} value={(workerDebug.polePower ?? 0.9)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, polePower: Number(e.target.value)})} style={{ flex: 1 }} />
+            <input type="number" step="0.01" min={0.1} max={2.0} value={(workerDebug.polePower ?? 0.9)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, polePower: Math.max(0.01, Number(e.target.value))})} style={{ width: 64 }} />
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>renderBothSides: </label>
-            <input type="checkbox" checked={!!workerDebug.renderBothSides} onChange={(e) => setWorkerDebug({...workerDebug, renderBothSides: e.target.checked})} />
+            <input type="checkbox" checked={!!workerDebug.renderBothSides} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, renderBothSides: e.target.checked})} />
             <div style={{ fontSize: 11, color: '#ccc' }}>When enabled, draw antipodal copies so images appear on both sides of the sphere.</div>
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>debugLogs (worker): </label>
-            <input type="checkbox" checked={!!workerDebug.debugLogs} onChange={(e) => setWorkerDebug({...workerDebug, debugLogs: e.target.checked})} />
+            <input type="checkbox" checked={!!workerDebug.debugLogs} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, debugLogs: e.target.checked})} />
             <div style={{ fontSize: 11, color: '#ccc' }}>Enable verbose logs from the worker (off by default).</div>
           </div>
           <div style={{ marginTop: 12, marginBottom: 6, fontWeight: 'bold', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 8 }}>Autoplay</div>
           <div style={{ marginTop: 12, marginBottom: 6, fontWeight: 'bold' }}>Cluster Tiling</div>
           <div style={{ marginBottom: 6 }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <input type="checkbox" checked={!!workerDebug.clusterPreserveAspect} onChange={(e) => setWorkerDebug({...workerDebug, clusterPreserveAspect: e.target.checked})} /> Preserve aspect
+              <input type="checkbox" checked={!!workerDebug.clusterPreserveAspect} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, clusterPreserveAspect: e.target.checked})} /> Preserve aspect
             </label>
             <div style={{ fontSize: 11, color: '#ccc' }}>When enabled, cluster bounding boxes preserve photo aspect when mapping to tile grid.</div>
           </div>
           <div style={{ marginBottom: 6 }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <input type="checkbox" checked={workerDebug.clusterDynamicTiling !== false} onChange={(e) => setWorkerDebug({...workerDebug, clusterDynamicTiling: e.target.checked})} /> Dynamic tiling
+              <input type="checkbox" checked={workerDebug.clusterDynamicTiling !== false} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, clusterDynamicTiling: e.target.checked})} /> Dynamic tiling
             </label>
             <div style={{ fontSize: 11, color: '#ccc' }}>Calculate tilesX/tilesY based on cluster aspect ratio for better image alignment.</div>
           </div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <div style={{ width: 120 }}>Cluster anchor</div>
-            <select value={workerDebug.clusterAnchor} onChange={(e) => setWorkerDebug({...workerDebug, clusterAnchor: e.target.value as any})}>
+            <select value={workerDebug.clusterAnchor} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setWorkerDebug({...workerDebug, clusterAnchor: e.target.value as any})}>
               <option value="center">center</option>
               <option value="min">min</option>
             </select>
@@ -4268,23 +4268,23 @@ export const HexGrid = <T = unknown>({
           </div>
           <div style={{ marginBottom: 6 }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <input type="checkbox" checked={!!workerDebug.clusterGlobalAlign} onChange={(e) => setWorkerDebug({...workerDebug, clusterGlobalAlign: e.target.checked})} /> Global align
+              <input type="checkbox" checked={!!workerDebug.clusterGlobalAlign} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, clusterGlobalAlign: e.target.checked})} /> Global align
             </label>
             <div style={{ fontSize: 11, color: '#ccc' }}>When enabled, clusters snap to a global tile anchor to improve neighbor alignment.</div>
           </div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <div style={{ width: 120 }}>UV inset</div>
-            <input type="number" step="0.005" min={0} max={0.25} value={(workerDebug.clusterUvInset ?? 0.0)} onChange={(e) => setWorkerDebug({...workerDebug, clusterUvInset: Math.max(0, Math.min(0.25, Number(e.target.value)))})} style={{ width: 80 }} />
+            <input type="number" step="0.005" min={0} max={0.25} value={(workerDebug.clusterUvInset ?? 0.0)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, clusterUvInset: Math.max(0, Math.min(0.25, Number(e.target.value)))})} style={{ width: 80 }} />
             <div style={{ fontSize: 11, color: '#ccc' }}>Inset fraction applied to UV bounds (0=seamless, 0.01=1% gap for seam reduction).</div>
           </div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <div style={{ width: 120 }}>Cluster jitter</div>
-            <input type="number" step="0.001" min={0} max={0.2} value={(workerDebug.clusterJitter ?? 0)} onChange={(e) => setWorkerDebug({...workerDebug, clusterJitter: Math.max(0, Math.min(0.2, Number(e.target.value)))})} style={{ width: 80 }} />
+            <input type="number" step="0.001" min={0} max={0.2} value={(workerDebug.clusterJitter ?? 0)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, clusterJitter: Math.max(0, Math.min(0.2, Number(e.target.value)))})} style={{ width: 80 }} />
             <div style={{ fontSize: 11, color: '#ccc' }}>Small randomized offset applied before quantization to reduce regular grid artifacts.</div>
           </div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <div style={{ width: 120 }}>Adjacency</div>
-            <select value={(workerDebug.clusterAdjacency as any) ?? 'rect'} onChange={(e) => setWorkerDebug({...workerDebug, clusterAdjacency: e.target.value as any})}>
+            <select value={(workerDebug.clusterAdjacency as any) ?? 'rect'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setWorkerDebug({...workerDebug, clusterAdjacency: e.target.value as any})}>
               <option value="rect">rect (4-way)</option>
               <option value="hex">hex (6-way)</option>
             </select>
@@ -4292,7 +4292,7 @@ export const HexGrid = <T = unknown>({
           </div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <div style={{ width: 120 }}>Scan mode</div>
-            <select value={(workerDebug.clusterScanMode as any) ?? 'row'} onChange={(e) => setWorkerDebug({...workerDebug, clusterScanMode: e.target.value as any})}>
+            <select value={(workerDebug.clusterScanMode as any) ?? 'row'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setWorkerDebug({...workerDebug, clusterScanMode: e.target.value as any})}>
               <option value="row">row (L→R each row)</option>
               <option value="serpentine">serpentine (zig-zag)</option>
             </select>
@@ -4300,25 +4300,25 @@ export const HexGrid = <T = unknown>({
           </div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <input type="checkbox" checked={!!workerDebug.clusterParityAware} onChange={(e) => setWorkerDebug({...workerDebug, clusterParityAware: e.target.checked})} /> Parity-aware
+              <input type="checkbox" checked={!!workerDebug.clusterParityAware} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, clusterParityAware: e.target.checked})} /> Parity-aware
             </label>
             <div style={{ fontSize: 11, color: '#ccc' }}>When enabled, tile centers apply hex row parity offsets to follow hex staggering.</div>
           </div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <input type="checkbox" checked={!!workerDebug.clusterHexLattice} onChange={(e) => setWorkerDebug({...workerDebug, clusterHexLattice: e.target.checked})} /> Hex lattice fast-path
+              <input type="checkbox" checked={!!workerDebug.clusterHexLattice} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, clusterHexLattice: e.target.checked})} /> Hex lattice fast-path
             </label>
             <div style={{ fontSize: 11, color: '#ccc' }}>Direct row/col inference (parity-correct) instead of spatial nearest matching.</div>
           </div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <input type="checkbox" checked={!!workerDebug.clusterParityUvShift} onChange={(e) => setWorkerDebug({...workerDebug, clusterParityUvShift: e.target.checked})} /> Parity UV shift
+              <input type="checkbox" checked={!!workerDebug.clusterParityUvShift} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, clusterParityUvShift: e.target.checked})} /> Parity UV shift
             </label>
             <div style={{ fontSize: 11, color: '#ccc' }}>Horizontally nudge odd rows&apos; UVs by half a tile width to reduce alternating seams.</div>
           </div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <div style={{ width: 120 }}>Fill mode</div>
-            <select value={(workerDebug.clusterFillMode as any) ?? 'contain'} onChange={(e) => setWorkerDebug({...workerDebug, clusterFillMode: e.target.value as any})}>
+            <select value={(workerDebug.clusterFillMode as any) ?? 'contain'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setWorkerDebug({...workerDebug, clusterFillMode: e.target.value as any})}>
               <option value="contain">contain (fit)</option>
               <option value="cover">cover (fill/crop)</option>
             </select>
@@ -4326,18 +4326,18 @@ export const HexGrid = <T = unknown>({
           </div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <div style={{ width: 120 }}>Max tiles</div>
-            <input type="number" step={1} min={1} max={1024} value={(workerDebug.clusterMaxTiles ?? 64)} onChange={(e) => setWorkerDebug({...workerDebug, clusterMaxTiles: Math.max(1, Math.min(1024, Number(e.target.value)))})} style={{ width: 100 }} />
+            <input type="number" step={1} min={1} max={1024} value={(workerDebug.clusterMaxTiles ?? 64)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, clusterMaxTiles: Math.max(1, Math.min(1024, Number(e.target.value)))})} style={{ width: 100 }} />
             <div style={{ fontSize: 11, color: '#ccc' }}>Maximum tiles used when expanding the tile grid to cover a cluster.</div>
           </div>
           <div style={{ marginBottom: 6 }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <input type="checkbox" checked={!!workerDebug.showTileLabels} onChange={(e) => setWorkerDebug({...workerDebug, showTileLabels: e.target.checked})} /> Show tile labels
+              <input type="checkbox" checked={!!workerDebug.showTileLabels} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, showTileLabels: e.target.checked})} /> Show tile labels
             </label>
             <div style={{ fontSize: 11, color: '#ccc' }}>When enabled, grid coords are overlaid on each hex for debugging tile assignments.</div>
           </div>
           <div style={{ marginBottom: 6 }}>
             <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <input type="checkbox" checked={!!workerDebug.showTileCenters} onChange={(e) => setWorkerDebug({...workerDebug, showTileCenters: e.target.checked})} /> Show tile centers
+              <input type="checkbox" checked={!!workerDebug.showTileCenters} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, showTileCenters: e.target.checked})} /> Show tile centers
             </label>
             <div style={{ fontSize: 11, color: '#ccc' }}>When enabled, computed tile centers are rendered as small + markers to validate parity-aware positioning.</div>
           </div>
@@ -4349,7 +4349,7 @@ export const HexGrid = <T = unknown>({
               min="1" 
               max="1000" 
               value={autoplayQueueLimit ?? 100} 
-              onChange={(e) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 const newLimit = Math.max(1, Math.min(1000, Number(e.target.value)))
                 if (onAutoplayQueueLimitChange) {
                   onAutoplayQueueLimitChange(newLimit)
@@ -4361,52 +4361,52 @@ export const HexGrid = <T = unknown>({
           </div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <div style={{ width: 160 }}>Intermission (sec)</div>
-            <input type="number" step={1} min={0} value={(workerDebug.intermissionDurationSec ?? 4)} onChange={(e) => setWorkerDebug({...workerDebug, intermissionDurationSec: Math.max(0, Number(e.target.value))})} style={{ width: 80 }} />
+            <input type="number" step={1} min={0} value={(workerDebug.intermissionDurationSec ?? 4)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, intermissionDurationSec: Math.max(0, Number(e.target.value))})} style={{ width: 80 }} />
             <div style={{ fontSize: 11, color: '#ccc' }}>Seconds to pause between items during autodisplay (0 = no intermission).</div>
           </div>
           <div style={{ marginBottom: 6, display: 'flex', gap: 8, alignItems: 'center' }}>
             <div style={{ width: 160 }}>Photo duration (sec)</div>
-            <input type="number" step={1} min={1} value={(workerDebug.photoDurationSec ?? 5)} onChange={(e) => setWorkerDebug({...workerDebug, photoDurationSec: Math.max(1, Number(e.target.value))})} style={{ width: 80 }} />
+            <input type="number" step={1} min={1} value={(workerDebug.photoDurationSec ?? 5)} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, photoDurationSec: Math.max(1, Number(e.target.value))})} style={{ width: 80 }} />
             <div style={{ fontSize: 11, color: '#ccc' }}>Default seconds to show photos/tweets in autodisplay when no explicit duration is available.</div>
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>reproThreshold3: </label>
-            <input type="number" step="1" min={1} value={workerDebug.reproThreshold3} onChange={(e) => setWorkerDebug({...workerDebug, reproThreshold3: Math.max(1, Number(e.target.value))})} style={{ width: 60 }} />
+            <input type="number" step="1" min={1} value={workerDebug.reproThreshold3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, reproThreshold3: Math.max(1, Number(e.target.value))})} style={{ width: 60 }} />
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>reproChance3: </label>
-            <input type="number" step="0.01" value={workerDebug.reproChance3} onChange={(e) => setWorkerDebug({...workerDebug, reproChance3: Number(e.target.value)})} style={{ width: 80 }} />
+            <input type="number" step="0.01" value={workerDebug.reproChance3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, reproChance3: Number(e.target.value)})} style={{ width: 80 }} />
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>reproChance2: </label>
-            <input type="number" step="0.01" value={workerDebug.reproChance2} onChange={(e) => setWorkerDebug({...workerDebug, reproChance2: Number(e.target.value)})} style={{ width: 80 }} />
+            <input type="number" step="0.01" value={workerDebug.reproChance2} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, reproChance2: Number(e.target.value)})} style={{ width: 80 }} />
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>reproChance1: </label>
-            <input type="number" step="0.01" value={workerDebug.reproChance1} onChange={(e) => setWorkerDebug({...workerDebug, reproChance1: Number(e.target.value)})} style={{ width: 80 }} />
+            <input type="number" step="0.01" value={workerDebug.reproChance1} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, reproChance1: Number(e.target.value)})} style={{ width: 80 }} />
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>reproChance0: </label>
-            <input type="number" step="0.01" value={workerDebug.reproChance0} onChange={(e) => setWorkerDebug({...workerDebug, reproChance0: Number(e.target.value)})} style={{ width: 80 }} />
+            <input type="number" step="0.01" value={workerDebug.reproChance0} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, reproChance0: Number(e.target.value)})} style={{ width: 80 }} />
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>reproPriorityMultiplier3: </label>
-            <input type="number" step="0.1" value={workerDebug.reproPriorityMultiplier3} onChange={(e) => setWorkerDebug({...workerDebug, reproPriorityMultiplier3: Number(e.target.value)})} style={{ width: 80 }} />
+            <input type="number" step="0.1" value={workerDebug.reproPriorityMultiplier3} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, reproPriorityMultiplier3: Number(e.target.value)})} style={{ width: 80 }} />
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>sameNeighborBoostPerDeficit: </label>
-            <input type="range" min={0} max={1.0} step={0.01} value={workerDebug.sameNeighborBoostPerDeficit ?? 0.35} onChange={(e) => setWorkerDebug({...workerDebug, sameNeighborBoostPerDeficit: Number(e.target.value)})} style={{ width: 160, verticalAlign: 'middle', marginLeft: 8 }} />
-            <input type="number" step="0.01" min={0} max={2.0} value={workerDebug.sameNeighborBoostPerDeficit ?? 0.35} onChange={(e) => setWorkerDebug({...workerDebug, sameNeighborBoostPerDeficit: Math.max(0, Number(e.target.value))})} style={{ width: 80, marginLeft: 8 }} />
+            <input type="range" min={0} max={1.0} step={0.01} value={workerDebug.sameNeighborBoostPerDeficit ?? 0.35} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, sameNeighborBoostPerDeficit: Number(e.target.value)})} style={{ width: 160, verticalAlign: 'middle', marginLeft: 8 }} />
+            <input type="number" step="0.01" min={0} max={2.0} value={workerDebug.sameNeighborBoostPerDeficit ?? 0.35} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, sameNeighborBoostPerDeficit: Math.max(0, Number(e.target.value))})} style={{ width: 80, marginLeft: 8 }} />
             <div style={{ fontSize: 11, color: '#ccc' }}>Per-deficit multiplier added to infection chance (e.g. 0.35 → ~1.7 boost at deficit=2)</div>
           </div>
           <div style={{ marginBottom: 6 }}>
             <label>streamMs (ms per tile): </label>
-            <input type="number" step="1" value={workerDebug.streamMs} onChange={(e) => setWorkerDebug({...workerDebug, streamMs: Number(e.target.value)})} style={{ width: 80 }} />
+            <input type="number" step="1" value={workerDebug.streamMs} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, streamMs: Number(e.target.value)})} style={{ width: 80 }} />
           </div>
           <div style={{ marginBottom: 8 }}>
             <label>batchPerFrame: </label>
-            <input type="range" min={0} max={64} step={1} value={workerDebug.batchPerFrame ?? 0} onChange={(e) => setWorkerDebug({...workerDebug, batchPerFrame: Number(e.target.value)})} style={{ width: '140px', verticalAlign: 'middle', marginLeft: 6 }} />
-            <input type="number" min={0} max={8096} step={1} value={workerDebug.batchPerFrame ?? 0} onChange={(e) => setWorkerDebug({...workerDebug, batchPerFrame: Math.max(0, Number(e.target.value))})} style={{ width: 60, marginLeft: 8 }} />
+            <input type="range" min={0} max={64} step={1} value={workerDebug.batchPerFrame ?? 0} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, batchPerFrame: Number(e.target.value)})} style={{ width: '140px', verticalAlign: 'middle', marginLeft: 6 }} />
+            <input type="number" min={0} max={8096} step={1} value={workerDebug.batchPerFrame ?? 0} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkerDebug({...workerDebug, batchPerFrame: Math.max(0, Number(e.target.value))})} style={{ width: 60, marginLeft: 8 }} />
             <div style={{ fontSize: 11, color: '#ccc', marginTop: 4 }}>0 = per-tile delay mode; {'>'}0 = apply N tiles per rAF</div>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center', paddingTop: 8 }}>
