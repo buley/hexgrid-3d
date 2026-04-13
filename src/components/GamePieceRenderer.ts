@@ -358,7 +358,7 @@ export function placePieceOnSphere(
   sphereRadius: number,
   offsetY: number = 0,
 ): void {
-  // Normal = direction from sphere center to hex center (unit sphere, so it IS the normal)
+  // Normal = direction from sphere center to hex center (unit sphere, so it maps to the normal)
   const normal = new THREE.Vector3(hexCenter.x, hexCenter.y, hexCenter.z).normalize();
 
   // Position on sphere surface + offset
