@@ -10,13 +10,13 @@
   },
   "dependencies": {
     "next": "^16.1.1",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react": "workspace:*",
+    "react-dom": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "@types/react": "^18.3.27",
-    "@types/react-dom": "^18.3.7",
+    "@types/react": "workspace:*",
+    "@types/react-dom": "workspace:*",
     "typescript": "^5.0.0",
     "eslint": "^8.57.0",
     "eslint-config-next": "^16.1.1"

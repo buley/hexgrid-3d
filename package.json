@@ -66,20 +66,20 @@
   ],
   "peerDependencies": {
     "next": "^14.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react": "workspace:*",
+    "react-dom": "workspace:*"
   },
   "devDependencies": {
     "@playwright/test": "^1.40.0",
     "@testing-library/react": "^14.3.1",
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^29.5.14",
-    "@types/react": "^18.3.27",
-    "@types/react-dom": "^18.3.7",
+    "@types/react": "workspace:*",
+    "@types/react-dom": "workspace:*",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
+    "react": "workspace:*",
+    "react-dom": "workspace:*",
     "ts-jest": "^29.4.6",
     "typescript": "^5.0.0"
   },

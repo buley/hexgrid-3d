@@ -2,7 +2,7 @@
  * Type definitions for HexGrid Visualization
  */
 
-import type { RefObject } from 'react';
+import type { RefObject } from '@a0n/raect';
 import type { HexGridFeatureFlags } from './features';
 export type { HexGridFeatureFlags } from './features';
 
