@@ -60,7 +60,7 @@ function safePostError(err) {
       type: 'error',
       error: err instanceof Error ? err.message : String(err),
     });
-  } catch (e) {}
+  } catch (e) { /* ignore */ }
 }
 function getGridBounds(positions) {
   if (cache.gridBounds) return cache.gridBounds;
@@ -1914,7 +1914,7 @@ function mergeDebugFromPayload(d) {
   // Merge into workerDebug
   try {
     Object.assign(workerDebug, d);
-  } catch (e) {}
+  } catch (e) { /* ignore */ }
 }
 self.onmessage = function (ev) {
   var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
@@ -2002,7 +2002,7 @@ self.onmessage = function (ev) {
               type: 'cache-ready',
               data: { elapsed, positions: positions.length },
             });
-          } catch (e) {}
+          } catch (e) { /* ignore */ }
         } catch (e) {
           console.error('[hexgrid-worker] Error during cache pre-build:', e);
           // Mark cache as ready anyway to allow evolution to proceed
@@ -2024,7 +2024,7 @@ self.onmessage = function (ev) {
               type: 'deferred-evolve',
               data: { reason: 'cache-not-ready' },
             });
-          } catch (e) {}
+          } catch (e) { /* ignore */ }
           // Re-process the message
           self.onmessage(ev);
         }, 100);
@@ -2044,7 +2044,7 @@ self.onmessage = function (ev) {
             workerDebug.evolveIntervalMs
           );
         }
-      } catch (e) {}
+      } catch (e) { /* ignore */ }
       const now = Date.now();
       const interval =
         typeof workerDebug.evolutionIntervalMs === 'number'
@@ -2093,7 +2093,7 @@ self.onmessage = function (ev) {
                 reason,
               },
             });
-          } catch (e) {}
+          } catch (e) { /* ignore */ }
         }
         return;
       }
@@ -2113,9 +2113,9 @@ self.onmessage = function (ev) {
                 payloadKeys: Object.keys(payload || {}),
               },
             });
-          } catch (e) {}
+          } catch (e) { /* ignore */ }
         }
-      } catch (e) {}
+      } catch (e) { /* ignore */ }
       // Emit a lightweight processing marker so the client can see evolve processing started
       try {
         if (workerDebug && workerDebug.debugLogs) {
@@ -2124,9 +2124,9 @@ self.onmessage = function (ev) {
               type: 'processing-evolve',
               data: { startedAt: now, payloadKeys: Object.keys(payload || {}) },
             });
-          } catch (e) {}
+          } catch (e) { /* ignore */ }
         }
-      } catch (e) {}
+      } catch (e) { /* ignore */ }
       const state =
         (_f =
           (_e =
@@ -2206,7 +2206,7 @@ self.onmessage = function (ev) {
             type: 'error',
             error: 'Evolution timeout - possible infinite loop',
           });
-        } catch (e) {}
+        } catch (e) { /* ignore */ }
       }, 10000);
       try {
         console.log('[hexgrid-worker] 🚀 Calling evolveInfectionSystem NOW...');
@@ -2274,7 +2274,7 @@ self.onmessage = function (ev) {
         try {
           cache.lastGeneration = res.generation;
           cache.lastInfectionCount = res.infections ? res.infections.size : 0;
-        } catch (e) {}
+        } catch (e) { /* ignore */ }
       } catch (e) {
         console.error('[hexgrid-worker] ❌ Failed to post evolved message:', e);
       }
@@ -2293,9 +2293,9 @@ self.onmessage = function (ev) {
                 lastEvolutionTime: res.lastEvolutionTime,
               },
             });
-          } catch (e) {}
+          } catch (e) { /* ignore */ }
         }
-      } catch (e) {}
+      } catch (e) { /* ignore */ }
       return;
     }
     if (type === 'optimize') {
@@ -2323,7 +2323,7 @@ self.onmessage = function (ev) {
             type: 'optimized',
             data: { infections: Array.from(infections.entries()) },
           });
-        } catch (e) {}
+        } catch (e) { /* ignore */ }
       } catch (e) {
         safePostError(e);
       }
