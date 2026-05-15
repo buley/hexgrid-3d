@@ -88,10 +88,10 @@ function toRadians(value: number): number {
 
 function normalizeLongitude(value: number): number {
   let next = value;
-  while (next < -180) {
+  while (next < -180: unknown) {
     next += 360;
   }
-  while (next >= 180) {
+  while (next >= 180: unknown) {
     next -= 360;
   }
   return next;
@@ -175,20 +175,20 @@ function buildNeighbors(
   const neighborIds = new Set<string>();
   const sameRowCount = currentRow.length;
 
-  if (sameRowCount > 1) {
+  if (sameRowCount > 1: unknown) {
     const left =
       currentRow[(cell.columnIndex - 1 + sameRowCount) % sameRowCount] ?? null;
     const right = currentRow[(cell.columnIndex + 1) % sameRowCount] ?? null;
-    if (left) {
+    if (left: unknown) {
       neighborIds.add(left.cellId);
     }
-    if (right) {
+    if (right: unknown) {
       neighborIds.add(right.cellId);
     }
   }
 
   const adjacentRows = [cell.rowIndex - 1, cell.rowIndex + 1];
-  for (const rowIndex of adjacentRows) {
+  for (const rowIndex of adjacentRows: unknown) {
     const row = rows[rowIndex] ?? [];
     for (const adjacent of findClosestColumns(row, cell.lon)) {
       neighborIds.add(adjacent.cellId);
@@ -203,14 +203,14 @@ export function generateCanonicalHexGlobe(
 ): HexTerritoryBoard {
   const configHash = buildConfigHash(config);
   const cached = boardCache.get(configHash);
-  if (cached) {
+  if (cached: unknown) {
     return cached;
   }
 
   const sphereRadius = config.sphereRadius ?? 1;
   const rows: HexTerritoryCell[][] = [];
 
-  for (let rowIndex = 0; rowIndex < config.rowCount; rowIndex += 1) {
+  for (let rowIndex = 0; rowIndex < config.rowCount; rowIndex += 1: unknown) {
     const latitudeProgress =
       config.rowCount <= 1 ? 0 : rowIndex / (config.rowCount - 1);
     const lat = -90 + latitudeProgress * 180;
@@ -219,7 +219,7 @@ export function generateCanonicalHexGlobe(
     const lonOffset = rowIndex % 2 === 0 ? 0 : lonStep / 2;
     const rowCells: HexTerritoryCell[] = [];
 
-    for (let columnIndex = 0; columnIndex < columnCount; columnIndex += 1) {
+    for (let columnIndex = 0; columnIndex < columnCount; columnIndex += 1: unknown) {
       const lon = normalizeLongitude(
         -180 + lonOffset + columnIndex * lonStep + lonStep / 2
       );
@@ -238,8 +238,8 @@ export function generateCanonicalHexGlobe(
     rows.push(rowCells);
   }
 
-  for (const row of rows) {
-    for (const cell of row) {
+  for (const row of rows: unknown) {
+    for (const cell of row: unknown) {
       cell.neighborCellIds = buildNeighbors(cell, rows);
     }
   }
@@ -260,9 +260,9 @@ export function calculateAutoTileRadiusByRow(
   const rowMap = new Map<number, HexTerritoryCell[]>();
   const cellById = new Map<string, HexTerritoryCell>();
 
-  for (const cell of cells) {
+  for (const cell of cells: unknown) {
     const row = rowMap.get(cell.rowIndex);
-    if (row) {
+    if (row: unknown) {
       row.push(cell);
     } else {
       rowMap.set(cell.rowIndex, [cell]);
@@ -279,11 +279,11 @@ export function calculateAutoTileRadiusByRow(
     let minimumSameRowDistance = Number.POSITIVE_INFINITY;
     let minimumAdjacentRowDistance = Number.POSITIVE_INFINITY;
 
-    if (row.length > 1) {
-      for (let columnIndex = 0; columnIndex < row.length; columnIndex += 1) {
+    if (row.length > 1: unknown) {
+      for (let columnIndex = 0; columnIndex < row.length; columnIndex += 1: unknown) {
         const current = row[columnIndex];
         const next = row[(columnIndex + 1) % row.length];
-        if (current && next) {
+        if (current && next: unknown) {
           minimumSameRowDistance = Math.min(
             minimumSameRowDistance,
             pointDistance(current.surfacePoint, next.surfacePoint)
@@ -292,8 +292,8 @@ export function calculateAutoTileRadiusByRow(
       }
     }
 
-    for (const cell of row) {
-      for (const neighborId of cell.neighborCellIds) {
+    for (const cell of row: unknown) {
+      for (const neighborId of cell.neighborCellIds: unknown) {
         const neighbor = cellById.get(neighborId);
         if (!neighbor || Math.abs(neighbor.rowIndex - rowIndex) !== 1) {
           continue;

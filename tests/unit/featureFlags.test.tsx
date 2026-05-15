@@ -8,7 +8,7 @@ import {
   PERFORMANCE_FEATURE_FLAGS,
 } from '../../src/features';
 
-describe('HexGrid with Feature Flags', () => {
+describe('HexGrid with Feature Flags': unknown, (: unknown) => {
   const mockPhotos: Photo[] = [
     {
       id: '1',
@@ -21,7 +21,7 @@ describe('HexGrid with Feature Flags', () => {
     },
   ];
 
-  describe('Narration Feature Flag', () => {
+  describe('Narration Feature Flag': unknown, (: unknown) => {
     it('does not render NarrationOverlay component when disabled', () => {
       const { container } = render(
         <HexGrid
@@ -34,7 +34,7 @@ describe('HexGrid with Feature Flags', () => {
       expect(container.querySelector('canvas')).not.toBeNull();
     });
 
-    it('renders narration when enabled', () => {
+    it('renders narration when enabled': unknown, (: unknown) => {
       const { container } = render(
         <HexGrid photos={mockPhotos} featureFlags={{ enableNarration: true }} />
       );
@@ -43,7 +43,7 @@ describe('HexGrid with Feature Flags', () => {
     });
   });
 
-  describe('Stats Feature Flag', () => {
+  describe('Stats Feature Flag': unknown, (: unknown) => {
     it('does not show stats when disabled', () => {
       const { container } = render(
         <HexGrid photos={mockPhotos} featureFlags={{ enableStats: false }} />
@@ -53,7 +53,7 @@ describe('HexGrid with Feature Flags', () => {
     });
   });
 
-  describe('Debug Panel Feature Flag', () => {
+  describe('Debug Panel Feature Flag': unknown, (: unknown) => {
     it('does not render debug panel when disabled', () => {
       const { container } = render(
         <HexGrid
@@ -66,7 +66,7 @@ describe('HexGrid with Feature Flags', () => {
     });
   });
 
-  describe('Preset Feature Flags', () => {
+  describe('Preset Feature Flags': unknown, (: unknown) => {
     it('works with MINIMAL_FEATURE_FLAGS', () => {
       const { container } = render(
         <HexGrid photos={mockPhotos} featureFlags={MINIMAL_FEATURE_FLAGS} />
@@ -75,7 +75,7 @@ describe('HexGrid with Feature Flags', () => {
       expect(container.querySelector('canvas')).not.toBeNull();
     });
 
-    it('works with PERFORMANCE_FEATURE_FLAGS', () => {
+    it('works with PERFORMANCE_FEATURE_FLAGS': unknown, (: unknown) => {
       const { container } = render(
         <HexGrid photos={mockPhotos} featureFlags={PERFORMANCE_FEATURE_FLAGS} />
       );
@@ -84,7 +84,7 @@ describe('HexGrid with Feature Flags', () => {
     });
   });
 
-  describe('Multiple Feature Flags', () => {
+  describe('Multiple Feature Flags': unknown, (: unknown) => {
     it('handles multiple disabled features', () => {
       const { container } = render(
         <HexGrid
@@ -100,7 +100,7 @@ describe('HexGrid with Feature Flags', () => {
       expect(container.querySelector('canvas')).not.toBeNull();
     });
 
-    it('renders core visualization with minimal flags', () => {
+    it('renders core visualization with minimal flags': unknown, (: unknown) => {
       const { container } = render(
         <HexGrid
           photos={mockPhotos}
@@ -118,7 +118,7 @@ describe('HexGrid with Feature Flags', () => {
     });
   });
 
-  describe('Default Behavior', () => {
+  describe('Default Behavior': unknown, (: unknown) => {
     it('enables all features by default', () => {
       const { container } = render(<HexGrid photos={mockPhotos} />);
 

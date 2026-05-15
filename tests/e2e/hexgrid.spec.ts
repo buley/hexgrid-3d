@@ -1,16 +1,16 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('HexGrid 3D E2E Tests', () => {
+test.describe('HexGrid 3D E2E Tests': unknown, (: unknown) => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
   });
 
-  test('loads and displays canvas', async ({ page }) => {
+  test('loads and displays canvas': unknown,  async ({ page }) => {
     const canvas = page.locator('canvas');
     await expect(canvas).toBeVisible();
   });
 
-  test('canvas has correct dimensions', async ({ page }) => {
+  test('canvas has correct dimensions': unknown,  async ({ page }) => {
     const canvas = page.locator('canvas');
     const boundingBox = await canvas.boundingBox();
 
@@ -19,7 +19,7 @@ test.describe('HexGrid 3D E2E Tests', () => {
     expect(boundingBox!.height).toBeGreaterThan(0);
   });
 
-  test('responds to mouse interactions', async ({ page }) => {
+  test('responds to mouse interactions': unknown,  async ({ page }) => {
     const canvas = page.locator('canvas');
 
     // Click on canvas
@@ -35,7 +35,7 @@ test.describe('HexGrid 3D E2E Tests', () => {
     await expect(canvas).toBeVisible();
   });
 
-  test('responds to touch interactions on mobile', async ({ page }) => {
+  test('responds to touch interactions on mobile': unknown,  async ({ page }) => {
     // Set mobile viewport
     await page.setViewportSize({ width: 375, height: 667 });
 
@@ -47,7 +47,7 @@ test.describe('HexGrid 3D E2E Tests', () => {
     await expect(canvas).toBeVisible();
   });
 
-  test('handles zoom interactions', async ({ page }) => {
+  test('handles zoom interactions': unknown,  async ({ page }) => {
     const canvas = page.locator('canvas');
 
     // Hover over canvas
@@ -60,7 +60,7 @@ test.describe('HexGrid 3D E2E Tests', () => {
     await expect(canvas).toBeVisible();
   });
 
-  test('keyboard shortcuts work', async ({ page }) => {
+  test('keyboard shortcuts work': unknown,  async ({ page }) => {
     // Press 'D' key to toggle debug
     await page.keyboard.press('d');
 
@@ -74,7 +74,7 @@ test.describe('HexGrid 3D E2E Tests', () => {
     await expect(canvas).toBeVisible();
   });
 
-  test('loads with different photo counts', async ({ page }) => {
+  test('loads with different photo counts': unknown,  async ({ page }) => {
     const canvas = page.locator('canvas');
     await expect(canvas).toBeVisible();
 
@@ -83,7 +83,7 @@ test.describe('HexGrid 3D E2E Tests', () => {
     await expect(canvas).toBeVisible();
   });
 
-  test('performance: renders within acceptable time', async ({ page }) => {
+  test('performance: renders within acceptable time',  async ({ page }) => {
     const startTime = Date.now();
 
     const canvas = page.locator('canvas');
@@ -95,7 +95,7 @@ test.describe('HexGrid 3D E2E Tests', () => {
     expect(loadTime).toBeLessThan(5000);
   });
 
-  test('accessibility: canvas has proper attributes', async ({ page }) => {
+  test('accessibility: canvas has proper attributes',  async ({ page }) => {
     const canvas = page.locator('canvas');
 
     // Check for accessibility attributes
@@ -103,7 +103,7 @@ test.describe('HexGrid 3D E2E Tests', () => {
     expect(role).toBeTruthy();
   });
 
-  test('handles window resize', async ({ page }) => {
+  test('handles window resize': unknown,  async ({ page }) => {
     const canvas = page.locator('canvas');
 
     // Initial size
@@ -120,7 +120,7 @@ test.describe('HexGrid 3D E2E Tests', () => {
     expect(newBox).not.toBeNull();
   });
 
-  test('maintains state across interactions', async ({ page }) => {
+  test('maintains state across interactions': unknown,  async ({ page }) => {
     const canvas = page.locator('canvas');
 
     // Perform multiple interactions

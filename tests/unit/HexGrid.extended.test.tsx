@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import { HexGrid } from '../../src/components/HexGrid';
 import { Photo } from '../../src/types';
 
-describe('HexGrid Texture Loading', () => {
+describe('HexGrid Texture Loading': unknown, (: unknown) => {
   const mockPhotos: Photo[] = [
     {
       id: '1',
@@ -26,17 +26,17 @@ describe('HexGrid Texture Loading', () => {
     },
   ];
 
-  it('renders canvas for texture loading', () => {
+  it('renders canvas for texture loading': unknown, (: unknown) => {
     const { container } = render(<HexGrid photos={mockPhotos} />);
     expect(container.querySelector('canvas')).not.toBeNull();
   });
 
-  it('handles empty photo array', () => {
+  it('handles empty photo array': unknown, (: unknown) => {
     const { container } = render(<HexGrid photos={[]} />);
     expect(container.querySelector('canvas')).not.toBeNull();
   });
 
-  it('handles photos with thumbnailUrls', () => {
+  it('handles photos with thumbnailUrls': unknown, (: unknown) => {
     const photosWithThumbs = mockPhotos.map((p) => ({
       ...p,
       thumbnailUrl: `${p.imageUrl}-thumb`,
@@ -46,7 +46,7 @@ describe('HexGrid Texture Loading', () => {
     expect(container.querySelector('canvas')).not.toBeNull();
   });
 
-  it('handles duplicate photo URLs', () => {
+  it('handles duplicate photo URLs': unknown, (: unknown) => {
     const duplicatePhotos: Photo[] = [
       {
         id: '1',
@@ -73,7 +73,7 @@ describe('HexGrid Texture Loading', () => {
   });
 });
 
-describe('HexGrid Camera System', () => {
+describe('HexGrid Camera System': unknown, (: unknown) => {
   const mockPhotos: Photo[] = [
     {
       id: '1',
@@ -86,7 +86,7 @@ describe('HexGrid Camera System', () => {
     },
   ];
 
-  it('accepts custom spacing', () => {
+  it('accepts custom spacing': unknown, (: unknown) => {
     const { container, rerender } = render(
       <HexGrid photos={mockPhotos} spacing={0.5} />
     );
@@ -96,7 +96,7 @@ describe('HexGrid Camera System', () => {
     expect(container.querySelector('canvas')).not.toBeNull();
   });
 
-  it('handles external canvas ref', () => {
+  it('handles external canvas ref': unknown, (: unknown) => {
     const canvasRef = React.createRef<HTMLCanvasElement>();
     const { container } = render(
       <HexGrid photos={mockPhotos} canvasRef={canvasRef as any} />
@@ -104,7 +104,7 @@ describe('HexGrid Camera System', () => {
     expect(container.querySelector('canvas')).not.toBeNull();
   });
 
-  it('responds to modalOpen prop changes', () => {
+  it('responds to modalOpen prop changes': unknown, (: unknown) => {
     const { container, rerender } = render(
       <HexGrid photos={mockPhotos} modalOpen={false} />
     );
@@ -115,7 +115,7 @@ describe('HexGrid Camera System', () => {
   });
 });
 
-describe('HexGrid Props Handling', () => {
+describe('HexGrid Props Handling': unknown, (: unknown) => {
   const mockPhotos: Photo[] = [
     {
       id: '1',
@@ -128,7 +128,7 @@ describe('HexGrid Props Handling', () => {
     },
   ];
 
-  it('calls onHexClick callback', () => {
+  it('calls onHexClick callback': unknown, (: unknown) => {
     const onHexClick = mock(() => {});
     const { container } = render(
       <HexGrid photos={mockPhotos} onHexClick={onHexClick} />
@@ -136,7 +136,7 @@ describe('HexGrid Props Handling', () => {
     expect(container.querySelector('canvas')).not.toBeNull();
   });
 
-  it('handles onLeaderboardUpdate callback', () => {
+  it('handles onLeaderboardUpdate callback': unknown, (: unknown) => {
     const onLeaderboardUpdate = mock(() => {});
     const { container } = render(
       <HexGrid photos={mockPhotos} onLeaderboardUpdate={onLeaderboardUpdate} />
@@ -144,7 +144,7 @@ describe('HexGrid Props Handling', () => {
     expect(container.querySelector('canvas')).not.toBeNull();
   });
 
-  it('handles autoplayQueueLimit prop', () => {
+  it('handles autoplayQueueLimit prop': unknown, (: unknown) => {
     const { container } = render(
       <HexGrid
         photos={mockPhotos}
@@ -155,14 +155,14 @@ describe('HexGrid Props Handling', () => {
     expect(container.querySelector('canvas')).not.toBeNull();
   });
 
-  it('handles userId prop', () => {
+  it('handles userId prop': unknown, (: unknown) => {
     const { container } = render(
       <HexGrid photos={mockPhotos} userId="user123" />
     );
     expect(container.querySelector('canvas')).not.toBeNull();
   });
 
-  it('handles username prop', () => {
+  it('handles username prop': unknown, (: unknown) => {
     const { container } = render(
       <HexGrid photos={mockPhotos} username="testuser" />
     );
@@ -170,7 +170,7 @@ describe('HexGrid Props Handling', () => {
   });
 });
 
-describe('HexGrid Photo Updates', () => {
+describe('HexGrid Photo Updates': unknown, (: unknown) => {
   it('updates when photos are added', () => {
     const initialPhotos: Photo[] = [
       {
@@ -203,7 +203,7 @@ describe('HexGrid Photo Updates', () => {
     expect(container.querySelector('canvas')).not.toBeNull();
   });
 
-  it('updates when photos are removed', () => {
+  it('updates when photos are removed': unknown, (: unknown) => {
     const initialPhotos: Photo[] = [
       {
         id: '1',
@@ -230,7 +230,7 @@ describe('HexGrid Photo Updates', () => {
     expect(container.querySelector('canvas')).not.toBeNull();
   });
 
-  it('handles photo metadata changes', () => {
+  it('handles photo metadata changes': unknown, (: unknown) => {
     const photo: Photo = {
       id: '1',
       title: 'Original Title',

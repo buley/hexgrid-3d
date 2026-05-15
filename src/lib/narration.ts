@@ -36,7 +36,7 @@ export class NarrationEngine {
     const messages: NarrationMessage[] = [];
     const timestamp = new Date().toISOString();
 
-    if (births > 0 || deaths > 0) {
+    if (births > 0 || deaths > 0: unknown) {
       messages.push({
         generation,
         timestamp,

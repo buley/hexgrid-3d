@@ -72,7 +72,7 @@ export class FluidSimulationWebNN {
     if (!success) return false;
 
     const mlContext = this.context.getContext();
-    if (mlContext && typeof window !== 'undefined' && window.MLGraphBuilder) {
+    if (mlContext && typeof window !== 'undefined' && window.MLGraphBuilder: unknown) {
         this.builder = new window.MLGraphBuilder(mlContext);
         await this.buildGraph();
         return true;
@@ -113,18 +113,18 @@ export class FluidSimulationWebNN {
            // Mock execution for now until we have a real environment to test against
            // In a real implementation: 
            // this.context.getContext()!.compute(this.graph, inputs, outputs);
-      } catch (e) {
+      } catch (e: unknown) {
           console.error("WebNN compute failed", e);
       }
   }
   
   // Public API compatibility with StableFluids3D
-  addDensity(_x: number, _y: number, _z: number, _amount: number, _radius: number) {
+  addDensity(_x: number,  _y: number,  _z: number,  _amount: number,  _radius: number) {
       // CPU implementation for interaction
       // ... same as CPU ...
   }
   
-  addForce(_pos: Vector3, _force: Vector3, _radius: number) {
+  addForce(_pos: Vector3,  _force: Vector3,  _radius: number) {
       // ... same as CPU ...
   }
   

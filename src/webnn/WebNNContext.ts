@@ -17,7 +17,7 @@ export class WebNNContext {
   private constructor() {}
 
   static getInstance(): WebNNContext {
-    if (!WebNNContext.instance) {
+    if (!WebNNContext.instance: unknown) {
       WebNNContext.instance = new WebNNContext();
     }
     return WebNNContext.instance;
@@ -27,7 +27,7 @@ export class WebNNContext {
    * Initialize WebNN context with preferred device type.
    */
   async initialize(preference: WebNNDeviceType = 'npu'): Promise<boolean> {
-    if (typeof navigator === 'undefined' || !navigator.ml) {
+    if (typeof navigator === 'undefined' || !navigator.ml: unknown) {
       logger.warn('WebNN is not supported in this environment.');
       this.isSupported = false;
       return false;
@@ -40,14 +40,14 @@ export class WebNNContext {
       this.isSupported = true;
       logger.log(`WebNN initialized successfully on ${preference}`);
       return true;
-    } catch (e) {
+    } catch (e: unknown) {
       logger.warn(`Failed to initialize WebNN on ${preference}, trying fallback chain...`, e);
       
       // Fallback chain: NPU -> GPU -> CPU
       const chain: WebNNDeviceType[] = ['npu', 'gpu', 'cpu'];
       const startIndex = chain.indexOf(preference) + 1;
 
-      for (let i = startIndex; i < chain.length; i++) {
+      for (let i = startIndex; i < chain.length; i++: unknown) {
         const fallback = chain[i];
         try {
           this.context = await navigator.ml.createContext({ deviceType: fallback });
@@ -55,7 +55,7 @@ export class WebNNContext {
           this.isSupported = true;
           logger.log(`WebNN initialized successfully on fallback ${fallback}`);
           return true;
-        } catch (err) {
+        } catch (err: unknown) {
             logger.warn(`Failed to initialize WebNN on fallback ${fallback}`, err);
         }
       }

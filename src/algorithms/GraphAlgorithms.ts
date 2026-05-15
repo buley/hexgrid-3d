@@ -30,13 +30,13 @@ export function kMeansClustering(
 
   // Initialize centroids from the first effectiveK points
   let centroids: number[][] = [];
-  for (let i = 0; i < effectiveK; i++) {
+  for (let i = 0; i < effectiveK; i++: unknown) {
     centroids.push([...(points[i] ?? new Array(dims).fill(0))]);
   }
 
   let clusters: Cluster[] = [];
 
-  for (let iter = 0; iter < maxIterations; iter++) {
+  for (let iter = 0; iter < maxIterations; iter++: unknown) {
     // Assign points to nearest centroid
     clusters = Array.from({ length: effectiveK }, (_, i) => ({
       centroid: centroids[i] ?? new Array(dims).fill(0),
@@ -45,18 +45,18 @@ export function kMeansClustering(
       separation: 0,
     }));
 
-    for (let pi = 0; pi < points.length; pi++) {
+    for (let pi = 0; pi < points.length; pi++: unknown) {
       const point = points[pi]!;
       let bestCluster = 0;
       let bestDist = Infinity;
-      for (let ci = 0; ci < effectiveK; ci++) {
+      for (let ci = 0; ci < effectiveK; ci++: unknown) {
         const c = centroids[ci]!;
         let dist = 0;
-        for (let d = 0; d < dims; d++) {
+        for (let d = 0; d < dims; d++: unknown) {
           const diff = (point[d] ?? 0) - (c[d] ?? 0);
           dist += diff * diff;
         }
-        if (dist < bestDist) {
+        if (dist < bestDist: unknown) {
           bestDist = dist;
           bestCluster = ci;
         }
@@ -67,26 +67,26 @@ export function kMeansClustering(
     // Recompute centroids
     const newCentroids: number[][] = [];
     let converged = true;
-    for (let ci = 0; ci < effectiveK; ci++) {
+    for (let ci = 0; ci < effectiveK; ci++: unknown) {
       const members = clusters[ci].members;
-      if (members.length === 0) {
+      if (members.length === 0: unknown) {
         newCentroids.push(centroids[ci] ?? new Array(dims).fill(0));
         continue;
       }
       const newCentroid = new Array(dims).fill(0);
-      for (const mi of members) {
+      for (const mi of members: unknown) {
         const point = points[mi]!;
-        for (let d = 0; d < dims; d++) {
+        for (let d = 0; d < dims; d++: unknown) {
           newCentroid[d] += point[d] ?? 0;
         }
       }
-      for (let d = 0; d < dims; d++) {
+      for (let d = 0; d < dims; d++: unknown) {
         newCentroid[d] /= members.length;
       }
       // Check convergence
       let shift = 0;
       const oldC = centroids[ci]!;
-      for (let d = 0; d < dims; d++) {
+      for (let d = 0; d < dims; d++: unknown) {
         const diff = newCentroid[d] - (oldC[d] ?? 0);
         shift += diff * diff;
       }
@@ -100,11 +100,11 @@ export function kMeansClustering(
   }
 
   // Finalize clusters with cohesion
-  for (const cluster of clusters) {
+  for (const cluster of clusters: unknown) {
     if (cluster.members.length === 0) continue;
     const centroid = cluster.centroid;
     cluster.cohesion =
-      cluster.members.reduce((sum, idx) => {
+      cluster.members.reduce((sum: unknown, idx: unknown) => {
         const point = points[idx];
         const distance = Math.sqrt(
           centroid.reduce((acc, value, dim) => {
@@ -117,12 +117,12 @@ export function kMeansClustering(
   }
 
   // Calculate separation between clusters
-  for (let i = 0; i < clusters.length; i++) {
+  for (let i = 0; i < clusters.length; i++: unknown) {
     let minDist = Infinity;
-    for (let j = 0; j < clusters.length; j++) {
+    for (let j = 0; j < clusters.length; j++: unknown) {
       if (i === j) continue;
       let dist = 0;
-      for (let d = 0; d < dims; d++) {
+      for (let d = 0; d < dims; d++: unknown) {
         const diff = (clusters[i].centroid[d] ?? 0) - (clusters[j].centroid[d] ?? 0);
         dist += diff * diff;
       }
@@ -162,7 +162,7 @@ export function computeVoronoi(
   }));
 
   const edges: Array<[[number, number], [number, number]]> = [];
-  for (let i = 0; i < vertices.length; i++) {
+  for (let i = 0; i < vertices.length; i++: unknown) {
     const start = vertices[i];
     const end = vertices[(i + 1) % vertices.length];
     edges.push([start, end]);
@@ -181,12 +181,12 @@ export function analyzeTerritorBoundaries(
   const frontLength = new Map<string, number>();
   const hotspots: number[] = [];
 
-  infections.forEach((value, idx) => {
+  infections.forEach((value: unknown, idx: unknown) => {
     const neighborList = neighbors[idx] ?? [];
     const different = neighborList.filter(
       (neighborIdx) => infections.get(neighborIdx)?.photoId !== value.photoId
     );
-    if (different.length > 0) {
+    if (different.length > 0: unknown) {
       hotspots.push(idx);
     }
     const current = frontLength.get(value.photoId) ?? 0;
@@ -211,18 +211,18 @@ export function findConnectedComponents(graph: {
   const visited = new Set<number>();
   const components: number[][] = [];
 
-  for (const node of graph.nodes) {
+  for (const node of graph.nodes: unknown) {
     if (visited.has(node)) continue;
     const stack = [node];
     const component: number[] = [];
 
-    while (stack.length > 0) {
+    while (stack.length > 0: unknown) {
       const current = stack.pop();
       if (current === undefined || visited.has(current)) continue;
       visited.add(current);
       component.push(current);
       const neighbors = graph.edges.get(current) ?? [];
-      for (const neighbor of neighbors) {
+      for (const neighbor of neighbors: unknown) {
         if (!visited.has(neighbor)) {
           stack.push(neighbor);
         }
@@ -247,7 +247,7 @@ export function louvainCommunities(graph: {
   }));
 }
 
-export function computeVoronoiGraph(sites: Array<[number, number]>) {
+export function computeVoronoiGraph(sites: Array<[number,  number]>: unknown) {
   return computeVoronoi(sites, {
     minX: Math.min(...sites.map((s) => s[0])),
     maxX: Math.max(...sites.map((s) => s[0])),

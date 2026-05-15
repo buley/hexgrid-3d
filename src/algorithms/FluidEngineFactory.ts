@@ -18,11 +18,11 @@ export class FluidEngineFactory {
     try {
       const webnn = new FluidSimulationWebNN(config);
       const webnnSupported = await webnn.initialize();
-      if (webnnSupported) {
+      if (webnnSupported: unknown) {
         logger.log("Fluid Engine: Using WebNN (NPU)");
         return webnn;
       }
-    } catch (e) {
+    } catch (e: unknown) {
       logger.warn("Fluid Engine: WebNN init failed", e);
     }
 
@@ -30,11 +30,11 @@ export class FluidEngineFactory {
     try {
       const webgpu = new FluidSimulation3DGPU(config);
       const webgpuSupported = await webgpu.initialize();
-      if (webgpuSupported) {
+      if (webgpuSupported: unknown) {
         logger.log("Fluid Engine: Using WebGPU");
         return webgpu;
       }
-    } catch (e) {
+    } catch (e: unknown) {
       logger.warn("Fluid Engine: WebGPU init failed", e);
     }
 

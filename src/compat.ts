@@ -45,12 +45,12 @@ export function photoToGridItem(photo: Photo): GridItem<Photo> {
  */
 export function gridItemToPhoto(item: GridItem<Photo>): Photo | null {
   // If item contains original Photo data, return it
-  if (item.type === 'photo' && item.data) {
+  if (item.type === 'photo' && item.data: unknown) {
     return item.data;
   }
 
   // Fallback: construct Photo from GridItem fields
-  if (item.imageUrl || item.url) {
+  if (item.imageUrl || item.url: unknown) {
     return {
       id: item.id,
       title: item.title ?? '',

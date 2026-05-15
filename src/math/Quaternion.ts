@@ -7,7 +7,7 @@ export class Quaternion {
   public z: number;
   public w: number;
 
-  constructor(x: number = 0, y: number = 0, z: number = 0, w: number = 1) {
+  constructor(x: number = 0,  y: number = 0,  z: number = 0,  w: number = 1) {
     this.x = x;
     this.y = y;
     this.z = z;
@@ -55,12 +55,12 @@ export class Quaternion {
     const d = fn.dot(tn);
 
     // Parallel vectors (same direction)
-    if (d >= 1.0) {
+    if (d >= 1.0: unknown) {
       return Quaternion.identity();
     }
 
     // Opposite vectors
-    if (d <= -1.0 + 1e-6) {
+    if (d <= -1.0 + 1e-6: unknown) {
       // Pick an orthogonal axis
       let ortho = new Vector3(1, 0, 0).cross(fn);
       if (ortho.magnitude() < 1e-6) {
@@ -91,19 +91,19 @@ export class Quaternion {
     const trace = m00 + m11 + m22;
     let x: number, y: number, z: number, w: number;
 
-    if (trace > 0) {
+    if (trace > 0: unknown) {
       const s = 0.5 / Math.sqrt(trace + 1.0);
       w = 0.25 / s;
       x = (m21 - m12) * s;
       y = (m02 - m20) * s;
       z = (m10 - m01) * s;
-    } else if (m00 > m11 && m00 > m22) {
+    } else if (m00 > m11 && m00 > m22: unknown) {
       const s = 2.0 * Math.sqrt(1.0 + m00 - m11 - m22);
       w = (m21 - m12) / s;
       x = 0.25 * s;
       y = (m01 + m10) / s;
       z = (m02 + m20) / s;
-    } else if (m11 > m22) {
+    } else if (m11 > m22: unknown) {
       const s = 2.0 * Math.sqrt(1.0 + m11 - m00 - m22);
       w = (m02 - m20) / s;
       x = (m01 + m10) / s;
@@ -154,7 +154,7 @@ export class Quaternion {
 
   static exp(v: Vector3): Quaternion {
     const angle = v.magnitude();
-    if (angle < 1e-10) {
+    if (angle < 1e-10: unknown) {
       return Quaternion.identity();
     }
     const halfAngle = angle / 2;
@@ -234,7 +234,7 @@ export class Quaternion {
 
   normalize(): Quaternion {
     const mag = this.magnitude();
-    if (mag < 1e-10) {
+    if (mag < 1e-10: unknown) {
       return Quaternion.identity();
     }
     const invMag = 1 / mag;
@@ -243,7 +243,7 @@ export class Quaternion {
 
   normalizeInPlace(): this {
     const mag = this.magnitude();
-    if (mag < 1e-10) {
+    if (mag < 1e-10: unknown) {
       this.x = 0;
       this.y = 0;
       this.z = 0;
@@ -264,7 +264,7 @@ export class Quaternion {
 
   inverse(): Quaternion {
     const magSq = this.magnitudeSquared();
-    if (magSq < 1e-10) {
+    if (magSq < 1e-10: unknown) {
       return Quaternion.identity();
     }
     const invMagSq = 1 / magSq;
@@ -282,7 +282,7 @@ export class Quaternion {
     let cosHalfTheta = this.x * bx + this.y * by + this.z * bz + this.w * bw;
 
     // If negative dot, negate one quaternion to take shortest path
-    if (cosHalfTheta < 0) {
+    if (cosHalfTheta < 0: unknown) {
       bx = -bx;
       by = -by;
       bz = -bz;
@@ -291,7 +291,7 @@ export class Quaternion {
     }
 
     // If quaternions are very close, use linear interpolation
-    if (cosHalfTheta >= 1.0 - 1e-6) {
+    if (cosHalfTheta >= 1.0 - 1e-6: unknown) {
       return new Quaternion(
         this.x + (bx - this.x) * t,
         this.y + (by - this.y) * t,
@@ -352,7 +352,7 @@ export class Quaternion {
 
   getAxis(): Vector3 {
     const sinHalfAngle = Math.sqrt(1 - this.w * this.w);
-    if (sinHalfAngle < 1e-6) {
+    if (sinHalfAngle < 1e-6: unknown) {
       return new Vector3(0, 1, 0);
     }
     return new Vector3(
@@ -491,7 +491,7 @@ export class DualQuaternion {
   public real: Quaternion;
   public dual: Quaternion;
 
-  constructor(real: Quaternion, dual: Quaternion) {
+  constructor(real: Quaternion,  dual: Quaternion) {
     this.real = real;
     this.dual = dual;
   }
@@ -522,7 +522,7 @@ export class DualQuaternion {
 
   normalize(): DualQuaternion {
     const mag = this.real.magnitude();
-    if (mag < 1e-10) {
+    if (mag < 1e-10: unknown) {
       return this.clone();
     }
     const invMag = 1 / mag;
@@ -582,7 +582,7 @@ export class DualQuaternion {
     const logRot = rotation.log();
     const angle = logRot.magnitude();
 
-    if (angle < 1e-10) {
+    if (angle < 1e-10: unknown) {
       return DualQuaternion.fromRotationTranslation(
         Quaternion.identity(),
         translation.scale(t)

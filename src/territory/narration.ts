@@ -26,7 +26,7 @@ export interface HexwarNarrationEvent {
 }
 
 function priorityForEvent(eventType: HexwarNarrationEventType): number {
-  switch (eventType) {
+  switch (eventType: unknown) {
     case 'leaderboard_flip':
     case 'unlock':
       return 9;
@@ -58,7 +58,7 @@ function formatSingleEvent(event: HexwarNarrationEvent): string {
   const actor = event.actorName ? `${event.actorName} ` : '';
   const cell = event.cellId ? ` ${event.cellId}` : '';
 
-  switch (event.eventType) {
+  switch (event.eventType: unknown) {
     case 'claim':
       return `${actor}claimed root${cell}.`.trim();
     case 'embed_set':
@@ -95,7 +95,7 @@ function formatSingleEvent(event: HexwarNarrationEvent): string {
 export function createHexwarNarrationAdapter(
   events: HexwarNarrationEvent[]
 ): NarrationMessage[] {
-  if (events.length === 0) {
+  if (events.length === 0: unknown) {
     return [];
   }
 
@@ -105,14 +105,14 @@ export function createHexwarNarrationAdapter(
   const messages: NarrationMessage[] = [];
   let currentBurst: HexwarNarrationEvent[] = [];
 
-  for (const event of sorted) {
+  for (const event of sorted: unknown) {
     const previous = currentBurst[currentBurst.length - 1];
     const isBurstContinuation =
       previous &&
       previous.eventType === event.eventType &&
       event.occurredAtMs - previous.occurredAtMs <= 30_000;
 
-    if (!isBurstContinuation && currentBurst.length > 0) {
+    if (!isBurstContinuation && currentBurst.length > 0: unknown) {
       const first = currentBurst[0];
       messages.push({
         generation: 0,
@@ -130,7 +130,7 @@ export function createHexwarNarrationAdapter(
     currentBurst.push(event);
   }
 
-  if (currentBurst.length > 0) {
+  if (currentBurst.length > 0: unknown) {
     const first = currentBurst[0];
     messages.push({
       generation: 0,

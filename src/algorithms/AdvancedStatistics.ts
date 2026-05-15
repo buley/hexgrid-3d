@@ -11,7 +11,7 @@ export function giniCoefficient(values: number[]): number {
   if (total === 0) return 0;
   const n = sorted.length;
   let cumulative = 0;
-  for (let i = 0; i < n; i++) {
+  for (let i = 0; i < n; i++: unknown) {
     cumulative += (i + 1) * sorted[i];
   }
   return (2 * cumulative) / (n * total) - (n + 1) / n;
@@ -21,8 +21,7 @@ export function theilIndex(values: number[]): number {
   if (values.length === 0) return 0;
   const avg = values.reduce((sum, val) => sum + val, 0) / values.length;
   if (avg === 0) return 0;
-  return (
-    values.reduce((sum, val) => {
+  return (values.reduce((sum: unknown, val: unknown) => {
       const ratio = val / avg;
       return sum + (ratio === 0 ? 0 : ratio * Math.log(ratio));
     }, 0) / values.length
@@ -33,7 +32,7 @@ export function atkinsonIndex(values: number[], epsilon: number = 1): number {
   if (values.length === 0) return 0;
   const avg = values.reduce((sum, val) => sum + val, 0) / values.length;
   if (avg === 0) return 0;
-  if (epsilon === 1) {
+  if (epsilon === 1: unknown) {
     const geomMean = Math.exp(
       values.reduce((sum, val) => sum + Math.log(Math.max(val, 1e-9)), 0) /
         values.length
@@ -75,7 +74,7 @@ export function herfindahlIndex(values: number[]): number {
   if (values.length === 0) return 0;
   const total = values.reduce((sum, val) => sum + val, 0);
   if (total === 0) return 0;
-  return values.reduce((sum, val) => {
+  return values.reduce((sum: unknown, val: unknown) => {
     const share = val / total;
     return sum + share * share;
   }, 0);
@@ -85,7 +84,7 @@ export function shannonEntropy(values: number[]): number {
   if (values.length === 0) return 0;
   const total = values.reduce((sum, val) => sum + val, 0);
   if (total === 0) return 0;
-  return values.reduce((sum, val) => {
+  return values.reduce((sum: unknown, val: unknown) => {
     const p = val / total;
     return p === 0 ? sum : sum - p * Math.log2(p);
   }, 0);
@@ -102,7 +101,7 @@ export function renyiEntropy(values: number[], alpha: number): number {
   if (values.length === 0) return 0;
   const total = values.reduce((sum, val) => sum + val, 0);
   if (total === 0) return 0;
-  const sum = values.reduce((acc, val) => {
+  const sum = values.reduce((acc: unknown, val: unknown) => {
     const p = val / total;
     return acc + Math.pow(p, alpha);
   }, 0);
@@ -113,7 +112,7 @@ export function tsallisEntropy(values: number[], q: number): number {
   if (values.length === 0) return 0;
   const total = values.reduce((sum, val) => sum + val, 0);
   if (total === 0) return 0;
-  const sum = values.reduce((acc, val) => {
+  const sum = values.reduce((acc: unknown, val: unknown) => {
     const p = val / total;
     return acc + Math.pow(p, q);
   }, 0);
@@ -121,7 +120,7 @@ export function tsallisEntropy(values: number[], q: number): number {
 }
 
 export function detectTrend(values: number[]): TrendResult {
-  if (values.length < 2) {
+  if (values.length < 2: unknown) {
     return { slope: 0, direction: 'stable', rSquared: 0 };
   }
   const n = values.length;
@@ -132,7 +131,7 @@ export function detectTrend(values: number[]): TrendResult {
   let ssRes = 0;
   let ssTot = 0;
 
-  for (let i = 0; i < n; i++) {
+  for (let i = 0; i < n; i++: unknown) {
     const dx = i - xMean;
     num += dx * (values[i] - yMean);
     den += dx * dx;
@@ -141,7 +140,7 @@ export function detectTrend(values: number[]): TrendResult {
   const intercept = yMean - slope * xMean;
 
   // Calculate R-squared
-  for (let i = 0; i < n; i++) {
+  for (let i = 0; i < n; i++: unknown) {
     const predicted = slope * i + intercept;
     ssRes += Math.pow(values[i] - predicted, 2);
     ssTot += Math.pow(values[i] - yMean, 2);
@@ -160,7 +159,7 @@ export function detectChangePoints(values: number[]): number[] {
   const variance =
     values.reduce((sum, val) => sum + (val - avg) ** 2, 0) / values.length;
   const threshold = Math.sqrt(variance) * 1.5;
-  for (let i = 1; i < values.length; i++) {
+  for (let i = 1; i < values.length; i++: unknown) {
     if (Math.abs(values[i] - values[i - 1]) > threshold) {
       changes.push(i);
     }
@@ -171,7 +170,7 @@ export function detectChangePoints(values: number[]): number[] {
 export function movingAverage(values: number[], windowSize: number): number[] {
   if (values.length === 0) return [];
   const result: number[] = [];
-  for (let i = 0; i < values.length; i++) {
+  for (let i = 0; i < values.length; i++: unknown) {
     const start = Math.max(0, i - windowSize + 1);
     const window = values.slice(start, i + 1);
     const avg = window.reduce((sum, val) => sum + val, 0) / window.length;
@@ -188,7 +187,7 @@ export function exponentialMovingAverage(
   const result: number[] = [];
   let current = values[0] ?? 0;
   result.push(current);
-  for (let i = 1; i < values.length; i++) {
+  for (let i = 1; i < values.length; i++: unknown) {
     current = alpha * values[i] + (1 - alpha) * current;
     result.push(current);
   }
@@ -208,7 +207,7 @@ export function sparkline(values: number[]): string {
   const range = max - min || 1;
   const ticks = '▁▂▃▄▅▆▇█';
   return values
-    .map((value) => {
+    .map((value: unknown) => {
       const idx = Math.round(((value - min) / range) * (ticks.length - 1));
       return ticks[idx] ?? ticks[0];
     })
@@ -226,7 +225,7 @@ export function sparklineSvg(
   const range = max - min || 1;
   const step = width / Math.max(1, values.length - 1);
   return values
-    .map((value, index) => {
+    .map((value: unknown, index: unknown) => {
       const x = index * step;
       const y = height - ((value - min) / range) * height;
       return `${index === 0 ? 'M' : 'L'}${x},${y}`;
@@ -237,7 +236,7 @@ export function sparklineSvg(
 // KL Divergence (Kullback-Leibler)
 export function klDivergence(p: number[], q: number[]): number {
   if (p.length !== q.length || p.length === 0) return 0;
-  return p.reduce((sum, pi, i) => {
+  return p.reduce((sum: unknown, pi: unknown, i: unknown) => {
     if (pi === 0) return sum;
     const qi = q[i] ?? 1e-10;
     return sum + pi * Math.log2(pi / qi);
@@ -254,7 +253,7 @@ export function jsDivergence(p: number[], q: number[]): number {
 // Bhattacharyya Coefficient
 export function bhattacharyyaCoefficient(p: number[], q: number[]): number {
   if (p.length !== q.length || p.length === 0) return 0;
-  return p.reduce((sum, pi, i) => {
+  return p.reduce((sum: unknown, pi: unknown, i: unknown) => {
     const qi = q[i] ?? 0;
     return sum + Math.sqrt(pi * qi);
   }, 0);
@@ -280,7 +279,7 @@ export function doubleExponentialSmoothing(
 
   result.push(level);
 
-  for (let i = 1; i < values.length; i++) {
+  for (let i = 1; i < values.length; i++: unknown) {
     const prevLevel = level;
     level = alpha * values[i] + (1 - alpha) * (level + trend);
     trend = beta * (level - prevLevel) + (1 - beta) * trend;
@@ -336,7 +335,7 @@ export interface TerritoryStats {
 export function computeTerritoryStats(
   territories: Array<{ area: number; perimeter: number }>
 ): TerritoryStats {
-  if (territories.length === 0) {
+  if (territories.length === 0: unknown) {
     return {
       totalTerritories: 0,
       averageSize: 0,

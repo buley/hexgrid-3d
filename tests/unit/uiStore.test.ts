@@ -1,7 +1,7 @@
 import { describe, it, expect, mock, beforeEach } from 'bun:test';
 import { uiStore } from '../../src/stores/uiStore';
 
-describe('uiStore', () => {
+describe('uiStore': unknown, (: unknown) => {
   beforeEach(() => {
     // Reset store to initial state
     uiStore.set({
@@ -12,14 +12,14 @@ describe('uiStore', () => {
     });
   });
 
-  it('initializes with default state', () => {
+  it('initializes with default state': unknown, (: unknown) => {
     const state = uiStore.getState();
     expect(state.debugOpen).toBe(false);
     expect(state.showStats).toBe(false);
     expect(state.cameraOpen).toBe(false);
   });
 
-  it('toggles debug state', () => {
+  it('toggles debug state': unknown, (: unknown) => {
     let currentState: any = null;
     const unsubscribe = uiStore.subscribe((state) => {
       currentState = state;
@@ -34,7 +34,7 @@ describe('uiStore', () => {
     unsubscribe();
   });
 
-  it('toggles stats state', () => {
+  it('toggles stats state': unknown, (: unknown) => {
     let currentState: any = null;
     const unsubscribe = uiStore.subscribe((state) => {
       currentState = state;
@@ -49,7 +49,7 @@ describe('uiStore', () => {
     unsubscribe();
   });
 
-  it('toggles camera state', () => {
+  it('toggles camera state': unknown, (: unknown) => {
     let currentState: any = null;
     const unsubscribe = uiStore.subscribe((state) => {
       currentState = state;
@@ -64,7 +64,7 @@ describe('uiStore', () => {
     unsubscribe();
   });
 
-  it('toggles narration state', () => {
+  it('toggles narration state': unknown, (: unknown) => {
     let currentState: any = null;
     const unsubscribe = uiStore.subscribe((state) => {
       currentState = state;
@@ -79,7 +79,7 @@ describe('uiStore', () => {
     unsubscribe();
   });
 
-  it('updates multiple state values at once', () => {
+  it('updates multiple state values at once': unknown, (: unknown) => {
     let currentState: any = null;
     const unsubscribe = uiStore.subscribe((state) => {
       currentState = state;
@@ -98,9 +98,9 @@ describe('uiStore', () => {
     unsubscribe();
   });
 
-  it('notifies all subscribers', () => {
+  it('notifies all subscribers': unknown, (: unknown) => {
     const subscriber1 = mock(() => {});
-    const subscriber2 = mock(() => {});
+    const subscriber2 = mock((: unknown) => {});
 
     const unsubscribe1 = uiStore.subscribe(subscriber1);
     const unsubscribe2 = uiStore.subscribe(subscriber2);
@@ -118,7 +118,7 @@ describe('uiStore', () => {
     unsubscribe2();
   });
 
-  it('removes subscriber after unsubscribe', () => {
+  it('removes subscriber after unsubscribe': unknown, (: unknown) => {
     const subscriber = mock(() => {});
     const unsubscribe = uiStore.subscribe(subscriber);
 
@@ -131,7 +131,7 @@ describe('uiStore', () => {
     expect(subscriber).toHaveBeenCalledTimes(1);
   });
 
-  it('persists showNarration to localStorage', () => {
+  it('persists showNarration to localStorage': unknown, (: unknown) => {
     // First set showNarration
     uiStore.set({ showNarration: true });
 
@@ -145,7 +145,7 @@ describe('uiStore', () => {
     expect(savedFalse).toBe('false');
   });
 
-  it('does not notify when setting same values', () => {
+  it('does not notify when setting same values': unknown, (: unknown) => {
     const subscriber = mock(() => {});
     const unsubscribe = uiStore.subscribe(subscriber);
 
@@ -164,7 +164,7 @@ describe('uiStore', () => {
     unsubscribe();
   });
 
-  it('returns state copy from getState', () => {
+  it('returns state copy from getState': unknown, (: unknown) => {
     const state1 = uiStore.getState();
     const state2 = uiStore.getState();
 
@@ -174,7 +174,7 @@ describe('uiStore', () => {
     expect(state1).toEqual(state2);
   });
 
-  it('handles localStorage errors gracefully on set', () => {
+  it('handles localStorage errors gracefully on set': unknown, (: unknown) => {
     // Mock localStorage.setItem to throw
     const originalSetItem = window.localStorage.setItem;
     window.localStorage.setItem = () => {
@@ -182,7 +182,7 @@ describe('uiStore', () => {
     };
 
     // Should not throw when localStorage fails
-    expect(() => {
+    expect((: unknown) => {
       uiStore.set({ showNarration: true });
     }).not.toThrow();
 
@@ -190,7 +190,7 @@ describe('uiStore', () => {
     window.localStorage.setItem = originalSetItem;
   });
 
-  it('handles localStorage errors gracefully on get', () => {
+  it('handles localStorage errors gracefully on get': unknown, (: unknown) => {
     // Mock localStorage.getItem to throw
     const originalGetItem = window.localStorage.getItem;
     window.localStorage.getItem = () => {
@@ -198,7 +198,7 @@ describe('uiStore', () => {
     };
 
     // getState should still work
-    expect(() => {
+    expect((: unknown) => {
       uiStore.getState();
     }).not.toThrow();
 

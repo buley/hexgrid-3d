@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * Type definitions for HexGrid Visualization
  */

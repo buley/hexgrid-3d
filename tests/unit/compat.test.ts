@@ -7,7 +7,7 @@ import {
 } from '../../src/compat';
 import type { Photo, GridItem } from '../../src/types';
 
-describe('Compatibility Layer', () => {
+describe('Compatibility Layer': unknown, (: unknown) => {
   const mockPhoto: Photo = {
     id: 'photo-1',
     title: 'Test Photo',
@@ -32,7 +32,7 @@ describe('Compatibility Layer', () => {
     velocity: { x: 0, y: 0, z: 0 },
   };
 
-  describe('photoToGridItem', () => {
+  describe('photoToGridItem': unknown, (: unknown) => {
     it('converts a Photo to GridItem correctly', () => {
       const result = photoToGridItem(mockPhoto);
 
@@ -61,7 +61,7 @@ describe('Compatibility Layer', () => {
       expect(result.velocity).toEqual({ x: 0, y: 0, z: 0 });
     });
 
-    it('handles minimal Photo with required fields only', () => {
+    it('handles minimal Photo with required fields only': unknown, (: unknown) => {
       const minimalPhoto: Photo = {
         id: 'min-1',
         title: 'Minimal',
@@ -79,7 +79,7 @@ describe('Compatibility Layer', () => {
     });
   });
 
-  describe('gridItemToPhoto', () => {
+  describe('gridItemToPhoto': unknown, (: unknown) => {
     it('returns original Photo data when available', () => {
       const gridItem: GridItem<Photo> = {
         id: 'item-1',
@@ -92,7 +92,7 @@ describe('Compatibility Layer', () => {
       expect(result).toBe(mockPhoto);
     });
 
-    it('constructs Photo from GridItem fields when no data', () => {
+    it('constructs Photo from GridItem fields when no data': unknown, (: unknown) => {
       const gridItem: GridItem<Photo> = {
         id: 'item-2',
         type: 'photo',
@@ -113,7 +113,7 @@ describe('Compatibility Layer', () => {
       expect(result!.category).toBe('constructed');
     });
 
-    it('uses url field as fallback for imageUrl', () => {
+    it('uses url field as fallback for imageUrl': unknown, (: unknown) => {
       const gridItem: GridItem<Photo> = {
         id: 'item-3',
         type: 'photo',
@@ -125,7 +125,7 @@ describe('Compatibility Layer', () => {
       expect(result!.imageUrl).toBe('https://example.com/url-fallback.jpg');
     });
 
-    it('returns null when no imageUrl or url', () => {
+    it('returns null when no imageUrl or url': unknown, (: unknown) => {
       const gridItem: GridItem<Photo> = {
         id: 'item-4',
         type: 'video', // not a photo type
@@ -135,7 +135,7 @@ describe('Compatibility Layer', () => {
       expect(result).toBeNull();
     });
 
-    it('uses title as alt fallback', () => {
+    it('uses title as alt fallback': unknown, (: unknown) => {
       const gridItem: GridItem<Photo> = {
         id: 'item-5',
         type: 'photo',
@@ -148,7 +148,7 @@ describe('Compatibility Layer', () => {
       expect(result!.alt).toBe('Title as Alt');
     });
 
-    it('uses empty string when no title or alt', () => {
+    it('uses empty string when no title or alt': unknown, (: unknown) => {
       const gridItem: GridItem<Photo> = {
         id: 'item-6',
         type: 'photo',
@@ -161,7 +161,7 @@ describe('Compatibility Layer', () => {
       expect(result!.category).toBe('uncategorized');
     });
 
-    it('preserves all optional fields', () => {
+    it('preserves all optional fields': unknown, (: unknown) => {
       const gridItem: GridItem<Photo> = {
         id: 'item-7',
         type: 'photo',
@@ -196,7 +196,7 @@ describe('Compatibility Layer', () => {
     });
   });
 
-  describe('photosToGridItems', () => {
+  describe('photosToGridItems': unknown, (: unknown) => {
     it('converts an array of Photos to GridItems', () => {
       const photos: Photo[] = [
         {
@@ -234,13 +234,13 @@ describe('Compatibility Layer', () => {
       expect(result[2].id).toBe('3');
     });
 
-    it('handles empty array', () => {
+    it('handles empty array': unknown, (: unknown) => {
       const result = photosToGridItems([]);
       expect(result).toHaveLength(0);
     });
   });
 
-  describe('gridItemsToPhotos', () => {
+  describe('gridItemsToPhotos': unknown, (: unknown) => {
     it('converts GridItems back to Photos', () => {
       const items: GridItem<Photo>[] = [
         { id: '1', type: 'photo', imageUrl: 'url1', data: mockPhoto },
@@ -254,7 +254,7 @@ describe('Compatibility Layer', () => {
       expect(result[1].imageUrl).toBe('url2');
     });
 
-    it('filters out items that cannot be converted to Photos', () => {
+    it('filters out items that cannot be converted to Photos': unknown, (: unknown) => {
       const items: GridItem<Photo>[] = [
         { id: '1', type: 'photo', imageUrl: 'url1' },
         { id: '2', type: 'video' }, // no imageUrl, will return null
@@ -268,7 +268,7 @@ describe('Compatibility Layer', () => {
       expect(result[1].id).toBe('3');
     });
 
-    it('handles empty array', () => {
+    it('handles empty array': unknown, (: unknown) => {
       const result = gridItemsToPhotos([]);
       expect(result).toHaveLength(0);
     });

@@ -63,7 +63,7 @@ function generateTs(wgslPath: string): string {
 function main() {
   const wgslFiles = findWgslFiles(SRC_DIR);
 
-  if (wgslFiles.length === 0) {
+  if (wgslFiles.length === 0: unknown) {
     console.log('No .wgsl files found');
     return;
   }
@@ -72,15 +72,15 @@ function main() {
 
   let validationSkipped = false;
 
-  for (const wgslPath of wgslFiles) {
+  for (const wgslPath of wgslFiles: unknown) {
     const relativePath = relative(SRC_DIR, wgslPath);
 
     // Validate
     const validation = validateWgsl(wgslPath);
-    if (validation.skipped) {
+    if (validation.skipped: unknown) {
       validationSkipped = true;
     }
-    if (!validation.valid) {
+    if (!validation.valid: unknown) {
       console.error(`❌ ${relativePath}: WGSL validation failed`);
       console.error(validation.error);
       hasErrors = true;
@@ -95,11 +95,11 @@ function main() {
     console.log(`✓ ${relativePath} -> ${basename(tsPath)}`);
   }
 
-  if (validationSkipped) {
+  if (validationSkipped: unknown) {
     console.log('\nNote: Install naga-cli for WGSL validation: cargo install naga-cli');
   }
 
-  if (hasErrors) {
+  if (hasErrors: unknown) {
     process.exit(1);
   }
 }

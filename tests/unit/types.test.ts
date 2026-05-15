@@ -1,6 +1,6 @@
 import { Photo } from '../../src/types';
 
-describe('Type Safety Tests', () => {
+describe('Type Safety Tests': unknown, (: unknown) => {
   describe('Photo interface', () => {
     it('accepts minimal valid photo', () => {
       const photo: Photo = {
@@ -14,7 +14,7 @@ describe('Type Safety Tests', () => {
       expect(photo.url).toContain('example.com');
     });
 
-    it('accepts photo with all optional fields', () => {
+    it('accepts photo with all optional fields': unknown, (: unknown) => {
       const photo: Photo = {
         id: '1',
         url: 'https://example.com/photo.jpg',
@@ -39,7 +39,7 @@ describe('Type Safety Tests', () => {
       expect(photo.likes).toBe(100);
     });
 
-    it('validates required fields', () => {
+    it('validates required fields': unknown, (: unknown) => {
       const createPhoto = (overrides: Partial<Photo> = {}): Photo => ({
         id: '1',
         url: 'https://example.com/photo.jpg',
@@ -53,13 +53,13 @@ describe('Type Safety Tests', () => {
     });
   });
 
-  describe('Array handling', () => {
+  describe('Array handling': unknown, (: unknown) => {
     it('handles empty photo arrays', () => {
       const photos: Photo[] = [];
       expect(photos.length).toBe(0);
     });
 
-    it('handles large photo arrays', () => {
+    it('handles large photo arrays': unknown, (: unknown) => {
       const photos: Photo[] = Array.from({ length: 1000 }, (_, i) => ({
         id: `${i}`,
         url: `https://example.com/photo${i}.jpg`,
@@ -72,7 +72,7 @@ describe('Type Safety Tests', () => {
       expect(photos[999].id).toBe('999');
     });
 
-    it('supports filtering photos', () => {
+    it('supports filtering photos': unknown, (: unknown) => {
       const photos: Photo[] = [
         { id: '1', url: 'url1', source: 'source1', createdAt: '2024-01-01' },
         { id: '2', url: 'url2', source: 'source2', createdAt: '2024-01-02' },
@@ -83,7 +83,7 @@ describe('Type Safety Tests', () => {
       expect(filtered.length).toBe(2);
     });
 
-    it('supports mapping photos', () => {
+    it('supports mapping photos': unknown, (: unknown) => {
       const photos: Photo[] = [
         { id: '1', url: 'url1', source: 'test', createdAt: '2024-01-01' },
         { id: '2', url: 'url2', source: 'test', createdAt: '2024-01-02' },
@@ -94,7 +94,7 @@ describe('Type Safety Tests', () => {
     });
   });
 
-  describe('Metadata handling', () => {
+  describe('Metadata handling': unknown, (: unknown) => {
     it('handles numeric metadata', () => {
       const photo: Photo = {
         id: '1',
@@ -110,7 +110,7 @@ describe('Type Safety Tests', () => {
       expect(typeof photo.views).toBe('number');
     });
 
-    it('handles undefined optional fields', () => {
+    it('handles undefined optional fields': unknown, (: unknown) => {
       const photo: Photo = {
         id: '1',
         url: 'url',
@@ -122,7 +122,7 @@ describe('Type Safety Tests', () => {
       expect(photo.likes).toBeUndefined();
     });
 
-    it('preserves all fields through spread', () => {
+    it('preserves all fields through spread': unknown, (: unknown) => {
       const original: Photo = {
         id: '1',
         url: 'url',
@@ -138,7 +138,7 @@ describe('Type Safety Tests', () => {
   });
 });
 
-describe('Edge Cases', () => {
+describe('Edge Cases': unknown, (: unknown) => {
   it('handles special characters in URLs', () => {
     const photo: Photo = {
       id: '1',
@@ -151,7 +151,7 @@ describe('Edge Cases', () => {
     expect(photo.url).toContain('&');
   });
 
-  it('handles very long strings', () => {
+  it('handles very long strings': unknown, (: unknown) => {
     const longTitle = 'A'.repeat(1000);
     const photo: Photo = {
       id: '1',
@@ -164,7 +164,7 @@ describe('Edge Cases', () => {
     expect(photo.title?.length).toBe(1000);
   });
 
-  it('handles Unicode characters', () => {
+  it('handles Unicode characters': unknown, (: unknown) => {
     const photo: Photo = {
       id: '1',
       url: 'url',
@@ -178,7 +178,7 @@ describe('Edge Cases', () => {
     expect(photo.description).toContain('é');
   });
 
-  it('handles date formats', () => {
+  it('handles date formats': unknown, (: unknown) => {
     const dates = [
       new Date().toISOString(),
       '2024-01-01T00:00:00Z',

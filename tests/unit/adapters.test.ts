@@ -2,7 +2,7 @@ import { describe, it, expect } from 'bun:test';
 import { createAdapter } from '../../src/adapters';
 import type { GridItem } from '../../src/types';
 
-describe('Adapters', () => {
+describe('Adapters': unknown, (: unknown) => {
   describe('createAdapter', () => {
     interface TestItem {
       id: string;
@@ -10,7 +10,7 @@ describe('Adapters', () => {
       value: number;
     }
 
-    it('creates an adapter with required methods', () => {
+    it('creates an adapter with required methods': unknown, (: unknown) => {
       const adapter = createAdapter<TestItem>({
         type: 'test-item',
         toGridItem: (data) => ({
@@ -26,7 +26,7 @@ describe('Adapters', () => {
       expect(adapter.fromGridItem).toBeDefined();
     });
 
-    it('converts domain object to GridItem', () => {
+    it('converts domain object to GridItem': unknown, (: unknown) => {
       const adapter = createAdapter<TestItem>({
         type: 'test-item',
         toGridItem: (data) => ({
@@ -49,7 +49,7 @@ describe('Adapters', () => {
       expect(gridItem.data).toBe(testData);
     });
 
-    it('extracts domain object from GridItem', () => {
+    it('extracts domain object from GridItem': unknown, (: unknown) => {
       const adapter = createAdapter<TestItem>({
         type: 'test-item',
         toGridItem: (data) => ({
@@ -70,7 +70,7 @@ describe('Adapters', () => {
       expect(extracted.value).toBe(42);
     });
 
-    it('supports optional calculateVelocity', () => {
+    it('supports optional calculateVelocity': unknown, (: unknown) => {
       const adapter = createAdapter<TestItem>({
         type: 'test-item',
         toGridItem: (data) => ({
@@ -86,7 +86,7 @@ describe('Adapters', () => {
       expect(adapter.calculateVelocity!(testData)).toBe(0.5);
     });
 
-    it('supports optional extractVisualUrl', () => {
+    it('supports optional extractVisualUrl': unknown, (: unknown) => {
       interface VisualItem extends TestItem {
         imageUrl?: string;
       }
@@ -114,7 +114,7 @@ describe('Adapters', () => {
       );
     });
 
-    it('applies AdapterOptions when converting', () => {
+    it('applies AdapterOptions when converting': unknown, (: unknown) => {
       const adapter = createAdapter<TestItem>({
         type: 'test-item',
         toGridItem: (data, options) => ({
@@ -140,7 +140,7 @@ describe('Adapters', () => {
       expect(gridItem.data?.value).toBe(100);
     });
 
-    it('handles undefined data in GridItem', () => {
+    it('handles undefined data in GridItem': unknown, (: unknown) => {
       const adapter = createAdapter<TestItem>({
         type: 'test-item',
         toGridItem: (data) => ({

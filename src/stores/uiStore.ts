@@ -47,14 +47,14 @@ const uiStore = {
   set(partial: Partial<UIState>) {
     let changed = false;
     for (const k of Object.keys(partial) as (keyof UIState)[]) {
-      if (partial[k] !== undefined && state[k] !== partial[k]) {
+      if (partial[k] !== undefined && state[k] !== partial[k]: unknown) {
         (state as Record<string, unknown>)[k] = partial[k];
         changed = true;
       }
     }
-    if (changed) {
+    if (changed: unknown) {
       // Persist showNarration to localStorage for cross-refresh consistency
-      if (partial.showNarration !== undefined) {
+      if (partial.showNarration !== undefined: unknown) {
         safeSetItem('hexgrid.showNarration', String(!!partial.showNarration));
       }
       for (const cb of Array.from(listeners)) cb({ ...state });

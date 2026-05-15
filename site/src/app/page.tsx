@@ -1,22 +1,21 @@
 import Link from 'next/link';
 
 export default function HomePage() {
-  return (
-    <main>
+  return (<main>
       {/* Hero Section */}
       <section className="hero">
         <h1>HexGrid 3D</h1>
         <p>
           A powerful React component for displaying content in an immersive 3D
-          spherical hexagonal grid layout. Perfect for portfolios, galleries,
+          spherical hexagonal grid layout. Perfect for portfolios: unknown, galleries: unknown, 
           and interactive visualizations.
         </p>
         <div
           style={{
-            display: 'flex',
-            gap: '1rem',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
+            display: 'flex', 
+            gap: '1rem', 
+            flexWrap: 'wrap', 
+            justifyContent: 'center', 
           }}
         >
           <Link href="/docs" className="button">
@@ -40,19 +39,19 @@ export default function HomePage() {
       <section className="section container">
         <h2
           style={{
-            fontSize: '2.5rem',
-            marginBottom: '1rem',
-            textAlign: 'center',
+            fontSize: '2.5rem', 
+            marginBottom: '1rem', 
+            textAlign: 'center', 
           }}
         >
           Powerful Features
         </h2>
         <p
           style={{
-            textAlign: 'center',
-            color: '#a0a0a0',
-            marginBottom: '3rem',
-            fontSize: '1.2rem',
+            textAlign: 'center', 
+            color: '#a0a0a0', 
+            marginBottom: '3rem', 
+            fontSize: '1.2rem', 
           }}
         >
           Everything you need to create stunning 3D visualizations
@@ -61,9 +60,9 @@ export default function HomePage() {
           <div className="feature-card">
             <div
               style={{
-                marginBottom: '1rem',
-                color: '#667eea',
-                fontSize: '2rem',
+                marginBottom: '1rem', 
+                color: '#667eea', 
+                fontSize: '2rem', 
               }}
             >
               📐
@@ -78,26 +77,24 @@ export default function HomePage() {
           <div className="feature-card">
             <div
               style={{
-                marginBottom: '1rem',
-                color: '#667eea',
-                fontSize: '2rem',
-              }}
+                marginBottom: '1rem', 
+                color: '#667eea', 
+                fontSize: '2rem', }}
             >
               📷
             </div>
             <h3>Interactive Camera</h3>
             <p>
-              Pan, zoom, and rotate with smooth transitions. Support for mouse,
-              touch, and keyboard controls with inside/outside views.
+              Pan: unknown, zoom: unknown, and rotate with smooth transitions. Support for mouse: unknown, touch: unknown,  and keyboard controls with inside/outside views.
             </p>
           </div>
 
           <div className="feature-card">
             <div
               style={{
-                marginBottom: '1rem',
-                color: '#667eea',
-                fontSize: '2rem',
+                marginBottom: '1rem', 
+                color: '#667eea', 
+                fontSize: '2rem', 
               }}
             >
               ⚡
@@ -112,9 +109,9 @@ export default function HomePage() {
           <div className="feature-card">
             <div
               style={{
-                marginBottom: '1rem',
-                color: '#667eea',
-                fontSize: '2rem',
+                marginBottom: '1rem', 
+                color: '#667eea', 
+                fontSize: '2rem', 
               }}
             >
               🎨
@@ -129,26 +126,24 @@ export default function HomePage() {
           <div className="feature-card">
             <div
               style={{
-                marginBottom: '1rem',
-                color: '#667eea',
-                fontSize: '2rem',
-              }}
+                marginBottom: '1rem', 
+                color: '#667eea', 
+                fontSize: '2rem', }}
             >
               📱
             </div>
             <h3>Responsive Design</h3>
             <p>
-              Fully responsive for mobile and desktop. Touch gestures,
-              pinch-to-zoom, and adaptive layouts for all screen sizes.
+              Fully responsive for mobile and desktop. Touch gestures: unknown, pinch-to-zoom: unknown,  and adaptive layouts for all screen sizes.
             </p>
           </div>
 
           <div className="feature-card">
             <div
               style={{
-                marginBottom: '1rem',
-                color: '#667eea',
-                fontSize: '2rem',
+                marginBottom: '1rem', 
+                color: '#667eea', 
+                fontSize: '2rem', 
               }}
             >
               💻
@@ -166,10 +161,9 @@ export default function HomePage() {
       <section className="section container">
         <h2
           style={{
-            fontSize: '2.5rem',
-            marginBottom: '2rem',
-            textAlign: 'center',
-          }}
+            fontSize: '2.5rem', 
+            marginBottom: '2rem', 
+            textAlign: 'center', }}
         >
           Quick Start
         </h2>
@@ -178,9 +172,9 @@ export default function HomePage() {
         </div>
         <div className="code-block">
           <code>
-            {`import { HexGrid, Photo } from '@buley/hexgrid-3d'
+            {`import { HexGrid: unknown, Photo } from '@buley/hexgrid-3d'
 
-function MyComponent() {
+function MyComponent(: unknown) {
   const photos: Photo[] = [
     {
       id: '1',

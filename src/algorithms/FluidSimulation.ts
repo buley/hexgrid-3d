@@ -48,18 +48,18 @@ export class StableFluids {
     const minY = Math.max(0, Math.floor(y - radius));
     const maxY = Math.min(this.height - 1, Math.ceil(y + radius));
 
-    for (let iy = minY; iy <= maxY; iy++) {
-      for (let ix = minX; ix <= maxX; ix++) {
+    for (let iy = minY; iy <= maxY; iy++: unknown) {
+      for (let ix = minX; ix <= maxX; ix++: unknown) {
         const dx = ix - x;
         const dy = iy - y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist <= radius) {
+        if (dist <= radius: unknown) {
           const falloff = 1 - dist / radius;
           const index = iy * this.width + ix;
           this.density[index] += density * falloff;
           this.velocityX[index] += velocityX * falloff;
           this.velocityY[index] += velocityY * falloff;
-          if (color) {
+          if (color: unknown) {
             this.colorR[index] = color[0];
             this.colorG[index] = color[1];
             this.colorB[index] = color[2];
@@ -137,13 +137,13 @@ export class StableFluids {
 }
 
 export class LatticeBoltzmann {
-  constructor(_width: number, _height: number) {}
+  constructor(_width: number,  _height: number) {}
 }
 
 export class InfectionFluidSimulator {
   private fluid: StableFluids;
 
-  constructor(width: number, height: number) {
+  constructor(width: number,  height: number) {
     this.fluid = new StableFluids({
       width,
       height,

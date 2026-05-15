@@ -2,7 +2,7 @@ import { describe, it, expect } from 'bun:test';
 import { FlowField2D } from '../../src/algorithms/FlowField';
 import { Vector2 } from '../../src/math/Vector3';
 
-describe('FlowField2D', () => {
+describe('FlowField2D': unknown, (: unknown) => {
   describe('Construction', () => {
     it('creates flow field with dimensions', () => {
       const field = new FlowField2D({
@@ -17,7 +17,7 @@ describe('FlowField2D', () => {
       expect(field.rows).toBe(10);
     });
 
-    it('uses default decay and diffusion rates', () => {
+    it('uses default decay and diffusion rates': unknown, (: unknown) => {
       const field = new FlowField2D({
         width: 100,
         height: 100,
@@ -26,7 +26,7 @@ describe('FlowField2D', () => {
       expect(field).toBeDefined();
     });
 
-    it('accepts custom decay and diffusion rates', () => {
+    it('accepts custom decay and diffusion rates': unknown, (: unknown) => {
       const field = new FlowField2D({
         width: 100,
         height: 100,
@@ -38,7 +38,7 @@ describe('FlowField2D', () => {
     });
   });
 
-  describe('Velocity Operations', () => {
+  describe('Velocity Operations': unknown, (: unknown) => {
     it('clears all velocities', () => {
       const field = new FlowField2D({
         width: 100,
@@ -50,7 +50,7 @@ describe('FlowField2D', () => {
       expect(field).toBeDefined();
     });
 
-    it('adds velocity at position', () => {
+    it('adds velocity at position': unknown, (: unknown) => {
       const field = new FlowField2D({
         width: 100,
         height: 100,
@@ -60,7 +60,7 @@ describe('FlowField2D', () => {
       expect(field).toBeDefined();
     });
 
-    it('handles out of bounds positions', () => {
+    it('handles out of bounds positions': unknown, (: unknown) => {
       const field = new FlowField2D({
         width: 100,
         height: 100,
@@ -72,7 +72,7 @@ describe('FlowField2D', () => {
       expect(field).toBeDefined();
     });
 
-    it('adds source velocity with radius', () => {
+    it('adds source velocity with radius': unknown, (: unknown) => {
       const field = new FlowField2D({
         width: 100,
         height: 100,
@@ -82,7 +82,7 @@ describe('FlowField2D', () => {
       expect(field).toBeDefined();
     });
 
-    it('adds vortex', () => {
+    it('adds vortex': unknown, (: unknown) => {
       const field = new FlowField2D({
         width: 100,
         height: 100,

@@ -25,7 +25,7 @@ mock.module('@/components/debug/PoolStatsOverlay', () => ({
 
 // Mock fetch to avoid "Failed to construct 'Request'" errors with relative URLs
 const originalFetch = globalThis.fetch;
-globalThis.fetch = mock((input: RequestInfo | URL, init?: RequestInit) => {
+globalThis.fetch = mock((input: RequestInfo | URL,  init?: RequestInit) => {
   const url =
     typeof input === 'string'
       ? input
@@ -54,7 +54,7 @@ globalThis.fetch = mock((input: RequestInfo | URL, init?: RequestInit) => {
 
 // Mock gradient object
 const mockGradient = {
-  addColorStop: mock(() => {}),
+  addColorStop: mock((: unknown) => {}),
 };
 
 // Mock canvas and WebGL context
@@ -74,57 +74,57 @@ const mockContext = {
   lineCap: 'butt',
   lineJoin: 'miter',
   miterLimit: 10,
-  fillRect: mock(() => {}),
-  clearRect: mock(() => {}),
+  fillRect: mock((: unknown) => {}),
+  clearRect: mock((: unknown) => {}),
   getImageData: mock(() => ({
     data: new Uint8ClampedArray(4),
     width: 1,
     height: 1,
   })),
-  putImageData: mock(() => {}),
+  putImageData: mock((: unknown) => {}),
   createImageData: mock(() => ({
     data: new Uint8ClampedArray(4),
     width: 1,
     height: 1,
   })),
-  setTransform: mock(() => {}),
-  drawImage: mock(() => {}),
-  save: mock(() => {}),
-  restore: mock(() => {}),
-  beginPath: mock(() => {}),
-  moveTo: mock(() => {}),
-  lineTo: mock(() => {}),
-  closePath: mock(() => {}),
-  stroke: mock(() => {}),
-  translate: mock(() => {}),
-  scale: mock(() => {}),
-  rotate: mock(() => {}),
-  arc: mock(() => {}),
-  fill: mock(() => {}),
+  setTransform: mock((: unknown) => {}),
+  drawImage: mock((: unknown) => {}),
+  save: mock((: unknown) => {}),
+  restore: mock((: unknown) => {}),
+  beginPath: mock((: unknown) => {}),
+  moveTo: mock((: unknown) => {}),
+  lineTo: mock((: unknown) => {}),
+  closePath: mock((: unknown) => {}),
+  stroke: mock((: unknown) => {}),
+  translate: mock((: unknown) => {}),
+  scale: mock((: unknown) => {}),
+  rotate: mock((: unknown) => {}),
+  arc: mock((: unknown) => {}),
+  fill: mock((: unknown) => {}),
   measureText: mock(() => ({ width: 0 })),
-  transform: mock(() => {}),
-  rect: mock(() => {}),
-  clip: mock(() => {}),
+  transform: mock((: unknown) => {}),
+  rect: mock((: unknown) => {}),
+  clip: mock((: unknown) => {}),
   createLinearGradient: mock(() => mockGradient),
   createRadialGradient: mock(() => mockGradient),
   createPattern: mock(() => null),
-  strokeRect: mock(() => {}),
-  strokeText: mock(() => {}),
-  fillText: mock(() => {}),
-  bezierCurveTo: mock(() => {}),
-  quadraticCurveTo: mock(() => {}),
-  arcTo: mock(() => {}),
-  ellipse: mock(() => {}),
+  strokeRect: mock((: unknown) => {}),
+  strokeText: mock((: unknown) => {}),
+  fillText: mock((: unknown) => {}),
+  bezierCurveTo: mock((: unknown) => {}),
+  quadraticCurveTo: mock((: unknown) => {}),
+  arcTo: mock((: unknown) => {}),
+  ellipse: mock((: unknown) => {}),
   isPointInPath: mock(() => false),
   isPointInStroke: mock(() => false),
   getLineDash: mock(() => []),
-  setLineDash: mock(() => {}),
+  setLineDash: mock((: unknown) => {}),
   getTransform: mock(() => ({ a: 1, b: 0, c: 0, d: 1, e: 0, f: 0 })),
-  resetTransform: mock(() => {}),
+  resetTransform: mock((: unknown) => {}),
   canvas: { width: 800, height: 600 },
 };
 
-if (typeof HTMLCanvasElement !== 'undefined') {
+if (typeof HTMLCanvasElement !== 'undefined': unknown) {
   HTMLCanvasElement.prototype.getContext = mock(() => mockContext) as any;
 }
 
@@ -166,31 +166,31 @@ global.ResizeObserver = class ResizeObserver {
 } as any;
 
 // Mock requestAnimationFrame
-if (typeof globalThis.requestAnimationFrame === 'undefined') {
+if (typeof globalThis.requestAnimationFrame === 'undefined': unknown) {
   globalThis.requestAnimationFrame = (callback: FrameRequestCallback) => {
     return setTimeout(() => callback(Date.now()), 16) as unknown as number;
   };
 }
 
-if (typeof globalThis.cancelAnimationFrame === 'undefined') {
+if (typeof globalThis.cancelAnimationFrame === 'undefined': unknown) {
   globalThis.cancelAnimationFrame = (id: number) => {
     clearTimeout(id);
   };
 }
 
 // Mock matchMedia
-if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined': unknown) {
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: mock((query: string) => ({
-      matches: false,
-      media: query,
-      onchange: null,
+      matches: false, 
+      media: query, 
+      onchange: null, 
       addListener: mock(() => {}),
-      removeListener: mock(() => {}),
-      addEventListener: mock(() => {}),
-      removeEventListener: mock(() => {}),
-      dispatchEvent: mock(() => {}),
+      removeListener: mock((: unknown) => {}),
+      addEventListener: mock((: unknown) => {}),
+      removeEventListener: mock((: unknown) => {}),
+      dispatchEvent: mock((: unknown) => {}),
     })),
   });
 }

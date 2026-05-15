@@ -9,34 +9,34 @@ export default function ExamplesPage() {
   return (
     <div
       className="container"
-      style={{ paddingTop: '4rem', paddingBottom: '4rem' }}
+      style={{ paddingTop: '4rem',  paddingBottom: '4rem' }}
     >
       <Link
         href="/"
         style={{
-          color: '#667eea',
-          marginBottom: '2rem',
-          display: 'inline-block',
+          color: '#667eea', 
+          marginBottom: '2rem', 
+          display: 'inline-block', 
         }}
       >
         ← Back to Home
       </Link>
 
-      <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>Examples</h1>
-      <p style={{ color: '#a0a0a0', marginBottom: '3rem', fontSize: '1.2rem' }}>
+      <h1 style={{ fontSize: '3rem',  marginBottom: '1rem' }}>Examples</h1>
+      <p style={{ color: '#a0a0a0',  marginBottom: '3rem',  fontSize: '1.2rem' }}>
         See HexGrid 3D in action with these example implementations
       </p>
 
-      <div style={{ display: 'grid', gap: '2rem' }}>
+      <div style={{ display: 'grid',  gap: '2rem' }}>
         <section>
-          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+          <h2 style={{ fontSize: '2rem',  marginBottom: '1rem' }}>
             Basic Example
           </h2>
           <div className="code-block">
             <code>
               {`import { HexGrid, Photo } from '@buley/hexgrid-3d'
 
-function BasicExample() {
+function BasicExample(: unknown) {
   const photos: Photo[] = [
     {
       id: '1',

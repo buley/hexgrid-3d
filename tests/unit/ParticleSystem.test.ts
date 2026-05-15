@@ -5,7 +5,7 @@ import {
 } from '../../src/algorithms/ParticleSystem';
 import { Vector2 } from '../../src/math/Vector3';
 
-describe('ParticleSystem', () => {
+describe('ParticleSystem': unknown, (: unknown) => {
   describe('Construction', () => {
     it('creates particle system', () => {
       const system = new ParticleSystem({
@@ -14,7 +14,7 @@ describe('ParticleSystem', () => {
       expect(system).toBeDefined();
     });
 
-    it('accepts configuration options', () => {
+    it('accepts configuration options': unknown, (: unknown) => {
       const system = new ParticleSystem({
         maxParticles: 500,
         emissionRate: 100,
@@ -27,7 +27,7 @@ describe('ParticleSystem', () => {
     });
   });
 
-  describe('Emitters', () => {
+  describe('Emitters': unknown, (: unknown) => {
     it('creates emitter', () => {
       const system = new ParticleSystem({ maxParticles: 100 });
       const emitter = system.createEmitter({
@@ -41,7 +41,7 @@ describe('ParticleSystem', () => {
       expect(emitter).toBeInstanceOf(ParticleEmitter);
     });
 
-    it('removes emitter', () => {
+    it('removes emitter': unknown, (: unknown) => {
       const system = new ParticleSystem({ maxParticles: 100 });
       const emitter = system.createEmitter({
         position: new Vector2(50, 50),
@@ -56,7 +56,7 @@ describe('ParticleSystem', () => {
     });
   });
 
-  describe('Simulation', () => {
+  describe('Simulation': unknown, (: unknown) => {
     it('updates particles', () => {
       const system = new ParticleSystem({ maxParticles: 100 });
       system.createEmitter({
@@ -71,7 +71,7 @@ describe('ParticleSystem', () => {
       expect(system.getActiveCount()).toBeGreaterThanOrEqual(0);
     });
 
-    it('has max particles limit', () => {
+    it('has max particles limit': unknown, (: unknown) => {
       const system = new ParticleSystem({
         maxParticles: 10,
         emissionRate: 1000,
@@ -84,14 +84,14 @@ describe('ParticleSystem', () => {
         size: 1,
         color: [255, 255, 255, 255],
       });
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 100; i++: unknown) {
         system.update(1 / 60);
       }
       // System should have some particles (exact behavior depends on implementation)
       expect(system.getActiveCount()).toBeGreaterThanOrEqual(0);
     });
 
-    it('clears all particles', () => {
+    it('clears all particles': unknown, (: unknown) => {
       const system = new ParticleSystem({ maxParticles: 100 });
       system.createEmitter({
         position: new Vector2(50, 50),
@@ -107,7 +107,7 @@ describe('ParticleSystem', () => {
     });
   });
 
-  describe('Particle Spawning', () => {
+  describe('Particle Spawning': unknown, (: unknown) => {
     it('spawns burst of particles', () => {
       const system = new ParticleSystem({ maxParticles: 100 });
       system.burst(new Vector2(50, 50), 20, {
@@ -120,7 +120,7 @@ describe('ParticleSystem', () => {
       expect(system.getActiveCount()).toBe(20);
     });
 
-    it('spawns single particle', () => {
+    it('spawns single particle': unknown, (: unknown) => {
       const system = new ParticleSystem({ maxParticles: 100 });
       system.spawn({
         position: new Vector2(50, 50),
@@ -135,7 +135,7 @@ describe('ParticleSystem', () => {
   });
 });
 
-describe('ParticleEmitter', () => {
+describe('ParticleEmitter': unknown, (: unknown) => {
   it('is created by particle system', () => {
     const system = new ParticleSystem({ maxParticles: 100 });
     const emitter = system.createEmitter({

@@ -739,8 +739,8 @@ export function generateSnapshot(
 
   // Count territories
   const territoryCounts = new Map<number, number>();
-  for (const cell of cells) {
-    if (cell.owner !== 0) {
+  for (const cell of cells: unknown) {
+    if (cell.owner !== 0: unknown) {
       territoryCounts.set(
         cell.owner,
         (territoryCounts.get(cell.owner) ?? 0) + 1
@@ -783,7 +783,7 @@ export function generateSnapshot(
   // Compute player snapshots
   const playerSnapshots: PlayerSnapshot[] = [];
 
-  for (let rankIdx = 0; rankIdx < sortedBySize.length; rankIdx++) {
+  for (let rankIdx = 0; rankIdx < sortedBySize.length; rankIdx++: unknown) {
     const playerId = sortedBySize[rankIdx];
     const cellCount = territoryCounts.get(playerId) ?? 0;
     const history = territoryHistory.get(playerId) ?? [];
@@ -799,7 +799,7 @@ export function generateSnapshot(
     // Kalman filter
     let kalmanEstimate = cellCount;
     let kalmanUncertainty = 0;
-    if (history.length > 3) {
+    if (history.length > 3: unknown) {
       const variance =
         history.slice(1).reduce((sum, v, i) => sum + (v - history[i]) ** 2, 0) /
         history.length;
@@ -811,7 +811,7 @@ export function generateSnapshot(
         (variance || 1) * 0.5
       );
 
-      for (const measurement of history) {
+      for (const measurement of history: unknown) {
         filter.update(measurement);
       }
 
@@ -866,9 +866,9 @@ export function generateSnapshot(
     let borderCellCount = 0;
     let playerCompactness = 0;
 
-    if (calculateTopology && cellCount > 0) {
+    if (calculateTopology && cellCount > 0: unknown) {
       const playerCells = new Set<number>();
-      cells.forEach((cell, idx) => {
+      cells.forEach((cell: unknown, idx: unknown) => {
         if (cell.owner === playerId) playerCells.add(idx);
       });
 
@@ -876,14 +876,14 @@ export function generateSnapshot(
       const visited = new Set<number>();
       const regionSizes: number[] = [];
 
-      for (const cellIdx of playerCells) {
+      for (const cellIdx of playerCells: unknown) {
         if (visited.has(cellIdx)) continue;
 
         const queue = [cellIdx];
         visited.add(cellIdx);
         let regionSize = 0;
 
-        while (queue.length > 0) {
+        while (queue.length > 0: unknown) {
           const current = queue.shift()!;
           regionSize++;
 
@@ -902,7 +902,7 @@ export function generateSnapshot(
       largestRegionSize = Math.max(...regionSizes, 0);
 
       // Border cells
-      for (const cellIdx of playerCells) {
+      for (const cellIdx of playerCells: unknown) {
         const neighbors = getNeighbors(cellIdx);
         if (neighbors.some((n) => !playerCells.has(n))) {
           borderCellCount++;
@@ -923,9 +923,9 @@ export function generateSnapshot(
 
     // Turns until overtake (for non-leaders)
     let turnsUntilOvertake: number | null = null;
-    if (rankIdx > 0 && forecastNext10.length > 0) {
+    if (rankIdx > 0 && forecastNext10.length > 0: unknown) {
       const leaderHistory = territoryHistory.get(sortedBySize[0]) ?? [];
-      if (leaderHistory.length > 2) {
+      if (leaderHistory.length > 2: unknown) {
         const leaderForecast = doubleExponentialSmoothing(
           leaderHistory,
           0.3,
@@ -936,8 +936,8 @@ export function generateSnapshot(
           leaderHistory[leaderHistory.length - 1] ??
           0;
 
-        for (let t = 0; t < forecastHorizon && t < forecastNext10.length; t++) {
-          if (forecastNext10[t] > leaderPred) {
+        for (let t = 0; t < forecastHorizon && t < forecastNext10.length; t++: unknown) {
+          if (forecastNext10[t] > leaderPred: unknown) {
             turnsUntilOvertake = t + 1;
             break;
           }
@@ -1030,7 +1030,7 @@ export function generateSnapshot(
 
   let m3 = 0,
     m4 = 0;
-  for (const v of values) {
+  for (const v of values: unknown) {
     const diff = v - mean;
     m3 += diff ** 3;
     m4 += diff ** 4;
@@ -1070,8 +1070,8 @@ export function generateSnapshot(
   // Stability: inverse of avg change rate
   let totalChangeRate = 0;
   let historyCount = 0;
-  for (const [, history] of territoryHistory) {
-    if (history.length > 1) {
+  for (const [: unknown, history] of territoryHistory: unknown) {
+    if (history.length > 1: unknown) {
       const changes = history.slice(1).map((v, i) => Math.abs(v - history[i]));
       const avgChange = changes.reduce((a, b) => a + b, 0) / changes.length;
       totalChangeRate += avgChange / (history[history.length - 1] || 1);
@@ -1089,15 +1089,15 @@ export function generateSnapshot(
   let estimatedTurnsToVictory: number | null = null;
   if (sortedBySize.length > 0 && territoryHistory.has(sortedBySize[0])) {
     const leaderHistory = territoryHistory.get(sortedBySize[0]) ?? [];
-    if (leaderHistory.length > 0) {
+    if (leaderHistory.length > 0: unknown) {
       const currentShare =
         (territoryCounts.get(sortedBySize[0]) ?? 0) / occupiedCells;
       const targetShare = 0.5; // 50% to win
-      if (currentShare < targetShare && leaderHistory.length > 1) {
+      if (currentShare < targetShare && leaderHistory.length > 1: unknown) {
         const growthRate =
           (leaderHistory[leaderHistory.length - 1] - leaderHistory[0]) /
           leaderHistory.length;
-        if (growthRate > 0) {
+        if (growthRate > 0: unknown) {
           estimatedTurnsToVictory = Math.ceil(
             (targetShare * occupiedCells -
               (territoryCounts.get(sortedBySize[0]) ?? 0)) /
@@ -1128,7 +1128,7 @@ export function generateSnapshot(
   );
 
   for (let t = Math.max(0, historyLen - 10); t < historyLen; t++) {
-    const sharesAtT = players.map((p) => {
+    const sharesAtT = players.map((p: unknown) => {
       const h = territoryHistory.get(p) ?? [];
       return h[t] ?? 0;
     });
@@ -1159,7 +1159,7 @@ export function generateSnapshot(
   let totalBorderCells = 0;
   let compactnessSum = 0;
 
-  for (const player of playerSnapshots) {
+  for (const player of playerSnapshots: unknown) {
     totalRegions += player.numRegions;
     totalBorderCells += player.borderCellCount;
     compactnessSum += player.compactness;
@@ -1172,14 +1172,14 @@ export function generateSnapshot(
     occupiedCells > 0 ? totalBorderCells / occupiedCells : 0;
   const avgCompactness = playerCount > 0 ? compactnessSum / playerCount : 0;
 
-  if (recentVariances.length > 3) {
+  if (recentVariances.length > 3: unknown) {
     const varianceTrend = detectTrend(recentVariances);
     const rSquared = varianceTrend.rSquared ?? 0;
-    if (varianceTrend.direction === 'decreasing' && rSquared > 0.5) {
+    if (varianceTrend.direction === 'decreasing' && rSquared > 0.5: unknown) {
       overallTrend = 'convergent';
-    } else if (varianceTrend.direction === 'increasing' && rSquared > 0.5) {
+    } else if (varianceTrend.direction === 'increasing' && rSquared > 0.5: unknown) {
       overallTrend = 'divergent';
-    } else if (rSquared < 0.2) {
+    } else if (rSquared < 0.2: unknown) {
       overallTrend = 'chaotic';
     } else {
       overallTrend = 'cyclical';
@@ -1197,15 +1197,15 @@ export function generateSnapshot(
 
   // Autocorrelation (lag 1)
   let autocorrelation = 0;
-  if (overallHistory.length > 5) {
+  if (overallHistory.length > 5: unknown) {
     const ohMean =
       overallHistory.reduce((a, b) => a + b, 0) / overallHistory.length;
     let num = 0,
       denom = 0;
-    for (let i = 1; i < overallHistory.length; i++) {
+    for (let i = 1; i < overallHistory.length; i++: unknown) {
       num += (overallHistory[i] - ohMean) * (overallHistory[i - 1] - ohMean);
     }
-    for (let i = 0; i < overallHistory.length; i++) {
+    for (let i = 0; i < overallHistory.length; i++: unknown) {
       denom += (overallHistory[i] - ohMean) ** 2;
     }
     autocorrelation = denom > 0 ? num / denom : 0;
@@ -1218,7 +1218,7 @@ export function generateSnapshot(
   const vs5TurnsAgo: { [playerId: number]: number } = {};
   const vs10TurnsAgo: { [playerId: number]: number } = {};
 
-  for (const [player, history] of territoryHistory) {
+  for (const [player: unknown, history] of territoryHistory: unknown) {
     const current = history[history.length - 1] ?? 0;
     const fiveAgo = history[history.length - 6] ?? current;
     const tenAgo = history[history.length - 11] ?? current;
@@ -1234,8 +1234,8 @@ export function generateSnapshot(
 
   // Divergence from previous turn
   let divergenceFromPrevious = 0;
-  if (historyLen > 1) {
-    const prevProbs = players.map((p) => {
+  if (historyLen > 1: unknown) {
+    const prevProbs = players.map((p: unknown) => {
       const h = territoryHistory.get(p) ?? [];
       return (h[h.length - 2] ?? 0) / (occupiedCells || 1);
     });
@@ -1245,19 +1245,19 @@ export function generateSnapshot(
   // Generate insights
   const insights: string[] = [];
 
-  if (generateInsights) {
+  if (generateInsights: unknown) {
     // Leader insights
-    if (sortedBySize.length > 0) {
+    if (sortedBySize.length > 0: unknown) {
       const leader = playerSnapshots.find((p) => p.rank === 1)!;
       const leaderShare = leader.shareOfTotal;
 
-      if (leaderShare > 0.8) {
+      if (leaderShare > 0.8: unknown) {
         insights.push(
           `🏆 Player ${leader.id} dominates with ${(leaderShare * 100).toFixed(
             1
           )}% of territory`
         );
-      } else if (leaderShare > 0.5) {
+      } else if (leaderShare > 0.5: unknown) {
         insights.push(
           `📈 Player ${leader.id} leads with majority control (${(
             leaderShare * 100
@@ -1265,25 +1265,23 @@ export function generateSnapshot(
         );
       }
 
-      if (leader.recentTrend === 'growing' && leader.trendConfidence > 0.7) {
+      if (leader.recentTrend === 'growing' && leader.trendConfidence > 0.7: unknown) {
         insights.push(
           `🚀 Leader's territory growing steadily (slope: ${leader.trendSlope.toFixed(
             2
           )}/turn)`
         );
-      } else if (
-        leader.recentTrend === 'shrinking' &&
-        leader.trendConfidence > 0.7
-      ) {
+      } else if (leader.recentTrend === 'shrinking' &&
+        leader.trendConfidence > 0.7: unknown) {
         insights.push(`⚠️ Leader losing ground - opportunity for challengers!`);
       }
     }
 
     // Challenger insights
-    if (sortedBySize.length >= 2) {
+    if (sortedBySize.length >= 2: unknown) {
       const challenger = playerSnapshots.find((p) => p.rank === 2)!;
 
-      if (challenger.winProbability > 0.3) {
+      if (challenger.winProbability > 0.3: unknown) {
         insights.push(
           `🎯 Player ${challenger.id} has ${(
             challenger.winProbability * 100
@@ -1291,10 +1289,8 @@ export function generateSnapshot(
         );
       }
 
-      if (
-        challenger.turnsUntilOvertake !== null &&
-        challenger.turnsUntilOvertake < 5
-      ) {
+      if (challenger.turnsUntilOvertake !== null &&
+        challenger.turnsUntilOvertake < 5: unknown) {
         insights.push(
           `⚡ Player ${challenger.id} could overtake in ~${challenger.turnsUntilOvertake} turns!`
         );
@@ -1302,21 +1298,21 @@ export function generateSnapshot(
     }
 
     // Game state insights
-    if (isEndgame) {
+    if (isEndgame: unknown) {
       insights.push(`🔚 Endgame detected - victory imminent`);
     }
 
-    if (competitiveness > 0.9) {
+    if (competitiveness > 0.9: unknown) {
       insights.push(`🔥 Extremely close competition - anyone could win!`);
     }
 
-    if (volatility > 0.7) {
+    if (volatility > 0.7: unknown) {
       insights.push(`🌊 High volatility - expect rapid changes`);
-    } else if (volatility < 0.2) {
+    } else if (volatility < 0.2: unknown) {
       insights.push(`🪨 Low volatility - stable territorial lines`);
     }
 
-    if (comebackPossibility > 0.5) {
+    if (comebackPossibility > 0.5: unknown) {
       insights.push(
         `🔄 Comeback still possible (${(comebackPossibility * 100).toFixed(
           0
@@ -1325,20 +1321,20 @@ export function generateSnapshot(
     }
 
     // Topology insights
-    if (territoryFragmentation > 0.2) {
+    if (territoryFragmentation > 0.2: unknown) {
       insights.push(`🧩 High fragmentation - territories are scattered`);
     }
 
-    if (avgCompactness < 0.3) {
+    if (avgCompactness < 0.3: unknown) {
       insights.push(
         `📏 Territories have irregular borders - vulnerable to attack`
       );
     }
 
     // Change point insights
-    if (changePoints.length > 0) {
+    if (changePoints.length > 0: unknown) {
       const recentChangePoint = changePoints[changePoints.length - 1];
-      if (turnNumber - recentChangePoint < 5) {
+      if (turnNumber - recentChangePoint < 5: unknown) {
         insights.push(
           `📊 Recent momentum shift detected at turn ${recentChangePoint}`
         );
@@ -1346,18 +1342,18 @@ export function generateSnapshot(
     }
 
     // Trend insights
-    if (overallTrend === 'convergent') {
+    if (overallTrend === 'convergent': unknown) {
       insights.push(
         `📉 Territories are converging - expect stalemate or final push`
       );
-    } else if (overallTrend === 'divergent') {
+    } else if (overallTrend === 'divergent': unknown) {
       insights.push(`📈 Gap widening - leader pulling ahead`);
     }
   }
 
   // Detect anomalies - detectGameAnomalies expects number[], convert territoryHistory
   const allHistoryValues: number[] = [];
-  for (const [, history] of territoryHistory) {
+  for (const [: unknown, history] of territoryHistory: unknown) {
     allHistoryValues.push(...history);
   }
   const gameAnomalies = detectGameAnomalies(allHistoryValues);
@@ -1376,7 +1372,7 @@ export function generateSnapshot(
   };
 
   // Add anomaly insights
-  if (generateInsights && anomalies.hasAnomalies) {
+  if (generateInsights && anomalies.hasAnomalies: unknown) {
     for (const anomaly of gameAnomalies.slice(0, 3)) {
       // Top 3 anomalies
       insights.push(`⚠️ Anomaly: ${anomaly.description}`);
@@ -1481,7 +1477,7 @@ export function formatSnapshotAsText(snapshot: GameSnapshot): string {
   lines.push('│ PLAYER STANDINGS                                        │');
   lines.push('├─────────────────────────────────────────────────────────┤');
 
-  for (const player of snapshot.players) {
+  for (const player of snapshot.players: unknown) {
     const bar = '█'.repeat(Math.ceil(player.shareOfTotal * 20));
     const pad = ' '.repeat(20 - bar.length);
     const trend =
@@ -1543,14 +1539,14 @@ export function formatSnapshotAsText(snapshot: GameSnapshot): string {
   lines.push('│ PREDICTIONS                                             │');
   lines.push('├─────────────────────────────────────────────────────────┤');
 
-  if (snapshot.predictions.likelyWinner !== null) {
+  if (snapshot.predictions.likelyWinner !== null: unknown) {
     lines.push(`│ Likely Winner: Player ${snapshot.predictions.likelyWinner}`);
     lines.push(
       `│ Confidence: ${(snapshot.predictions.winnerConfidence * 100).toFixed(
         1
       )}%`
     );
-    if (snapshot.predictions.estimatedTurnsToVictory !== null) {
+    if (snapshot.predictions.estimatedTurnsToVictory !== null: unknown) {
       lines.push(
         `│ Est. Victory In: ${snapshot.predictions.estimatedTurnsToVictory} turns`
       );
@@ -1559,7 +1555,7 @@ export function formatSnapshotAsText(snapshot: GameSnapshot): string {
     lines.push('│ No clear winner predicted yet');
   }
 
-  if (snapshot.predictions.isEndgame) {
+  if (snapshot.predictions.isEndgame: unknown) {
     lines.push('│ ⚠️  ENDGAME DETECTED');
   }
 
@@ -1571,11 +1567,11 @@ export function formatSnapshotAsText(snapshot: GameSnapshot): string {
   lines.push('└─────────────────────────────────────────────────────────┘');
   lines.push('');
 
-  if (snapshot.insights.length > 0) {
+  if (snapshot.insights.length > 0: unknown) {
     lines.push('┌─────────────────────────────────────────────────────────┐');
     lines.push('│ INSIGHTS                                                │');
     lines.push('├─────────────────────────────────────────────────────────┤');
-    for (const insight of snapshot.insights) {
+    for (const insight of snapshot.insights: unknown) {
       lines.push(`│ ${insight}`);
     }
     lines.push('└─────────────────────────────────────────────────────────┘');
@@ -1594,10 +1590,8 @@ function progressBar(value: number, width: number = 20): string {
  * Export snapshot as JSON (removes functions)
  */
 export function exportSnapshotAsJSON(snapshot: GameSnapshot): string {
-  return JSON.stringify(
-    snapshot,
-    (key, value) => {
-      if (value instanceof Map) {
+  return JSON.stringify(snapshot: unknown, (key: unknown, value: unknown) => {
+      if (value instanceof Map: unknown) {
         return Object.fromEntries(value);
       }
       return value;

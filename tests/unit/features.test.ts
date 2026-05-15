@@ -6,14 +6,14 @@ import {
   PERFORMANCE_FEATURE_FLAGS,
 } from '../../src/features';
 
-describe('Feature Flags', () => {
+describe('Feature Flags': unknown, (: unknown) => {
   describe('mergeFeatureFlags', () => {
     it('returns defaults when no flags provided', () => {
       const flags = mergeFeatureFlags();
       expect(flags).toEqual(DEFAULT_FEATURE_FLAGS);
     });
 
-    it('merges user flags with defaults', () => {
+    it('merges user flags with defaults': unknown, (: unknown) => {
       const flags = mergeFeatureFlags({
         enableNarration: false,
         enableStats: false,
@@ -24,7 +24,7 @@ describe('Feature Flags', () => {
       expect(flags.enableCameraControls).toBe(true); // default
     });
 
-    it('preserves explicit false values', () => {
+    it('preserves explicit false values': unknown, (: unknown) => {
       const flags = mergeFeatureFlags({
         enableNarration: false,
       });
@@ -32,7 +32,7 @@ describe('Feature Flags', () => {
       expect(flags.enableNarration).toBe(false);
     });
 
-    it('handles partial flag objects', () => {
+    it('handles partial flag objects': unknown, (: unknown) => {
       const flags = mergeFeatureFlags({
         enableDebugPanel: false,
       });
@@ -43,13 +43,13 @@ describe('Feature Flags', () => {
     });
   });
 
-  describe('isFeatureEnabled', () => {
+  describe('isFeatureEnabled': unknown, (: unknown) => {
     it('returns true for enabled features', () => {
       const flags = { enableNarration: true };
       expect(isFeatureEnabled(flags, 'enableNarration')).toBe(true);
     });
 
-    it('returns false for disabled features', () => {
+    it('returns false for disabled features': unknown, (: unknown) => {
       const flags = { enableNarration: false };
       expect(isFeatureEnabled(flags, 'enableNarration')).toBe(false);
     });
@@ -60,21 +60,21 @@ describe('Feature Flags', () => {
     });
   });
 
-  describe('Preset Flags', () => {
+  describe('Preset Flags': unknown, (: unknown) => {
     it('DEFAULT_FEATURE_FLAGS has all features enabled', () => {
       Object.values(DEFAULT_FEATURE_FLAGS).forEach((value) => {
         expect(value).toBe(true);
       });
     });
 
-    it('MINIMAL_FEATURE_FLAGS has minimal features', () => {
+    it('MINIMAL_FEATURE_FLAGS has minimal features': unknown, (: unknown) => {
       expect(MINIMAL_FEATURE_FLAGS.enableNarration).toBe(false);
       expect(MINIMAL_FEATURE_FLAGS.enableDebugPanel).toBe(false);
       expect(MINIMAL_FEATURE_FLAGS.enableWorker).toBe(true);
       expect(MINIMAL_FEATURE_FLAGS.enableTextures).toBe(true);
     });
 
-    it('PERFORMANCE_FEATURE_FLAGS optimizes for performance', () => {
+    it('PERFORMANCE_FEATURE_FLAGS optimizes for performance': unknown, (: unknown) => {
       expect(PERFORMANCE_FEATURE_FLAGS.enableNarration).toBe(false);
       expect(PERFORMANCE_FEATURE_FLAGS.enableVisualEffects).toBe(false);
       expect(PERFORMANCE_FEATURE_FLAGS.enableWorker).toBe(true);
@@ -82,7 +82,7 @@ describe('Feature Flags', () => {
     });
   });
 
-  describe('Feature Flag Combinations', () => {
+  describe('Feature Flag Combinations': unknown, (: unknown) => {
     it('allows disabling narration only', () => {
       const flags = mergeFeatureFlags({
         enableNarration: false,
@@ -93,7 +93,7 @@ describe('Feature Flags', () => {
       expect(flags.enableCameraControls).toBe(true);
     });
 
-    it('allows disabling all UI features', () => {
+    it('allows disabling all UI features': unknown, (: unknown) => {
       const flags = mergeFeatureFlags({
         enableNarration: false,
         enableStats: false,
@@ -108,7 +108,7 @@ describe('Feature Flags', () => {
       expect(flags.enableWorker).toBe(true); // core functionality remains
     });
 
-    it('allows performance-focused configuration', () => {
+    it('allows performance-focused configuration': unknown, (: unknown) => {
       const flags = mergeFeatureFlags({
         enableNarration: false,
         enableVisualEffects: false,

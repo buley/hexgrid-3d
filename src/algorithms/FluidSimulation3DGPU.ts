@@ -157,7 +157,7 @@ export class FluidSimulation3DGPU {
   }
 
   // Helpers for Dispatching
-  private dispatchAdvect(encoder: GPUCommandEncoder, fieldIn: GPUTexture, velField: GPUTexture, fieldOut: GPUTexture) {
+  private dispatchAdvect(encoder: GPUCommandEncoder,  fieldIn: GPUTexture,  velField: GPUTexture,  fieldOut: GPUTexture) {
       const pass = encoder.beginComputePass();
       pass.setPipeline(this.advectPipeline!);
       
@@ -186,7 +186,7 @@ export class FluidSimulation3DGPU {
       pass.end();
   }
 
-  private dispatchDiffuse(encoder: GPUCommandEncoder, x0: GPUTexture, x: GPUTexture, diff: number, dt: number) {
+  private dispatchDiffuse(encoder: GPUCommandEncoder,  x0: GPUTexture,  x: GPUTexture,  diff: number,  dt: number) {
       // Jacobi Iterations
       const alpha = dt * diff * this.width * this.height * this.depth; // Simple approx
       const rBeta = 1 / (1 + 6 * alpha);
@@ -214,7 +214,7 @@ export class FluidSimulation3DGPU {
              // Simplified: Single pass per iteration for stability
              entries: [
                  { binding: 0, resource: curr.createView() }, // Using curr as input
-                 { binding: 1, resource: curr.createView() }, // And output (Race condition! need pingpong)
+                 { binding: 1, resource: curr.createView() }, // And output (Race condition! need pingpong: unknown)
                  { binding: 2, resource: this.sampler! }
              ]
           });
@@ -236,7 +236,7 @@ export class FluidSimulation3DGPU {
       }
   }
 
-  private dispatchDivergence(encoder: GPUCommandEncoder, vel: GPUTexture, div: GPUTexture) {
+  private dispatchDivergence(encoder: GPUCommandEncoder,  vel: GPUTexture,  div: GPUTexture) {
       const pass = encoder.beginComputePass();
       pass.setPipeline(this.divergencePipeline!);
       
@@ -254,7 +254,7 @@ export class FluidSimulation3DGPU {
       pass.end();
   }
   
-  private dispatchPressure(encoder: GPUCommandEncoder, div: GPUTexture, pUser: [GPUTexture, GPUTexture]) {
+  private dispatchPressure(encoder: GPUCommandEncoder,  div: GPUTexture,  pUser: [GPUTexture, GPUTexture]: unknown) {
       // Pressure solve is Poisson equation: Laplacian(p) = div
       // Solved via Jacobi iteration similar to diffuse, but with different coefficients.
       // For pressure: alpha = -h^2, rBeta = 1/6
@@ -318,15 +318,15 @@ export class FluidSimulation3DGPU {
       }
   }
   
-  private dispatchSubtractGradient(encoder: GPUCommandEncoder, p: GPUTexture, velOld: GPUTexture, velNew: GPUTexture) {
+  private dispatchSubtractGradient(encoder: GPUCommandEncoder,  p: GPUTexture,  velOld: GPUTexture,  velNew: GPUTexture) {
       const pass = encoder.beginComputePass();
       pass.setPipeline(this.subtractGradientPipeline!);
       
       const bindGroup1 = this.device!.createBindGroup({
           layout: this.subtractGradientPipeline!.getBindGroupLayout(1),
           entries: [
-              { binding: 0, resource: velOld.createView() }, // field_in (sample old vel)
-              { binding: 1, resource: velNew.createView() }, // field_out (write new vel)
+              { binding: 0, resource: velOld.createView() }, // field_in (sample old vel: unknown)
+              { binding: 1, resource: velNew.createView() }, // field_out (write new vel: unknown)
               { binding: 2, resource: this.sampler! }
           ]
       });
@@ -345,7 +345,7 @@ export class FluidSimulation3DGPU {
   }
 
   // Public API implementation
-  addDensity(x: number, y: number, z: number, amount: number, _radius: number) {
+  addDensity(x: number,  y: number,  z: number,  amount: number,  _radius: number) {
      if (!this.densityTextures || !this.device) return;
      
      // Write to texture (simplistic point write)
@@ -370,7 +370,7 @@ export class FluidSimulation3DGPU {
      }
   }
   
-  addForce(pos: Vector3, force: Vector3, _radius: number) {
+  addForce(pos: Vector3,  force: Vector3,  _radius: number) {
       if (!this.velocityTextures || !this.device) return;
       
       const data = new Float32Array([force.x, force.y, force.z, 0.0]);

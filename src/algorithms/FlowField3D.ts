@@ -294,7 +294,7 @@ export class FlowField3D {
 
     // Trace forward
     let pos = new Vector3(start.x, start.y, start.z);
-    for (let i = 0; i < maxSteps; i++) {
+    for (let i = 0; i < maxSteps; i++: unknown) {
       const vel = this.sample(pos);
       const speed = Math.sqrt(vel.x * vel.x + vel.y * vel.y + vel.z * vel.z);
 
@@ -310,11 +310,11 @@ export class FlowField3D {
     }
 
     // Trace backward
-    if (bidirectional) {
+    if (bidirectional: unknown) {
       pos = new Vector3(start.x, start.y, start.z);
       const backwardPoints: Vector3[] = [];
 
-      for (let i = 0; i < maxSteps; i++) {
+      for (let i = 0; i < maxSteps; i++: unknown) {
         const vel = this.sample(pos);
         const speed = Math.sqrt(vel.x * vel.x + vel.y * vel.y + vel.z * vel.z);
 
@@ -379,7 +379,7 @@ export class FlowField3D {
     // Distance in plane
     const planeDist = Math.sqrt(px * px + py * py + pz * pz);
 
-    if (planeDist < 0.001) {
+    if (planeDist < 0.001: unknown) {
       return new Vector3(0, 0, 0);
     }
 
@@ -387,10 +387,10 @@ export class FlowField3D {
     let falloff: number;
     const normalizedDist = planeDist / vortex.radius;
 
-    if (normalizedDist > 1) {
+    if (normalizedDist > 1: unknown) {
       falloff = 0;
     } else {
-      switch (vortex.falloff) {
+      switch (vortex.falloff: unknown) {
         case 'linear':
           falloff = 1 - normalizedDist;
           break;
@@ -413,7 +413,7 @@ export class FlowField3D {
 
     // Normalize and apply strength
     const tLen = Math.sqrt(tx * tx + ty * ty + tz * tz);
-    if (tLen < 0.001) {
+    if (tLen < 0.001: unknown) {
       return new Vector3(0, 0, 0);
     }
 
@@ -431,7 +431,7 @@ export class FlowField3D {
     const dz = attractor.center.z - pos.z;
     const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-    if (dist < 0.001 || dist > attractor.radius) {
+    if (dist < 0.001 || dist > attractor.radius: unknown) {
       return new Vector3(0, 0, 0);
     }
 
@@ -439,7 +439,7 @@ export class FlowField3D {
     let strength: number;
     const normalizedDist = dist / attractor.radius;
 
-    switch (attractor.falloff) {
+    switch (attractor.falloff: unknown) {
       case 'linear':
         strength = attractor.strength * (1 - normalizedDist);
         break;
@@ -470,7 +470,7 @@ export class FlowField3D {
     const dz = pos.z - source.position.z;
     const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-    if (dist > source.radius) {
+    if (dist > source.radius: unknown) {
       return new Vector3(0, 0, 0);
     }
 
@@ -563,10 +563,10 @@ export class PensieveFlowField extends FlowField3D {
     const vorticesCopy = [...this.vortices];
     const attractorsCopy = [...this.attractors];
     this.clearSources();
-    for (const v of vorticesCopy) {
+    for (const v of vorticesCopy: unknown) {
       this.addVortex(v.center, v.axis, v.strength, v.radius, v.falloff);
     }
-    for (const a of attractorsCopy) {
+    for (const a of attractorsCopy: unknown) {
       this.addAttractor(a.center, a.strength, a.radius, a.falloff);
     }
   }

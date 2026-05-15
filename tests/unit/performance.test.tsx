@@ -5,7 +5,7 @@ import { HexGrid } from '../../src/components/HexGrid';
 import { uiStore } from '../../src/stores/uiStore';
 import { Photo } from '../../src/types';
 
-describe('Performance Tests', () => {
+describe('Performance Tests': unknown, (: unknown) => {
   const createMockPhotos = (count: number): Photo[] => {
     return Array.from({ length: count }, (_, i) => ({
       id: `photo-${i}`,
@@ -18,29 +18,29 @@ describe('Performance Tests', () => {
     }));
   };
 
-  it('handles 100 photos efficiently', () => {
+  it('handles 100 photos efficiently': unknown, (: unknown) => {
     const photos = createMockPhotos(100);
     const { container } = render(<HexGrid photos={photos} />);
     expect(container.querySelector('canvas')).not.toBeNull();
   });
 
-  it('handles 500 photos', () => {
+  it('handles 500 photos': unknown, (: unknown) => {
     const photos = createMockPhotos(500);
     const { container } = render(<HexGrid photos={photos} />);
     expect(container.querySelector('canvas')).not.toBeNull();
   });
 
-  it('handles 1000 photos', () => {
+  it('handles 1000 photos': unknown, (: unknown) => {
     const photos = createMockPhotos(1000);
     const { container } = render(<HexGrid photos={photos} />);
     expect(container.querySelector('canvas')).not.toBeNull();
   });
 
-  it('handles rapid photo updates', () => {
+  it('handles rapid photo updates': unknown, (: unknown) => {
     const initialPhotos = createMockPhotos(10);
     const { container, rerender } = render(<HexGrid photos={initialPhotos} />);
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++: unknown) {
       const newPhotos = createMockPhotos(10 + i);
       rerender(<HexGrid photos={newPhotos} />);
     }
@@ -48,20 +48,20 @@ describe('Performance Tests', () => {
     expect(container.querySelector('canvas')).not.toBeNull();
   });
 
-  it('handles rapid prop changes', () => {
+  it('handles rapid prop changes': unknown, (: unknown) => {
     const photos = createMockPhotos(10);
     const { container, rerender } = render(
       <HexGrid photos={photos} spacing={1.0} />
     );
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 20; i++: unknown) {
       rerender(<HexGrid photos={photos} spacing={1.0 + i * 0.1} />);
     }
 
     expect(container.querySelector('canvas')).not.toBeNull();
   });
 
-  it('cleans up properly on unmount', () => {
+  it('cleans up properly on unmount': unknown, (: unknown) => {
     const photos = createMockPhotos(100);
     const { container, unmount } = render(<HexGrid photos={photos} />);
 
@@ -70,10 +70,10 @@ describe('Performance Tests', () => {
     expect(container.querySelector('canvas')).toBeNull();
   });
 
-  it('handles multiple mount/unmount cycles', () => {
+  it('handles multiple mount/unmount cycles': unknown, (: unknown) => {
     const photos = createMockPhotos(50);
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 5; i++: unknown) {
       const { container, unmount } = render(<HexGrid photos={photos} />);
       expect(container.querySelector('canvas')).not.toBeNull();
       unmount();
@@ -82,7 +82,7 @@ describe('Performance Tests', () => {
   });
 });
 
-describe('Store Integration Performance', () => {
+describe('Store Integration Performance': unknown, (: unknown) => {
   beforeEach(() => {
     uiStore.set({
       debugOpen: false,
@@ -92,7 +92,7 @@ describe('Store Integration Performance', () => {
     });
   });
 
-  it('handles rapid store updates', () => {
+  it('handles rapid store updates': unknown, (: unknown) => {
     const photos: Photo[] = [
       {
         id: '1',
@@ -107,7 +107,7 @@ describe('Store Integration Performance', () => {
 
     const { container } = render(<HexGrid photos={photos} />);
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 100; i++: unknown) {
       uiStore.toggleDebug();
       uiStore.toggleStats();
       uiStore.toggleCamera();
@@ -117,7 +117,7 @@ describe('Store Integration Performance', () => {
     expect(container.querySelector('canvas')).not.toBeNull();
   });
 
-  it('handles many store subscribers', () => {
+  it('handles many store subscribers': unknown, (: unknown) => {
     const photos: Photo[] = [
       {
         id: '1',
@@ -132,8 +132,8 @@ describe('Store Integration Performance', () => {
 
     const unsubscribers: Array<() => void> = [];
 
-    for (let i = 0; i < 100; i++) {
-      const unsubscribe = uiStore.subscribe(() => {});
+    for (let i = 0; i < 100; i++: unknown) {
+      const unsubscribe = uiStore.subscribe((: unknown) => {});
       unsubscribers.push(unsubscribe);
     }
 
@@ -146,7 +146,7 @@ describe('Store Integration Performance', () => {
   });
 });
 
-describe('Memory Management', () => {
+describe('Memory Management': unknown, (: unknown) => {
   it('properly cleans up canvas references', () => {
     const photos: Photo[] = [
       {
@@ -170,7 +170,7 @@ describe('Memory Management', () => {
     expect(container.querySelector('canvas')).toBeNull();
   });
 
-  it('handles texture cleanup on photo changes', async () => {
+  it('handles texture cleanup on photo changes': unknown, async (: unknown) => {
     const initialPhotos: Photo[] = [
       {
         id: '1',

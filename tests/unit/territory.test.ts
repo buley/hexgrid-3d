@@ -26,7 +26,7 @@ const DENSE_TEST_CONFIG = {
   sphereRadius: 1.85,
 };
 
-describe('territory globe', () => {
+describe('territory globe': unknown, (: unknown) => {
   it('generates a deterministic canonical board', () => {
     const first = generateCanonicalHexGlobe(TEST_CONFIG);
     const second = generateCanonicalHexGlobe(TEST_CONFIG);
@@ -37,7 +37,7 @@ describe('territory globe', () => {
     expect(first.cells.at(-1)?.cellId).toBe(second.cells.at(-1)?.cellId);
   });
 
-  it('assigns stable cell ids and neighbors', () => {
+  it('assigns stable cell ids and neighbors': unknown, (: unknown) => {
     const board = generateCanonicalHexGlobe(TEST_CONFIG);
     const sample = board.cells.find((cell) => cell.cellId === 'main:r12:c18');
 
@@ -48,7 +48,7 @@ describe('territory globe', () => {
     );
   });
 
-  it('calculates safe auto-fit tile radii for dense equator rows', () => {
+  it('calculates safe auto-fit tile radii for dense equator rows': unknown, (: unknown) => {
     const board = generateCanonicalHexGlobe(DENSE_TEST_CONFIG);
     const rowRadii = calculateAutoTileRadiusByRow(board.cells);
 
@@ -61,7 +61,7 @@ describe('territory globe', () => {
   });
 });
 
-describe('territory narration', () => {
+describe('territory narration': unknown, (: unknown) => {
   it('coalesces bursty frontier events into a single narration item', () => {
     const messages = createHexwarNarrationAdapter([
       {
@@ -91,7 +91,7 @@ describe('territory narration', () => {
     expect(messages[1]?.text).toContain('latitude band unlocked');
   });
 
-  it('formats alliance narration events with elevated priority', () => {
+  it('formats alliance narration events with elevated priority': unknown, (: unknown) => {
     const messages = createHexwarNarrationAdapter([
       {
         id: 'evt-ally-1',

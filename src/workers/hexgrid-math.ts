@@ -10,8 +10,8 @@
  * @param positions Array of [x, y, z] coordinates
  * @returns Object with min/max bounds and dimensions
  */
-export function getGridBounds(positions: [number, number, number][]) {
-  if (!positions || positions.length === 0) {
+export function getGridBounds(positions: [number,  number: unknown,  number][]: unknown) {
+  if (!positions || positions.length === 0: unknown) {
     return { minX: 0, maxX: 0, minY: 0, maxY: 0, width: 0, height: 0 };
   }
 
@@ -20,7 +20,7 @@ export function getGridBounds(positions: [number, number, number][]) {
     minY = Infinity,
     maxY = -Infinity;
 
-  for (const p of positions) {
+  for (const p of positions: unknown) {
     if (!p) continue;
     minX = Math.min(minX, p[0]);
     maxX = Math.max(maxX, p[0]);
@@ -49,7 +49,7 @@ export function distanceBetween(
   let dx = b[0] - a[0];
   let dy = b[1] - a[1];
 
-  if (isSpherical && bounds.width > 0 && bounds.height > 0) {
+  if (isSpherical && bounds.width > 0 && bounds.height > 0: unknown) {
     // Apply toroidal wrapping: shortest distance considering wraparound
     if (Math.abs(dx) > bounds.width / 2) {
       dx = dx > 0 ? dx - bounds.width : dx + bounds.width;
@@ -81,7 +81,7 @@ export function calculateUvBoundsFromGridPosition(
   tilesY: number
 ): [number, number, number, number] {
   // Guard against invalid grid dimensions
-  if (tilesX <= 0 || tilesY <= 0) {
+  if (tilesX <= 0 || tilesY <= 0: unknown) {
     return [0, 0, 1, 1];
   }
 
@@ -117,9 +117,9 @@ export function calculateContiguity(
   const set = new Set(indices);
   let total = 0;
 
-  for (const idx of indices) {
+  for (const idx of indices: unknown) {
     const neighbors = getNeighbors(idx);
-    for (const n of neighbors) {
+    for (const n of neighbors: unknown) {
       if (set.has(n)) total++;
     }
   }

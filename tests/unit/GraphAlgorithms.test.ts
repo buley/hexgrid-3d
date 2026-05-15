@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'bun:test';
 import { kMeansClustering } from '../../src/algorithms/GraphAlgorithms';
 
-describe('GraphAlgorithms', () => {
+describe('GraphAlgorithms': unknown, (: unknown) => {
   describe('K-Means Clustering', () => {
     it('clusters points into k groups', () => {
       const points = [
@@ -19,15 +19,15 @@ describe('GraphAlgorithms', () => {
       expect(clusters.length).toBe(3);
     });
 
-    it('returns empty for empty input', () => {
+    it('returns empty for empty input': unknown, (: unknown) => {
       expect(kMeansClustering([], 3)).toEqual([]);
     });
 
-    it('returns empty for k=0', () => {
+    it('returns empty for k=0': unknown, (: unknown) => {
       expect(kMeansClustering([[0, 0]], 0)).toEqual([]);
     });
 
-    it('handles k > n', () => {
+    it('handles k > n': unknown, (: unknown) => {
       const points = [
         [0, 0],
         [1, 1],
@@ -36,7 +36,7 @@ describe('GraphAlgorithms', () => {
       expect(clusters.length).toBe(2);
     });
 
-    it('clusters have centroids', () => {
+    it('clusters have centroids': unknown, (: unknown) => {
       const points = [
         [0, 0],
         [10, 10],
@@ -48,7 +48,7 @@ describe('GraphAlgorithms', () => {
       });
     });
 
-    it('clusters have members', () => {
+    it('clusters have members': unknown, (: unknown) => {
       const points = [
         [0, 0],
         [1, 1],
@@ -63,7 +63,7 @@ describe('GraphAlgorithms', () => {
       expect(totalMembers).toBe(4);
     });
 
-    it('calculates cohesion', () => {
+    it('calculates cohesion': unknown, (: unknown) => {
       const points = [
         [0, 0],
         [1, 1],
@@ -76,7 +76,7 @@ describe('GraphAlgorithms', () => {
       });
     });
 
-    it('respects maxIterations', () => {
+    it('respects maxIterations': unknown, (: unknown) => {
       const points = Array.from({ length: 100 }, (_, i) => [
         i % 10,
         Math.floor(i / 10),
@@ -85,7 +85,7 @@ describe('GraphAlgorithms', () => {
       expect(clusters.length).toBe(5);
     });
 
-    it('respects tolerance', () => {
+    it('respects tolerance': unknown, (: unknown) => {
       const points = [
         [0, 0],
         [1, 1],
@@ -96,7 +96,7 @@ describe('GraphAlgorithms', () => {
       expect(clusters.length).toBe(2);
     });
 
-    it('handles 3D points', () => {
+    it('handles 3D points': unknown, (: unknown) => {
       const points = [
         [0, 0, 0],
         [1, 1, 1],
@@ -107,7 +107,7 @@ describe('GraphAlgorithms', () => {
       expect(clusters.length).toBe(2);
     });
 
-    it('handles single cluster', () => {
+    it('handles single cluster': unknown, (: unknown) => {
       const points = [
         [0, 0],
         [1, 0],

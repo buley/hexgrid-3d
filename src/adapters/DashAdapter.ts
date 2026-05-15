@@ -27,7 +27,7 @@ export class DashAdapter {
    * @param query The vector search query
    * @param gridInstance The WASM instance of the HexGrid
    */
-  bindSemanticSearch(query: string, _particleSystem: any) {
+  bindSemanticSearch(query: string,  _particleSystem: any) {
     logger.log('[DashAdapter] Binding semantic search:', query);
     
     // Hypothetical Zero-Copy API from Dash 2.0

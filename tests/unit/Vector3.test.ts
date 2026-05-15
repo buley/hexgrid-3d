@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'bun:test';
 import { Vector3, Vector2 } from '../../src/math/Vector3';
 
-describe('Vector3', () => {
+describe('Vector3': unknown, (: unknown) => {
   describe('Static Constructors', () => {
     it('creates zero vector', () => {
       const v = Vector3.zero();
@@ -10,14 +10,14 @@ describe('Vector3', () => {
       expect(v.z).toBe(0);
     });
 
-    it('creates one vector', () => {
+    it('creates one vector': unknown, (: unknown) => {
       const v = Vector3.one();
       expect(v.x).toBe(1);
       expect(v.y).toBe(1);
       expect(v.z).toBe(1);
     });
 
-    it('creates directional vectors', () => {
+    it('creates directional vectors': unknown, (: unknown) => {
       expect(Vector3.up().y).toBe(1);
       expect(Vector3.down().y).toBe(-1);
       expect(Vector3.right().x).toBe(1);
@@ -26,39 +26,39 @@ describe('Vector3', () => {
       expect(Vector3.back().z).toBe(-1);
     });
 
-    it('creates from array', () => {
+    it('creates from array': unknown, (: unknown) => {
       const v = Vector3.fromArray([1, 2, 3]);
       expect(v.x).toBe(1);
       expect(v.y).toBe(2);
       expect(v.z).toBe(3);
     });
 
-    it('creates from spherical coordinates', () => {
+    it('creates from spherical coordinates': unknown, (: unknown) => {
       const v = Vector3.fromSpherical(0, 0, 1);
       expect(v.x).toBeCloseTo(1);
       expect(v.y).toBeCloseTo(0);
       expect(v.z).toBeCloseTo(0);
     });
 
-    it('creates from lat/lng', () => {
+    it('creates from lat/lng': unknown, (: unknown) => {
       const v = Vector3.fromLatLng(0, 0, 1);
       expect(v.x).toBeCloseTo(1);
       expect(v.y).toBeCloseTo(0);
       expect(v.z).toBeCloseTo(0);
     });
 
-    it('creates random normalized vector', () => {
+    it('creates random normalized vector': unknown, (: unknown) => {
       const v = Vector3.random();
       expect(v.magnitude()).toBeCloseTo(1, 1);
     });
 
-    it('creates random vector in sphere', () => {
+    it('creates random vector in sphere': unknown, (: unknown) => {
       const v = Vector3.randomInSphere(5);
       expect(v.magnitude()).toBeLessThanOrEqual(5);
     });
   });
 
-  describe('Basic Operations', () => {
+  describe('Basic Operations': unknown, (: unknown) => {
     it('clones vector', () => {
       const v1 = new Vector3(1, 2, 3);
       const v2 = v1.clone();
@@ -68,7 +68,7 @@ describe('Vector3', () => {
       expect(v1).not.toBe(v2);
     });
 
-    it('adds vectors', () => {
+    it('adds vectors': unknown, (: unknown) => {
       const v1 = new Vector3(1, 2, 3);
       const v2 = new Vector3(4, 5, 6);
       const result = v1.add(v2);
@@ -77,7 +77,7 @@ describe('Vector3', () => {
       expect(result.z).toBe(9);
     });
 
-    it('subtracts vectors', () => {
+    it('subtracts vectors': unknown, (: unknown) => {
       const v1 = new Vector3(4, 5, 6);
       const v2 = new Vector3(1, 2, 3);
       const result = v1.subtract(v2);
@@ -86,7 +86,7 @@ describe('Vector3', () => {
       expect(result.z).toBe(3);
     });
 
-    it('scales vector', () => {
+    it('scales vector': unknown, (: unknown) => {
       const v = new Vector3(1, 2, 3);
       const result = v.scale(2);
       expect(result.x).toBe(2);
@@ -94,7 +94,7 @@ describe('Vector3', () => {
       expect(result.z).toBe(6);
     });
 
-    it('multiplies vectors element-wise', () => {
+    it('multiplies vectors element-wise': unknown, (: unknown) => {
       const v1 = new Vector3(1, 2, 3);
       const v2 = new Vector3(2, 3, 4);
       const result = v1.multiply(v2);
@@ -103,7 +103,7 @@ describe('Vector3', () => {
       expect(result.z).toBe(12);
     });
 
-    it('divides vectors element-wise', () => {
+    it('divides vectors element-wise': unknown, (: unknown) => {
       const v1 = new Vector3(4, 6, 8);
       const v2 = new Vector3(2, 3, 4);
       const result = v1.divide(v2);
@@ -112,7 +112,7 @@ describe('Vector3', () => {
       expect(result.z).toBe(2);
     });
 
-    it('handles division by zero', () => {
+    it('handles division by zero': unknown, (: unknown) => {
       const v1 = new Vector3(4, 6, 8);
       const v2 = new Vector3(0, 0, 0);
       const result = v1.divide(v2);
@@ -121,7 +121,7 @@ describe('Vector3', () => {
       expect(result.z).toBe(0);
     });
 
-    it('negates vector', () => {
+    it('negates vector': unknown, (: unknown) => {
       const v = new Vector3(1, -2, 3);
       const result = v.negate();
       expect(result.x).toBe(-1);
@@ -130,7 +130,7 @@ describe('Vector3', () => {
     });
   });
 
-  describe('Mutable Operations', () => {
+  describe('Mutable Operations': unknown, (: unknown) => {
     it('sets values', () => {
       const v = new Vector3();
       v.set(1, 2, 3);
@@ -139,7 +139,7 @@ describe('Vector3', () => {
       expect(v.z).toBe(3);
     });
 
-    it('copies from another vector', () => {
+    it('copies from another vector': unknown, (: unknown) => {
       const v1 = new Vector3();
       const v2 = new Vector3(1, 2, 3);
       v1.copy(v2);
@@ -148,7 +148,7 @@ describe('Vector3', () => {
       expect(v1.z).toBe(3);
     });
 
-    it('adds in place', () => {
+    it('adds in place': unknown, (: unknown) => {
       const v = new Vector3(1, 2, 3);
       v.addInPlace(new Vector3(1, 1, 1));
       expect(v.x).toBe(2);
@@ -156,7 +156,7 @@ describe('Vector3', () => {
       expect(v.z).toBe(4);
     });
 
-    it('subtracts in place', () => {
+    it('subtracts in place': unknown, (: unknown) => {
       const v = new Vector3(3, 4, 5);
       v.subtractInPlace(new Vector3(1, 1, 1));
       expect(v.x).toBe(2);
@@ -164,7 +164,7 @@ describe('Vector3', () => {
       expect(v.z).toBe(4);
     });
 
-    it('scales in place', () => {
+    it('scales in place': unknown, (: unknown) => {
       const v = new Vector3(1, 2, 3);
       v.scaleInPlace(2);
       expect(v.x).toBe(2);
@@ -172,14 +172,14 @@ describe('Vector3', () => {
       expect(v.z).toBe(6);
     });
 
-    it('normalizes in place', () => {
+    it('normalizes in place': unknown, (: unknown) => {
       const v = new Vector3(3, 0, 0);
       v.normalizeInPlace();
       expect(v.x).toBeCloseTo(1);
       expect(v.magnitude()).toBeCloseTo(1);
     });
 
-    it('handles normalizing zero vector', () => {
+    it('handles normalizing zero vector': unknown, (: unknown) => {
       const v = new Vector3(0, 0, 0);
       v.normalizeInPlace();
       expect(v.x).toBe(0);
@@ -188,14 +188,14 @@ describe('Vector3', () => {
     });
   });
 
-  describe('Vector Products', () => {
+  describe('Vector Products': unknown, (: unknown) => {
     it('calculates dot product', () => {
       const v1 = new Vector3(1, 2, 3);
       const v2 = new Vector3(4, 5, 6);
       expect(v1.dot(v2)).toBe(32); // 1*4 + 2*5 + 3*6
     });
 
-    it('calculates cross product', () => {
+    it('calculates cross product': unknown, (: unknown) => {
       const v1 = new Vector3(1, 0, 0);
       const v2 = new Vector3(0, 1, 0);
       const result = v1.cross(v2);
@@ -204,7 +204,7 @@ describe('Vector3', () => {
       expect(result.z).toBe(1);
     });
 
-    it('calculates triple product', () => {
+    it('calculates triple product': unknown, (: unknown) => {
       const a = new Vector3(1, 0, 0);
       const b = new Vector3(0, 1, 0);
       const c = new Vector3(0, 0, 1);
@@ -212,25 +212,25 @@ describe('Vector3', () => {
     });
   });
 
-  describe('Magnitude & Distance', () => {
+  describe('Magnitude & Distance': unknown, (: unknown) => {
     it('calculates magnitude squared', () => {
       const v = new Vector3(3, 4, 0);
       expect(v.magnitudeSquared()).toBe(25);
     });
 
-    it('calculates magnitude', () => {
+    it('calculates magnitude': unknown, (: unknown) => {
       const v = new Vector3(3, 4, 0);
       expect(v.magnitude()).toBe(5);
     });
 
-    it('normalizes vector', () => {
+    it('normalizes vector': unknown, (: unknown) => {
       const v = new Vector3(3, 0, 0);
       const n = v.normalize();
       expect(n.x).toBeCloseTo(1);
       expect(n.magnitude()).toBeCloseTo(1);
     });
 
-    it('handles normalizing zero vector', () => {
+    it('handles normalizing zero vector': unknown, (: unknown) => {
       const v = new Vector3(0, 0, 0);
       const n = v.normalize();
       expect(n.x).toBe(0);
@@ -238,14 +238,14 @@ describe('Vector3', () => {
       expect(n.z).toBe(0);
     });
 
-    it('calculates distance to another vector', () => {
+    it('calculates distance to another vector': unknown, (: unknown) => {
       const v1 = new Vector3(0, 0, 0);
       const v2 = new Vector3(3, 4, 0);
       expect(v1.distanceTo(v2)).toBe(5);
     });
   });
 
-  describe('Interpolation', () => {
+  describe('Interpolation': unknown, (: unknown) => {
     it('lerps between vectors', () => {
       const v1 = new Vector3(0, 0, 0);
       const v2 = new Vector3(10, 10, 10);
@@ -255,7 +255,7 @@ describe('Vector3', () => {
       expect(result.z).toBe(5);
     });
 
-    it('slerps on sphere', () => {
+    it('slerps on sphere': unknown, (: unknown) => {
       const v1 = new Vector3(1, 0, 0);
       const v2 = new Vector3(0, 1, 0);
       const result = v1.slerp(v2, 0.5);
@@ -263,14 +263,14 @@ describe('Vector3', () => {
     });
   });
 
-  describe('Utility Methods', () => {
+  describe('Utility Methods': unknown, (: unknown) => {
     it('converts to array', () => {
       const v = new Vector3(1, 2, 3);
       const arr = v.toArray();
       expect(arr).toEqual([1, 2, 3]);
     });
 
-    it('checks equality', () => {
+    it('checks equality': unknown, (: unknown) => {
       const v1 = new Vector3(1, 2, 3);
       const v2 = new Vector3(1, 2, 3);
       const v3 = new Vector3(1, 2, 4);
@@ -278,19 +278,19 @@ describe('Vector3', () => {
       expect(v1.equals(v3)).toBe(false);
     });
 
-    it('clamps magnitude', () => {
+    it('clamps magnitude': unknown, (: unknown) => {
       const v = new Vector3(10, 0, 0);
       const clamped = v.clampMagnitude(5);
       expect(clamped.magnitude()).toBeCloseTo(5);
     });
 
-    it('returns zero when clamping zero vector', () => {
+    it('returns zero when clamping zero vector': unknown, (: unknown) => {
       const v = new Vector3(0, 0, 0);
       const clamped = v.clampMagnitude(5);
       expect(clamped.x).toBe(0);
     });
 
-    it('reflects off surface', () => {
+    it('reflects off surface': unknown, (: unknown) => {
       const incoming = new Vector3(1, -1, 0).normalize();
       const normal = new Vector3(0, 1, 0);
       const reflected = incoming.reflect(normal);
@@ -298,21 +298,21 @@ describe('Vector3', () => {
       expect(reflected.y).toBeCloseTo(-incoming.y);
     });
 
-    it('calculates angle between vectors', () => {
+    it('calculates angle between vectors': unknown, (: unknown) => {
       const v1 = new Vector3(1, 0, 0);
       const v2 = new Vector3(0, 1, 0);
       expect(v1.angleTo(v2)).toBeCloseTo(Math.PI / 2);
     });
   });
 
-  describe('Spherical Operations', () => {
+  describe('Spherical Operations': unknown, (: unknown) => {
     it('converts to spherical coordinates', () => {
       const v = new Vector3(1, 0, 0);
       const spherical = v.toSpherical();
       expect(spherical.radius).toBeCloseTo(1);
     });
 
-    it('handles zero vector for toSpherical', () => {
+    it('handles zero vector for toSpherical': unknown, (: unknown) => {
       const v = new Vector3(0, 0, 0);
       const spherical = v.toSpherical();
       expect(spherical.radius).toBe(0);
@@ -320,28 +320,28 @@ describe('Vector3', () => {
       expect(spherical.phi).toBe(0);
     });
 
-    it('converts to lat/lng', () => {
+    it('converts to lat/lng': unknown, (: unknown) => {
       const v = new Vector3(1, 0, 0);
       const latlng = v.toLatLng();
       expect(latlng.lat).toBeCloseTo(0);
       expect(latlng.lng).toBeCloseTo(0);
     });
 
-    it('calculates great circle distance', () => {
+    it('calculates great circle distance': unknown, (: unknown) => {
       const v1 = new Vector3(1, 0, 0);
       const v2 = new Vector3(0, 1, 0);
       const distance = v1.greatCircleDistanceTo(v2);
       expect(distance).toBeCloseTo(Math.PI / 2);
     });
 
-    it('interpolates along great circle', () => {
+    it('interpolates along great circle': unknown, (: unknown) => {
       const v1 = new Vector3(1, 0, 0);
       const v2 = new Vector3(0, 1, 0);
       const mid = v1.greatCircleLerp(v2, 0.5);
       expect(mid.magnitude()).toBeCloseTo(1);
     });
 
-    it('rotates around axis', () => {
+    it('rotates around axis': unknown, (: unknown) => {
       const v = new Vector3(1, 0, 0);
       const axis = new Vector3(0, 0, 1);
       const rotated = v.rotateAround(axis, Math.PI / 2);
@@ -350,7 +350,7 @@ describe('Vector3', () => {
     });
   });
 
-  describe('Rotation Operations', () => {
+  describe('Rotation Operations': unknown, (: unknown) => {
     it('rotates around X axis', () => {
       const v = new Vector3(0, 1, 0);
       const rotated = v.rotateX(Math.PI / 2);
@@ -359,14 +359,14 @@ describe('Vector3', () => {
       expect(rotated.z).toBeCloseTo(1);
     });
 
-    it('rotates around Y axis', () => {
+    it('rotates around Y axis': unknown, (: unknown) => {
       const v = new Vector3(1, 0, 0);
       const rotated = v.rotateY(Math.PI / 2);
       expect(rotated.x).toBeCloseTo(0);
       expect(rotated.z).toBeCloseTo(-1);
     });
 
-    it('rotates around Z axis', () => {
+    it('rotates around Z axis': unknown, (: unknown) => {
       const v = new Vector3(1, 0, 0);
       const rotated = v.rotateZ(Math.PI / 2);
       expect(rotated.x).toBeCloseTo(0);
@@ -374,7 +374,7 @@ describe('Vector3', () => {
     });
   });
 
-  describe('Projection Operations', () => {
+  describe('Projection Operations': unknown, (: unknown) => {
     it('projects onto another vector', () => {
       const v1 = new Vector3(3, 4, 0);
       const v2 = new Vector3(1, 0, 0);
@@ -383,7 +383,7 @@ describe('Vector3', () => {
       expect(projected.y).toBeCloseTo(0);
     });
 
-    it('handles projection onto zero vector', () => {
+    it('handles projection onto zero vector': unknown, (: unknown) => {
       const v1 = new Vector3(3, 4, 0);
       const v2 = new Vector3(0, 0, 0);
       const projected = v1.projectOnto(v2);
@@ -392,7 +392,7 @@ describe('Vector3', () => {
       expect(projected.z).toBe(0);
     });
 
-    it('projects onto plane', () => {
+    it('projects onto plane': unknown, (: unknown) => {
       const v = new Vector3(1, 2, 3);
       const normal = new Vector3(0, 1, 0);
       const projected = v.projectOntoPlane(normal);
@@ -401,14 +401,14 @@ describe('Vector3', () => {
       expect(projected.z).toBeCloseTo(3);
     });
 
-    it('refracts through surface', () => {
+    it('refracts through surface': unknown, (: unknown) => {
       const v = new Vector3(1, -1, 0).normalize();
       const normal = new Vector3(0, 1, 0);
       const refracted = v.refract(normal, 0.5);
       expect(refracted.magnitude()).toBeGreaterThan(0);
     });
 
-    it('handles total internal reflection', () => {
+    it('handles total internal reflection': unknown, (: unknown) => {
       const v = new Vector3(1, -0.1, 0).normalize();
       const normal = new Vector3(0, 1, 0);
       const refracted = v.refract(normal, 2.0); // High ratio causes total internal reflection
@@ -416,34 +416,34 @@ describe('Vector3', () => {
     });
   });
 
-  describe('More Magnitude Operations', () => {
+  describe('More Magnitude Operations': unknown, (: unknown) => {
     it('sets magnitude', () => {
       const v = new Vector3(3, 4, 0);
       const sized = v.setMagnitude(10);
       expect(sized.magnitude()).toBeCloseTo(10);
     });
 
-    it('does not clamp when within limit', () => {
+    it('does not clamp when within limit': unknown, (: unknown) => {
       const v = new Vector3(2, 0, 0);
       const clamped = v.clampMagnitude(5);
       expect(clamped.x).toBe(2);
     });
   });
 
-  describe('Distance & Angle Operations', () => {
+  describe('Distance & Angle Operations': unknown, (: unknown) => {
     it('calculates distance squared', () => {
       const v1 = new Vector3(0, 0, 0);
       const v2 = new Vector3(3, 4, 0);
       expect(v1.distanceSquaredTo(v2)).toBe(25);
     });
 
-    it('handles angle with zero vectors', () => {
+    it('handles angle with zero vectors': unknown, (: unknown) => {
       const v1 = new Vector3(0, 0, 0);
       const v2 = new Vector3(1, 0, 0);
       expect(v1.angleTo(v2)).toBe(0);
     });
 
-    it('calculates signed angle around axis', () => {
+    it('calculates signed angle around axis': unknown, (: unknown) => {
       const v1 = new Vector3(1, 0, 0);
       const v2 = new Vector3(0, 1, 0);
       const axis = new Vector3(0, 0, 1);
@@ -451,7 +451,7 @@ describe('Vector3', () => {
       expect(angle).toBeCloseTo(Math.PI / 2);
     });
 
-    it('calculates negative signed angle', () => {
+    it('calculates negative signed angle': unknown, (: unknown) => {
       const v1 = new Vector3(0, 1, 0);
       const v2 = new Vector3(1, 0, 0);
       const axis = new Vector3(0, 0, 1);
@@ -460,7 +460,7 @@ describe('Vector3', () => {
     });
   });
 
-  describe('More Interpolation', () => {
+  describe('More Interpolation': unknown, (: unknown) => {
     it('nlerps between vectors', () => {
       const v1 = new Vector3(1, 0, 0);
       const v2 = new Vector3(0, 2, 0);
@@ -468,7 +468,7 @@ describe('Vector3', () => {
       expect(result.magnitude()).toBeCloseTo(1);
     });
 
-    it('hermite interpolation', () => {
+    it('hermite interpolation': unknown, (: unknown) => {
       const p1 = new Vector3(0, 0, 0);
       const t1 = new Vector3(1, 0, 0);
       const p2 = new Vector3(1, 1, 0);
@@ -477,7 +477,7 @@ describe('Vector3', () => {
       expect(result).toBeDefined();
     });
 
-    it('catmull-rom spline', () => {
+    it('catmull-rom spline': unknown, (: unknown) => {
       const p0 = new Vector3(0, 0, 0);
       const p1 = new Vector3(1, 0, 0);
       const p2 = new Vector3(2, 1, 0);
@@ -486,7 +486,7 @@ describe('Vector3', () => {
       expect(result).toBeDefined();
     });
 
-    it('bezier interpolation', () => {
+    it('bezier interpolation': unknown, (: unknown) => {
       const points = [
         new Vector3(0, 0, 0),
         new Vector3(1, 1, 0),
@@ -496,7 +496,7 @@ describe('Vector3', () => {
       expect(result).toBeDefined();
     });
 
-    it('bezier with single point', () => {
+    it('bezier with single point': unknown, (: unknown) => {
       const points = [new Vector3(1, 2, 3)];
       const result = Vector3.bezier(points, 0.5);
       expect(result.x).toBe(1);
@@ -505,7 +505,7 @@ describe('Vector3', () => {
     });
   });
 
-  describe('More Utility Methods', () => {
+  describe('More Utility Methods': unknown, (: unknown) => {
     it('converts to Float32Array', () => {
       const v = new Vector3(1, 2, 3);
       const arr = v.toFloat32Array();
@@ -515,14 +515,14 @@ describe('Vector3', () => {
       expect(arr[2]).toBe(3);
     });
 
-    it('checks if zero', () => {
+    it('checks if zero': unknown, (: unknown) => {
       const zero = new Vector3(0, 0, 0);
       const notZero = new Vector3(1, 0, 0);
       expect(zero.isZero()).toBe(true);
       expect(notZero.isZero()).toBe(false);
     });
 
-    it('gets absolute values', () => {
+    it('gets absolute values': unknown, (: unknown) => {
       const v = new Vector3(-1, -2, 3);
       const abs = v.abs();
       expect(abs.x).toBe(1);
@@ -530,7 +530,7 @@ describe('Vector3', () => {
       expect(abs.z).toBe(3);
     });
 
-    it('floors components', () => {
+    it('floors components': unknown, (: unknown) => {
       const v = new Vector3(1.7, 2.3, -0.5);
       const floored = v.floor();
       expect(floored.x).toBe(1);
@@ -538,7 +538,7 @@ describe('Vector3', () => {
       expect(floored.z).toBe(-1);
     });
 
-    it('ceils components', () => {
+    it('ceils components': unknown, (: unknown) => {
       const v = new Vector3(1.1, 2.9, 0.5);
       const ceiled = v.ceil();
       expect(ceiled.x).toBe(2);
@@ -546,7 +546,7 @@ describe('Vector3', () => {
       expect(ceiled.z).toBe(1);
     });
 
-    it('rounds components', () => {
+    it('rounds components': unknown, (: unknown) => {
       const v = new Vector3(1.4, 2.6, 0.5);
       const rounded = v.round();
       expect(rounded.x).toBe(1);
@@ -554,7 +554,7 @@ describe('Vector3', () => {
       expect(rounded.z).toBe(1);
     });
 
-    it('equality with epsilon', () => {
+    it('equality with epsilon': unknown, (: unknown) => {
       const v1 = new Vector3(1.000001, 2, 3);
       const v2 = new Vector3(1, 2, 3);
       expect(v1.equals(v2, 0.001)).toBe(true);
@@ -563,7 +563,7 @@ describe('Vector3', () => {
   });
 });
 
-describe('Vector2', () => {
+describe('Vector2': unknown, (: unknown) => {
   describe('Static Constructors', () => {
     it('creates zero vector', () => {
       const v = Vector2.zero();
@@ -571,26 +571,26 @@ describe('Vector2', () => {
       expect(v.y).toBe(0);
     });
 
-    it('creates one vector', () => {
+    it('creates one vector': unknown, (: unknown) => {
       const v = Vector2.one();
       expect(v.x).toBe(1);
       expect(v.y).toBe(1);
     });
 
-    it('creates from angle', () => {
+    it('creates from angle': unknown, (: unknown) => {
       const v = Vector2.fromAngle(0, 1);
       expect(v.x).toBeCloseTo(1);
       expect(v.y).toBeCloseTo(0);
     });
 
-    it('creates from angle with length', () => {
+    it('creates from angle with length': unknown, (: unknown) => {
       const v = Vector2.fromAngle(Math.PI / 2, 2);
       expect(v.x).toBeCloseTo(0);
       expect(v.y).toBeCloseTo(2);
     });
   });
 
-  describe('Basic Operations', () => {
+  describe('Basic Operations': unknown, (: unknown) => {
     it('clones vector', () => {
       const v1 = new Vector2(1, 2);
       const v2 = v1.clone();
@@ -599,7 +599,7 @@ describe('Vector2', () => {
       expect(v1).not.toBe(v2);
     });
 
-    it('adds vectors', () => {
+    it('adds vectors': unknown, (: unknown) => {
       const v1 = new Vector2(1, 2);
       const v2 = new Vector2(3, 4);
       const result = v1.add(v2);
@@ -607,7 +607,7 @@ describe('Vector2', () => {
       expect(result.y).toBe(6);
     });
 
-    it('subtracts vectors', () => {
+    it('subtracts vectors': unknown, (: unknown) => {
       const v1 = new Vector2(5, 6);
       const v2 = new Vector2(1, 2);
       const result = v1.subtract(v2);
@@ -615,7 +615,7 @@ describe('Vector2', () => {
       expect(result.y).toBe(4);
     });
 
-    it('scales vector', () => {
+    it('scales vector': unknown, (: unknown) => {
       const v = new Vector2(2, 3);
       const result = v.scale(2);
       expect(result.x).toBe(4);
@@ -623,39 +623,39 @@ describe('Vector2', () => {
     });
   });
 
-  describe('Vector Products', () => {
+  describe('Vector Products': unknown, (: unknown) => {
     it('calculates dot product', () => {
       const v1 = new Vector2(1, 2);
       const v2 = new Vector2(3, 4);
       expect(v1.dot(v2)).toBe(11);
     });
 
-    it('calculates 2D cross product', () => {
+    it('calculates 2D cross product': unknown, (: unknown) => {
       const v1 = new Vector2(1, 0);
       const v2 = new Vector2(0, 1);
       expect(v1.cross(v2)).toBe(1);
     });
   });
 
-  describe('Magnitude & Normalization', () => {
+  describe('Magnitude & Normalization': unknown, (: unknown) => {
     it('calculates magnitude', () => {
       const v = new Vector2(3, 4);
       expect(v.magnitude()).toBe(5);
     });
 
-    it('calculates magnitude squared', () => {
+    it('calculates magnitude squared': unknown, (: unknown) => {
       const v = new Vector2(3, 4);
       expect(v.magnitudeSquared()).toBe(25);
     });
 
-    it('normalizes vector', () => {
+    it('normalizes vector': unknown, (: unknown) => {
       const v = new Vector2(3, 0);
       const n = v.normalize();
       expect(n.x).toBeCloseTo(1);
       expect(n.magnitude()).toBeCloseTo(1);
     });
 
-    it('handles normalizing zero vector', () => {
+    it('handles normalizing zero vector': unknown, (: unknown) => {
       const v = new Vector2(0, 0);
       const n = v.normalize();
       expect(n.x).toBe(0);
@@ -663,26 +663,26 @@ describe('Vector2', () => {
     });
   });
 
-  describe('Angle Operations', () => {
+  describe('Angle Operations': unknown, (: unknown) => {
     it('gets angle of vector', () => {
       const v = new Vector2(1, 0);
       expect(v.angle()).toBeCloseTo(0);
     });
 
-    it('gets angle to another vector', () => {
+    it('gets angle to another vector': unknown, (: unknown) => {
       const v1 = new Vector2(1, 0);
       const v2 = new Vector2(0, 1);
       expect(v1.angleTo(v2)).toBeCloseTo(Math.PI / 2);
     });
 
-    it('rotates vector', () => {
+    it('rotates vector': unknown, (: unknown) => {
       const v = new Vector2(1, 0);
       const rotated = v.rotate(Math.PI / 2);
       expect(rotated.x).toBeCloseTo(0);
       expect(rotated.y).toBeCloseTo(1);
     });
 
-    it('gets perpendicular vector', () => {
+    it('gets perpendicular vector': unknown, (: unknown) => {
       const v = new Vector2(1, 2);
       const perp = v.perpendicular();
       expect(perp.x).toBe(-2);
@@ -690,7 +690,7 @@ describe('Vector2', () => {
     });
   });
 
-  describe('Interpolation & Distance', () => {
+  describe('Interpolation & Distance': unknown, (: unknown) => {
     it('lerps between vectors', () => {
       const v1 = new Vector2(0, 0);
       const v2 = new Vector2(10, 10);
@@ -699,20 +699,20 @@ describe('Vector2', () => {
       expect(mid.y).toBe(5);
     });
 
-    it('calculates distance to another vector', () => {
+    it('calculates distance to another vector': unknown, (: unknown) => {
       const v1 = new Vector2(0, 0);
       const v2 = new Vector2(3, 4);
       expect(v1.distanceTo(v2)).toBe(5);
     });
   });
 
-  describe('Utility Methods', () => {
+  describe('Utility Methods': unknown, (: unknown) => {
     it('converts to array', () => {
       const v = new Vector2(1, 2);
       expect(v.toArray()).toEqual([1, 2]);
     });
 
-    it('converts to Vector3', () => {
+    it('converts to Vector3': unknown, (: unknown) => {
       const v = new Vector2(1, 2);
       const v3 = v.toVector3(3);
       expect(v3.x).toBe(1);
@@ -720,13 +720,13 @@ describe('Vector2', () => {
       expect(v3.z).toBe(3);
     });
 
-    it('converts to Vector3 with default z', () => {
+    it('converts to Vector3 with default z': unknown, (: unknown) => {
       const v = new Vector2(1, 2);
       const v3 = v.toVector3();
       expect(v3.z).toBe(0);
     });
 
-    it('checks equality', () => {
+    it('checks equality': unknown, (: unknown) => {
       const v1 = new Vector2(1, 2);
       const v2 = new Vector2(1, 2);
       const v3 = new Vector2(1, 3);
@@ -734,7 +734,7 @@ describe('Vector2', () => {
       expect(v1.equals(v3)).toBe(false);
     });
 
-    it('converts to string', () => {
+    it('converts to string': unknown, (: unknown) => {
       const v = new Vector2(1, 2);
       expect(v.toString()).toContain('1.0000');
       expect(v.toString()).toContain('2.0000');
@@ -742,7 +742,7 @@ describe('Vector2', () => {
   });
 });
 
-describe('Vector3 Additional Methods', () => {
+describe('Vector3 Additional Methods': unknown, (: unknown) => {
   it('gets min components', () => {
     const v1 = new Vector3(1, 5, 3);
     const v2 = new Vector3(2, 2, 4);
@@ -752,7 +752,7 @@ describe('Vector3 Additional Methods', () => {
     expect(result.z).toBe(3);
   });
 
-  it('gets max components', () => {
+  it('gets max components': unknown, (: unknown) => {
     const v1 = new Vector3(1, 5, 3);
     const v2 = new Vector3(2, 2, 4);
     const result = v1.max(v2);
@@ -761,7 +761,7 @@ describe('Vector3 Additional Methods', () => {
     expect(result.z).toBe(4);
   });
 
-  it('clamps vector between min and max', () => {
+  it('clamps vector between min and max': unknown, (: unknown) => {
     const v = new Vector3(0, 10, 5);
     const min = new Vector3(1, 1, 1);
     const max = new Vector3(8, 8, 8);
@@ -771,7 +771,7 @@ describe('Vector3 Additional Methods', () => {
     expect(result.z).toBe(5);
   });
 
-  it('converts to string with fixed precision', () => {
+  it('converts to string with fixed precision': unknown, (: unknown) => {
     const v = new Vector3(1.23456, 2.34567, 3.45678);
     const str = v.toString();
     expect(str).toContain('1.2346');

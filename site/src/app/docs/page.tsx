@@ -9,27 +9,27 @@ export default function DocsPage() {
   return (
     <div
       className="container"
-      style={{ paddingTop: '4rem', paddingBottom: '4rem' }}
+      style={{ paddingTop: '4rem',  paddingBottom: '4rem' }}
     >
       <Link
         href="/"
         style={{
-          color: '#667eea',
-          marginBottom: '2rem',
-          display: 'inline-block',
+          color: '#667eea', 
+          marginBottom: '2rem', 
+          display: 'inline-block', 
         }}
       >
         ← Back to Home
       </Link>
 
-      <h1 style={{ fontSize: '3rem', marginBottom: '1rem' }}>Documentation</h1>
-      <p style={{ color: '#a0a0a0', marginBottom: '3rem', fontSize: '1.2rem' }}>
+      <h1 style={{ fontSize: '3rem',  marginBottom: '1rem' }}>Documentation</h1>
+      <p style={{ color: '#a0a0a0',  marginBottom: '3rem',  fontSize: '1.2rem' }}>
         Complete guide to using HexGrid 3D in your projects
       </p>
 
-      <div style={{ display: 'grid', gap: '2rem' }}>
+      <div style={{ display: 'grid',  gap: '2rem' }}>
         <section>
-          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+          <h2 style={{ fontSize: '2rem',  marginBottom: '1rem' }}>
             Installation
           </h2>
           <div className="code-block">
@@ -38,14 +38,14 @@ export default function DocsPage() {
         </section>
 
         <section>
-          <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>
+          <h2 style={{ fontSize: '2rem',  marginBottom: '1rem' }}>
             Basic Usage
           </h2>
           <div className="code-block">
             <code>
               {`import { HexGrid, Photo } from '@buley/hexgrid-3d'
 
-function MyComponent() {
+function MyComponent(: unknown) {
   const photos: Photo[] = [
     {
       id: '1',

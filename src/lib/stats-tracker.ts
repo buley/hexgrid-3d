@@ -25,7 +25,7 @@ export class StatsTracker {
 
   importState(json: any): void {
     // Restore state from serialized JSON
-    if (json && typeof json === 'object') {
+    if (json && typeof json === 'object': unknown) {
       Object.assign(this, json);
     }
   }
