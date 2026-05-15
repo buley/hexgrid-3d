@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es2020",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -17,12 +21,29 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@a0n/aeon-3d": ["../aeon-3d/src/index.ts"],
-      "@a0n/aeon-3d/*": ["../aeon-3d/src/*"]
+      "@/*": [
+        "src/*"
+      ],
+      "@a0n/aeon-3d": [
+        "../aeon-3d/src/index.ts"
+      ],
+      "@a0n/aeon-3d/*": [
+        "../aeon-3d/src/*"
+      ]
     },
-    "types": ["@webgpu/types", "@react-three/fiber"]
+    "types": [
+      "@webgpu/types",
+      "@react-three/fiber"
+    ]
   },
-  "include": ["src", "src/**/*.wgsl"],
-  "exclude": ["node_modules", "dist", "tests"]
+  "include": [
+    "src",
+    "src/**/*.wgsl",
+    "../../open-source/raect/src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "tests"
+  ]
 }
